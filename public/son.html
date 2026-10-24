@@ -669,7 +669,7 @@ function gCur(g){if(g.type==='weight'){const w=latestWeight();return w===null?(+
   const vals=(g.log||[]).map(x=>+x.val).filter(v=>!isNaN(v));if(g.type==='weekmin'){const a=autoVal('weekmin');return a;}
   const a=autoVal(g.type);if(a!==null&&a!==undefined)vals.push(a);if(!vals.length)return g.start===''?null:+g.start;
   return gDir(g)==='down'?Math.min(...vals):Math.max(...vals);}
-function gPct(g,cur){const st=+g.start,tg=+g.target;if(cur===null||isNaN(tg))return 0;if(gDir(g)==='down'){if(st===tg)return cur<=tg?100:0;return Math.max(0,Math.min(100,Math.round((st-cur)/(st-tg)*100)));}
+function gPct(g,cur){const st=+g.start,tg=+g.target;if(cur===null||isNaN(tg))return 0;if(gDir(g)==='down'?cur<=tg:cur>=tg)return 100;if(gDir(g)==='down'){if(st===tg)return cur<=tg?100:0;return Math.max(0,Math.min(100,Math.round((st-cur)/(st-tg)*100)));}
   if(st===tg)return cur>=tg?100:0;return Math.max(0,Math.min(100,Math.round((cur-st)/(tg-st)*100)));}
 const fmtN=v=>v===null||v===undefined||v===''?'–':(+v%1?(+v).toFixed(1):String(+v));
 let gOpen=null,gEdit=null;
@@ -760,7 +760,7 @@ function newUser(name){name=name.trim().replace(/\s+/g,' ');if(!name){toast('Typ
   const id=Date.now().toString(36);
   if(!P.list.length){try{const old=localStorage.getItem(LS0);if(old){localStorage.setItem(LS0+'.'+id,old);localStorage.removeItem(LS0);}}catch(e){}}
   P.list.push({id,name});login(id);toast('Welcome, '+name+' 👋');}
-const DEFTITLE='Double Twenty Starter',APPV='2.2';
+const DEFTITLE='Double Twenty Starter',APPV='2.3';
 function renderTitle(){const u=curUser(),t=((u&&S.settings.title)||DEFTITLE).trim(),w=t.split(' ');
   const b=$('#apptitle');b.innerHTML=w.length>1?esc(w.slice(0,-1).join(' '))+' <span>'+esc(w[w.length-1])+'</span>':esc(t);
   b.setAttribute('aria-label',u?t+', tap to rename':t);document.title=t;
@@ -871,6 +871,7 @@ document.addEventListener('click',e=>{
     const o={type:t,target:+tg,start:st===''?0:+st,by:$('#gby').value,name:t==='custom'?$('#gname').value.trim():'',unit:t==='custom'?$('#gunit').value.trim():'',dir:t==='custom'?$('#gdir').value:''};
     if(gdef(o).dir==='down'&&o.start===0&&st===''){toast('Enter your starting time');$('#gstart').focus();return;}
     if(o.start===o.target){toast('Target should be different from where you’re starting');return;}
+    if(t!=='weight'){const dn=t==='custom'?o.dir==='down':gdef(o).dir==='down';if(dn?o.target>o.start:o.target<o.start){toast(dn?'Target should be lower than where you’re starting':'Target should be higher than where you’re starting');$('#gtarget').focus();return;}}
     if(gEdit){const g=goals().find(x=>x.id===gEdit);Object.assign(g,o);g.done='';}else goals().push(Object.assign({id:Date.now().toString(36),created:today(),log:[],done:''},o));
     closeGoal();save();renderProgress();toast(gEdit?'Goal updated ✓':'Goal saved 🎯');return;}
   if(a==='gdel'){const G=goals(),i=G.findIndex(x=>x.id===b.dataset.id);if(i>-1){const [x]=G.splice(i,1);closeGoal();save();renderProgress();toast('Goal deleted',()=>{G.splice(i,0,x);save();renderProgress();});}return;}

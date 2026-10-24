@@ -1,0 +1,9 @@
+{
+  // The app's name; it becomes part of your URL: double-twenty.<your-subdomain>.workers.dev
+  "name": "double-twenty",
+  "compatibility_date": "2026-10-01",
+  // Serve everything in the ./public folder as a static website
+  "assets": {
+    "directory": "./public"
+  }
+}

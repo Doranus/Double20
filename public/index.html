@@ -432,6 +432,56 @@ button.dx-entry{cursor:pointer}
 #dxtoast button{border:0;background:none;color:inherit;font-weight:800;text-decoration:underline;padding:4px 6px;font-size:14px}
 .dx-sheet{max-height:88vh;overflow:auto}
 .dx-more{margin-top:12px}.dx-more summary{color:var(--steel);font-weight:600;cursor:pointer;min-height:36px;display:flex;align-items:center}
+/* ===== v3.1 timer: floating pill + full-screen rest ===== */
+.tbar{display:none!important}
+.wrap{padding-top:16px}
+:root{--dx-rest:#22D3EE;--dx-ready:#FFB800;--dx-go:#39E58C;--dx-ink:#05081A}
+[data-skin="melon"]{--dx-rest:#FF7A8E;--dx-go:#5ED68E}
+[data-skin="camo"]{--dx-rest:#9DB46A;--dx-ready:#E0B44A;--dx-go:#7BC47F}
+.dx-pill{position:fixed;left:max(12px,calc(50% - 348px));right:max(12px,calc(50% - 348px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:14;height:64px;border-radius:99px;display:flex;align-items:center;gap:8px;padding:0 8px;background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 12px 30px -10px rgba(0,0,0,.45),0 0 24px -8px var(--glow);transition:background .25s,transform .25s}
+.dx-pill[hidden]{display:none}
+.dx-pill .main{flex:1;min-width:0;display:flex;align-items:center;gap:10px;border:0;background:none;color:var(--ink);text-align:left;padding:0 4px;height:100%;cursor:pointer}
+.dx-pill .txt{display:flex;flex-direction:column;min-width:0}
+.dx-pill .l{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dx-pill .t{font-family:var(--cond);font-weight:700;font-size:28px;line-height:1;font-variant-numeric:tabular-nums}
+.dx-pill .b{height:46px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);font-weight:700;font-size:15px}
+.dx-pill .b[hidden]{display:none}
+.dx-pill .b.go{border:0;background:var(--steel);color:var(--on-accent)}
+.dx-pill ring,.dx-pill svg{flex:none}
+.dx-pill #dxring{stroke:var(--dx-rest);transition:stroke-dashoffset .25s linear}
+.dx-pill.ready{background:var(--dx-ready)}.dx-pill.go{background:var(--dx-go)}
+.dx-pill.ready .main,.dx-pill.go .main,.dx-pill.ready .l,.dx-pill.go .l{color:var(--dx-ink)}
+.dx-pill.ready .b,.dx-pill.go .b{border-color:rgba(5,8,26,.3);color:var(--dx-ink)}
+.dx-pill.ready .b.go,.dx-pill.go .b.go{background:var(--dx-ink);color:#fff}
+.dx-pill.ready #dxring,.dx-pill.go #dxring{stroke:var(--dx-ink)}
+@media (prefers-reduced-motion:no-preference){.dx-pill.go{animation:dxpulse 1s ease-in-out infinite}@keyframes dxpulse{50%{transform:scale(1.02)}}}
+body.dx-pillon .fab{bottom:calc(158px + env(safe-area-inset-bottom,0px))}
+body.dx-pillon .wrap{padding-bottom:190px}
+.dx-rest{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) 22px calc(24px + env(safe-area-inset-bottom,0px));color:var(--dx-ink);background:var(--dx-rest);transition:background .35s}
+.dx-rest[hidden]{display:none}
+.dx-rest.ready{background:var(--dx-ready)}.dx-rest.go{background:var(--dx-go)}
+.dx-rest .top{display:flex;justify-content:space-between;align-items:center;font-weight:800;letter-spacing:1.5px;font-size:15px}
+.dx-rest .x{width:48px;height:48px;border-radius:14px;border:2px solid rgba(5,8,26,.25);background:transparent;color:var(--dx-ink);display:grid;place-items:center;padding:0}
+.dx-rest .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.dx-rest .t{font-family:var(--cond);font-weight:700;font-size:min(42vw,190px);line-height:.85;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.dx-rest .bar{width:min(300px,80%);height:10px;border-radius:99px;background:rgba(5,8,26,.18);overflow:hidden;margin-top:14px}
+.dx-rest .bar span{display:block;height:100%;width:0;background:var(--dx-ink);border-radius:99px;transition:width .25s linear}
+.dx-rest .h{font-size:17px;font-weight:600}
+.dx-up{background:rgba(5,8,26,.92);color:#EAF0FF;border-radius:22px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:680px;width:100%;margin:0 auto;box-sizing:border-box}
+.dx-up .l{font-size:12px;color:#A3ACD6;font-weight:700}
+.dx-up .nm{font-weight:700;font-size:18px;overflow:hidden;text-overflow:ellipsis}
+.dx-up .pl{font-size:13px;color:#A3ACD6;margin-top:2px}.dx-up .pl b{color:#EAF0FF}
+.dx-up .big{font-family:var(--cond);font-size:32px;font-weight:700;white-space:nowrap}
+.dx-rest .presets,.dx-rest .ctl{display:grid;gap:10px;margin:12px auto 0;max-width:680px;width:100%}
+.dx-rest .presets{grid-template-columns:repeat(4,minmax(0,1fr))}
+.dx-rest .ctl{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dx-rest .presets button,.dx-rest .ctl button{height:56px;border-radius:18px;border:2px solid rgba(5,8,26,.3);background:transparent;color:var(--dx-ink);font-weight:800;font-size:17px}
+.dx-rest .presets button[aria-pressed="true"]{background:rgba(5,8,26,.15)}
+.dx-rest .ctl .go{border:0;background:var(--dx-ink);color:#fff}
+.dx-tog{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.dx-tog:first-of-type{border-top:0}
+.dx-tog input{width:24px;height:24px;accent-color:var(--steel);flex:none}
+
 /* ===== Melon skin ===== */
 :root[data-skin="melon"]{
   --bg:#FFF6F7; --surface:#FFFFFF; --sunk:#FDECEF; --line:#F4D3D9;
@@ -527,6 +577,21 @@ button.dx-entry{cursor:pointer}
 <div class="sheet dx-sheet" id="dxphsheet" role="dialog" aria-modal="true" aria-labelledby="dxph-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxph-h" style="margin:0">Photo</p><button class="iconbtn" data-dx="close" data-k="ph" aria-label="Close">✕</button></div><div id="dxphbody"></div></div>
 <input type="file" id="dxphfile" accept="image/*" hidden><input type="file" id="dxrestore" accept="application/json,.json" hidden>
+<div class="dx-pill idle" id="dxpill" hidden>
+  <button class="main" data-dx="fullopen" aria-label="Open the rest timer full screen">
+    <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="19" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle id="dxring" cx="23" cy="23" r="19" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 23 23)"></circle></svg>
+    <span class="txt"><span class="l" id="dxpl">Rest timer</span><span class="t" id="dxpt" role="timer">2:00</span></span>
+  </button>
+  <button class="b" id="dxp30" data-dx="p30" hidden>+30s</button>
+  <button class="b go" id="dxpskip" data-dx="pskip">Start</button>
+</div>
+<div class="dx-rest rest" id="dxrest" role="dialog" aria-modal="true" aria-labelledby="dxrl" hidden>
+  <div class="top"><span id="dxrl">RESTING</span><button class="x" data-dx="fullclose" aria-label="Shrink the timer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></div>
+  <div class="mid"><div class="t" id="dxrt" role="timer" aria-live="off">2:00</div><div class="bar"><span id="dxrbar"></span></div><div class="h" id="dxrh">Breathe. Shake it out.</div></div>
+  <div id="dxrnext"></div>
+  <div class="presets" id="dxrpre"><button data-dx="preset" data-r="60">1m</button><button data-dx="preset" data-r="90">1.5m</button><button data-dx="preset" data-r="120">2m</button><button data-dx="preset" data-r="180">3m</button></div>
+  <div class="ctl"><button data-dx="m15">−15s</button><button data-dx="p30">+30s</button><button class="go" data-dx="pskip" id="dxrgo">Go now</button></div>
+</div>
 <div id="dxtoast" role="status" aria-live="polite"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="prbanner" id="prbanner" role="status" aria-live="polite"><b></b><span></span></div>
@@ -1285,7 +1350,7 @@ $('#swapin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 $('#swaplists').addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(b)doSwap(b.dataset.sw);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#swapsheet').hidden)closeSwap();});
 /* ================= v3 add-ons ================= */
-const DXV='3.0';
+const DXV='3.1';
 const dxEsc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dxAdd=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return ymd(x);};
 const dxFmtD=d=>{try{return new Date(d+'T00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'});}catch(e){return d;}};
@@ -1454,7 +1519,11 @@ let dxInstall=null;
 const dxStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 function dxSettingsCards(){
   const sk=[['electric','Electric',['#0091FF','#7B3BFF','#FF2E7E']],['camo','Camo',['#556B2F','#86693A','#A63D2A']],['melon','Melon 🍉',['#E8435E','#2E7D4F','#BEE8C8']]];
-  return `<div class="card"><p class="h2" style="margin:0">App name</p><p class="sub">Call it whatever you like. The last word is shown in colour.</p>
+  return `<div class="card"><p class="h2" style="margin:0">Rest timer</p><p class="sub">The timer pops up at the bottom when you tick a set. Tap it to go full screen.</p>
+  <label class="dx-tog"><span>Open full screen automatically</span><input type="checkbox" data-dxt="autofull" ${S.settings.autofull?'checked':''}></label>
+  <label class="dx-tog"><span>Beep at 10 seconds and when rest is over</span><input type="checkbox" data-dxt="sound" ${S.settings.sound===false?'':'checked'}></label>
+  <p class="sub" style="font-size:13px">The screen stays awake while a session or rest is running. Android phones also vibrate when rest ends.</p></div>
+  <div class="card"><p class="h2" style="margin:0">App name</p><p class="sub">Call it whatever you like. The last word is shown in colour.</p>
   <div class="xadd" style="margin-top:8px"><input class="input" id="dxtitle" maxlength="30" value="${dxEsc(S.settings.title||DXDEF)}" aria-label="App name"><button class="btn primary" data-dx="titlesave">Save</button></div></div>
   <div class="card"><p class="h2" style="margin:0">Theme</p><p class="sub">Light or dark is set with the button at the top.</p><div class="dx-skins">${sk.map(([k,l,c])=>`<button class="dx-skin ${skin===k?'on':''}" data-dx="skin" data-k="${k}" aria-pressed="${skin===k}"><span class="dx-sw">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span>${l}</button>`).join('')}</div></div>
   <div class="card"><p class="h2" style="margin:0">Daily activity target</p><p class="sub">Minutes of cardio or activity a day. Warm-ups and anything you log in Activity count.</p>
@@ -1539,6 +1608,56 @@ addEventListener('appinstalled',()=>{dxInstall=null;dxToast('App installed ✓')
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist();}catch(e){}
 if('serviceWorker' in navigator&&isSecureContext&&!/claude|anthropic/.test(location.hostname)){addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{});});}
 dxTitle();
+/* ----- v3.1 timer: floating pill + full-screen rest ----- */
+let dxFull=false,dxWake=null,dxAC=null,dxCue='';
+const dxF=v=>Math.floor(v/60)+':'+String(v%60).padStart(2,'0');
+function dxBeep(n,hi){if(S.settings.sound===false)return;try{dxAC=dxAC||new (window.AudioContext||window.webkitAudioContext)();if(dxAC.state==='suspended')dxAC.resume();
+  for(let i=0;i<n;i++){const o=dxAC.createOscillator(),g=dxAC.createGain(),t=dxAC.currentTime+i*0.24;o.frequency.value=hi?1320:880;o.connect(g);g.connect(dxAC.destination);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.4,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.18);o.start(t);o.stop(t+0.2);}}catch(e){}}
+async function dxWakeOn(){try{if('wakeLock' in navigator&&!dxWake){dxWake=await navigator.wakeLock.request('screen');dxWake.addEventListener('release',()=>{dxWake=null;});}}catch(e){}}
+function dxWakeOff(){if(activeSession())return;try{dxWake&&dxWake.release();}catch(e){}dxWake=null;}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&(timer.end||activeSession()))dxWakeOn();});
+function dxNext(){const row=document.querySelector('#v-today .set:not(.done)');if(!row)return null;const card=row.closest('.card'),h=card&&card.querySelector('.h2');
+  const v=f=>{const i=row.querySelector('[data-f="'+f+'"]');return i?i.value:'';},n=row.querySelector('.n');
+  let nm='';try{nm=exName(cur,row.dataset.sec);}catch(e){}if(/^ABs: /.test(nm))nm=nm.replace(/^ABs: /,'');
+  return {name:nm||(h?h.textContent.trim():''),kg:v('kg'),add:v('add'),reps:v('reps'),set:n?n.textContent.trim():''};}
+function dxPlates(kg){kg=+kg;if(!(kg>20))return '';let s=(kg-20)/2;const out=[];for(const p of [25,20,15,10,5,2.5,1.25]){while(s>=p-1e-9){out.push(p);s-=p;}}return s>0.01?'':out.join(' + ');}
+function dxNextHTML(){const n=dxNext();if(!n)return `<div class="dx-up"><div><div class="l">UP NEXT</div><div class="nm">All sets ticked. Nice work!</div></div></div>`;
+  const load=n.kg?n.kg+' kg':(n.add&&+n.add>0?'+'+n.add+' kg':''),pl=n.kg?dxPlates(n.kg):'';
+  return `<div class="dx-up"><div style="min-width:0"><div class="l">UP NEXT${n.set?' · SET '+dxEsc(n.set):''}</div><div class="nm">${dxEsc(n.name)}</div>${pl?`<div class="pl">Plates each side (20 kg bar): <b>${pl}</b></div>`:''}</div><div class="big">${dxEsc(load)}${load&&n.reps?' × ':''}${dxEsc(n.reps)}</div></div>`;}
+function dxOpenFull(){dxFull=true;$('#dxrest').hidden=false;$('#dxrnext').innerHTML=dxNextHTML();dxTimerUI();const x=$('#dxrest .x');if(x)x.focus();}
+function dxCloseFull(){dxFull=false;$('#dxrest').hidden=true;const p=$('#dxpill .main');if(p&&!$('#dxpill').hidden)p.focus();}
+function dxTimerUI(){const pill=$('#dxpill'),ov=$('#dxrest');if(!pill)return;
+  const show=!!timer.end||view==='today';pill.hidden=!show;document.body.classList.toggle('dx-pillon',show);
+  document.querySelectorAll('#dxrpre button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.r===restLen()));
+  if(!timer.end){const a=activeSession();pill.className='dx-pill idle';
+    if(a){const s=Math.floor((Date.now()-a[1].start)/1000);$('#dxpl').textContent='Session '+dxF(s)+' · rest timer';}else $('#dxpl').textContent='Rest timer';
+    $('#dxpt').textContent=dxF(restLen());$('#dxpskip').textContent='Start';$('#dxp30').hidden=true;$('#dxring').style.strokeDashoffset='0';
+    if(dxFull){ov.className='dx-rest rest';$('#dxrl').textContent='REST TIMER';$('#dxrt').textContent=dxF(restLen());$('#dxrbar').style.width='0';$('#dxrh').textContent='Pick a rest length, then start.';$('#dxrgo').textContent='Start';}
+    dxWakeOff();return;}
+  const left=Math.round((timer.end-Date.now())/1000),tot=Math.max(1,timer.tot||restLen()),pct=Math.max(0,Math.min(1,left/tot)),ph=left<=0?'go':left<=10?'ready':'rest';
+  pill.className='dx-pill '+ph;$('#dxpl').textContent=ph==='go'?'Rest done. Go!':ph==='ready'?'Get ready':'Rest';
+  $('#dxpt').textContent=(left<0?'+':'')+dxF(Math.abs(left));$('#dxpskip').textContent=left<=0?'Done':'Skip';$('#dxp30').hidden=false;
+  $('#dxring').style.strokeDashoffset=String((119.4*(1-pct)).toFixed(1));
+  if(left===10&&tot>15&&dxCue!==timer.end+'r'){dxCue=timer.end+'r';dxBeep(1);}
+  if(left===0&&dxCue!==timer.end+'g'){dxCue=timer.end+'g';dxBeep(3,true);try{navigator.vibrate&&navigator.vibrate([300,120,300]);}catch(e){}}
+  if(dxFull){ov.className='dx-rest '+ph;$('#dxrl').textContent=ph==='go'?'GO':ph==='ready'?'GET READY':'RESTING';$('#dxrt').textContent=(left<0?'+':'')+dxF(Math.abs(left));
+    $('#dxrbar').style.width=Math.round((1-pct)*100)+'%';$('#dxrh').textContent=ph==='go'?'Rest done. Time for your next set.':ph==='ready'?'Get set up for your next set.':'Breathe. Shake it out.';$('#dxrgo').textContent=left<=0?'Done':'Go now';}}
+const dxTC=tickClock;tickClock=function(){dxTC();try{dxTimerUI();}catch(e){}};
+const dxSTT=startTimer;startTimer=function(sec){dxSTT(sec);timer.tot=sec||restLen();dxCue='';dxWakeOn();if(dxAC&&dxAC.state==='suspended')dxAC.resume();if(S.settings.autofull)dxOpenFull();else dxTimerUI();};
+const dxSH=show;show=function(v){dxSH(v);try{dxTimerUI();}catch(e){}};
+setInterval(()=>{if(!timer.end)try{dxTimerUI();}catch(e){}},1000);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-dx]');if(!b)return;const a=b.dataset.dx;
+  if(!dxAC){try{dxAC=new (window.AudioContext||window.webkitAudioContext)();}catch(err){}}
+  if(a==='fullopen'){dxOpenFull();return;}
+  if(a==='fullclose'){dxCloseFull();return;}
+  if(a==='pskip'){if(timer.end){stopTimer();if(dxFull)dxCloseFull();}else startTimer();return;}
+  if(a==='p30'){if(timer.end){timer.end+=30000;timer.tot=(timer.tot||restLen())+30;if(timer.end-Date.now()>10500)dxCue='';tickClock();}return;}
+  if(a==='m15'){if(timer.end){timer.end-=15000;tickClock();}return;}
+  if(a==='preset'){S.settings.rest=+b.dataset.r;save();syncSeg();if(timer.end)startTimer();else dxTimerUI();return;}
+  if(a==='tog'){return;}
+});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.dxt){S.settings[t.dataset.dxt]=t.checked;save();dxToast('Saved ✓');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dxFull)dxCloseFull();});
 
 const RN={today:renderToday,activity:renderActivity,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
 let view='today';

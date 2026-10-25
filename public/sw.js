@@ -3,7 +3,7 @@
 // app at /son keeps using its own service worker.
 // The page is fetched fresh whenever you're online (network first),
 // and the saved copy is used when you're offline.
-const VERSION = 'double-twenty-v3';
+const VERSION = 'double-twenty-v3-2';
 const PAGE = '/';
 const CORE = [PAGE, '/manifest.webmanifest', '/dt-icon-192.png', '/dt-icon-512.png', '/dt-apple-icon.png'];
 

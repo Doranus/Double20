@@ -7,13 +7,14 @@
 <title>Double Twenty</title>
 <meta name="apple-mobile-web-app-title" content="Double Twenty">
 <meta name="application-name" content="Double Twenty">
-<meta name="theme-color" content="#070A17">
+<meta name="theme-color" content="#0E0F11">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' rx='44' fill='%230F1428'/%3E%3Crect x='12' y='95' width='176' height='10' rx='5' fill='%23EAF0FF'/%3E%3Crect x='28' y='44' width='48' height='112' rx='12' fill='%2300E5FF'/%3E%3Crect x='124' y='44' width='48' height='112' rx='12' fill='%23FF3D9A'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' rx='44' fill='%230E0F11'/%3E%3Crect x='12' y='95' width='176' height='10' rx='5' fill='%23F3F3F0'/%3E%3Crect x='28' y='44' width='48' height='112' rx='12' fill='%23D7FF3D'/%3E%3Crect x='124' y='44' width='48' height='112' rx='12' fill='%23D7FF3D'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" sizes="180x180" href="/dt-apple-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Black+Ops+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Black+Ops+One&display=swap" rel="stylesheet">
+<script>try{var k=localStorage.getItem("bench120.skin");if(!k||k==="electric")k="graphite";document.documentElement.setAttribute("data-skin",k);}catch(e){document.documentElement.setAttribute("data-skin","graphite");}</script>
 <style>
 :root{
   --bg:#F1F6F7; --surface:#FFFFFF; --sunk:#EAF1F3; --line:#D3E0E4;
@@ -481,6 +482,61 @@ body.dx-pillon .wrap{padding-bottom:190px}
 .dx-tog{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
 .dx-tog:first-of-type{border-top:0}
 .dx-tog input{width:24px;height:24px;accent-color:var(--steel);flex:none}
+
+
+/* ===== Graphite (default skin) ===== */
+:root[data-skin="graphite"]{
+  --bg:#F5F5F2; --surface:#FFFFFF; --sunk:#EFEFEB; --line:#E3E3DE;
+  --ink:#111214; --muted:#62656C; --steel:#111214; --steel-soft:#ECF8C2;
+  --red:#E5482A; --green:#14915A; --green-soft:#E2F5EB;
+  --b1:#111214; --b1s:#EFEFEB; --b2:#62656C; --b2s:#EFEFEB; --b3:#E5482A; --b3s:#FCE6E1;
+  --sun:#D98E10; --hero-ink:#111214; --on-accent:#FFFFFF; --glow:transparent;
+  --logo1:#111214; --logo2:#9DBE1C; --blk:#111214; --bg-fx:none; --volt:#D7FF3D;
+}
+@media (prefers-color-scheme:dark){ :root[data-skin="graphite"]:not([data-theme="light"]){
+    --bg:#0E0F11; --surface:#17181B; --sunk:#202226; --line:#2A2C31;
+    --ink:#F3F3F0; --muted:#9A9DA5; --steel:#D7FF3D; --steel-soft:rgba(215,255,61,.16);
+    --red:#FF6B4A; --green:#3DDC97; --green-soft:rgba(61,220,151,.14);
+    --b1:#D7FF3D; --b1s:rgba(215,255,61,.14); --b2:#C9CCD3; --b2s:#202226; --b3:#FF6B4A; --b3s:rgba(255,107,74,.14);
+    --sun:#FFB547; --hero-ink:#0E0F11; --on-accent:#0E0F11; --glow:transparent;
+    --logo1:#D7FF3D; --logo2:#F3F3F0; --blk:#D7FF3D; --bg-fx:none; --volt:#D7FF3D; } }
+:root[data-skin="graphite"][data-theme="dark"]{
+  --bg:#0E0F11; --surface:#17181B; --sunk:#202226; --line:#2A2C31;
+  --ink:#F3F3F0; --muted:#9A9DA5; --steel:#D7FF3D; --steel-soft:rgba(215,255,61,.16);
+  --red:#FF6B4A; --green:#3DDC97; --green-soft:rgba(61,220,151,.14);
+  --b1:#D7FF3D; --b1s:rgba(215,255,61,.14); --b2:#C9CCD3; --b2s:#202226; --b3:#FF6B4A; --b3s:rgba(255,107,74,.14);
+  --sun:#FFB547; --hero-ink:#0E0F11; --on-accent:#0E0F11; --glow:transparent;
+  --logo1:#D7FF3D; --logo2:#F3F3F0; --blk:#D7FF3D; --bg-fx:none; --volt:#D7FF3D; }
+[data-skin="graphite"] body{font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg)}
+[data-skin="graphite"] .card{box-shadow:none;border-radius:16px}
+[data-skin="graphite"] .card.sess{box-shadow:none;border-top-width:3px}
+[data-skin="graphite"] .card.sess .nm{background:none;color:var(--ink)}
+[data-skin="graphite"] .card.hero-card,[data-skin="graphite"] .card.hero-card.pu{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+[data-skin="graphite"] .card.hero-card .sub,[data-skin="graphite"] .card.hero-card .meter-l,[data-skin="graphite"] .card.hero-card .big small{color:var(--muted);opacity:1}
+[data-skin="graphite"] .card.hero-card .meter{background:var(--sunk)}
+[data-skin="graphite"] .card.hero-card .meter .fill{background:var(--volt);box-shadow:none}
+[data-skin="graphite"] .card.hero-card .meter .goal{box-shadow:none}
+[data-skin="graphite"] .btn.primary,[data-skin="graphite"] .tgo,[data-skin="graphite"] .btn.done,[data-skin="graphite"] .set.done,[data-skin="graphite"] .set.done .tick,[data-skin="graphite"] .seg button[aria-pressed="true"],[data-skin="graphite"] .chip.next,[data-skin="graphite"] .badge{box-shadow:none}
+[data-skin="graphite"] .btn.primary.blkbtn{background:var(--steel);color:var(--on-accent);box-shadow:none}
+[data-skin="graphite"] .stat .v,[data-skin="graphite"] .tbar .clock.run,[data-skin="graphite"] nav.tabs button[aria-selected="true"],[data-skin="graphite"] .brand-tw{text-shadow:none}
+[data-skin="graphite"] nav.tabs button[aria-selected="true"] svg,[data-skin="graphite"] .brand-mark{filter:none}
+[data-skin="graphite"] .prbanner{background:var(--b3);color:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+[data-skin="graphite"] .set,[data-skin="graphite"] .tick,[data-skin="graphite"] .btn,[data-skin="graphite"] .field input,[data-skin="graphite"] .input,[data-skin="graphite"] select{border-radius:12px}
+[data-skin="graphite"]{--dx-rest:#D7FF3D;--dx-ready:#FFB547;--dx-go:#3DDC97}
+[data-skin="graphite"] .dx-pill #dxring{stroke:var(--volt)}
+[data-skin="graphite"] .dx-pbar>span{background:var(--volt)}
+
+/* ===== Push-ups counter at the top ===== */
+.fab{display:none!important}
+body.dx-pillon .wrap{padding-bottom:130px}
+.dx-push{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 14px;margin-bottom:12px}
+.dx-push .l{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;white-space:nowrap}
+.dx-push .v{font-family:var(--cond);font-weight:700;font-size:30px;line-height:1}
+.dx-push .v small{font-size:15px;color:var(--muted);font-weight:600}
+.dx-push .dx-pbar{flex:1;margin:0;height:8px}
+.dx-push .dx-pbar>span{background:var(--volt,var(--steel))}
+.dx-push .q{height:44px;padding:0 14px;border-radius:99px;border:0;background:var(--volt,var(--steel));color:#0E0F11;font-weight:800;font-size:15px;white-space:nowrap}
+.dx-push .m{width:44px;height:44px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:18px;font-weight:700;padding:0}
 
 /* ===== Melon skin ===== */
 :root[data-skin="melon"]{
@@ -1350,7 +1406,7 @@ $('#swapin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 $('#swaplists').addEventListener('click',e=>{const b=e.target.closest('[data-sw]');if(b)doSwap(b.dataset.sw);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#swapsheet').hidden)closeSwap();});
 /* ================= v3 add-ons ================= */
-const DXV='3.1';
+const DXV='3.2';
 const dxEsc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dxAdd=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return ymd(x);};
 const dxFmtD=d=>{try{return new Date(d+'T00:00').toLocaleDateString('en-NZ',{day:'numeric',month:'short'});}catch(e){return d;}};
@@ -1378,7 +1434,7 @@ function dxBars(vals,labels,target,names){const W=340,H=150,L=26,B=18,mx=Math.ma
 /* ----- Session: today strip + warm-up cardio ----- */
 const DX_CARDIO=['Bike','Cross-trainer','Rower','Treadmill','Jog / run','Skipping','Other'];
 function dxToday(){const v=$('#v-today');if(!v||!cur)return;const E=dxEntries(),tm=dxDayMins(E,today()),T=dxDaily(),w=dxWU()[cur]||{},ok=w.saved&&+w.min>0;
-  v.insertAdjacentHTML('afterbegin',`<button class="dx-strip" data-dx="actopen"><span>Today: <b class="num" style="font-size:19px">${tm}</b> / ${T} min active${tm>=T?' ✓':''}</span><span class="go">+ Log activity</span><span class="dx-pbar"><span style="width:${Math.min(100,Math.round(tm/T*100))}%"></span></span></button>`);
+  v.insertAdjacentHTML('afterbegin',dxPushCard()+`<button class="dx-strip" data-dx="actopen"><span>Today: <b class="num" style="font-size:19px">${tm}</b> / ${T} min active${tm>=T?' ✓':''}</span><span class="go">+ Log activity</span><span class="dx-pbar"><span style="width:${Math.min(100,Math.round(tm/T*100))}%"></span></span></button>`);
   const card=`<div class="card" id="dxwu"><div class="dx-head"><p class="h2" style="margin:0">Warm-up cardio</p><span class="sub">10 min</span></div>
   <p class="sub" style="margin:4px 0 10px">10 minutes on the bike, rower or cross-trainer before you lift. It counts towards your daily activity.</p>
   <div class="dx-two"><div class="field"><label for="dxwt" style="font-size:13px">Type</label><select id="dxwt" data-dxw="type"><option value="">Choose…</option>${DX_CARDIO.map(c=>`<option ${w.type===c?'selected':''}>${c}</option>`).join('')}</select></div>
@@ -1386,6 +1442,11 @@ function dxToday(){const v=$('#v-today');if(!v||!cur)return;const E=dxEntries(),
   <button class="btn full ${ok?'done':'primary'}" style="margin-top:10px" data-dx="wusave">${ok?`✓ Saved: ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}`:'Save warm-up'}</button></div>`;
   const nav=v.querySelector('.sess-nav');if(nav)nav.insertAdjacentHTML('afterend',card);else v.insertAdjacentHTML('beforeend',card);}
 
+const dxPushGoal=()=>+S.settings.pushDaily||100;
+function dxPushCard(){const n=pushTotal(today()),g=dxPushGoal(),q=lastPush()||20;
+  return `<div class="dx-push" id="dxpush"><div><div class="l">PUSH-UPS TODAY</div><div class="v"><span id="dxpushn">${n}</span> <small>/ ${g}</small></div></div><span class="dx-pbar"><span id="dxpushb" style="width:${Math.min(100,Math.round(n/g*100))}%"></span></span><button class="q" data-dx="pushq" data-n="${q}" aria-label="Log ${q} push-ups">+ ${q}</button><button class="m" data-dx="pushopen" aria-label="More push-up options">⋯</button></div>`;}
+function dxPushRefresh(){const el=$('#dxpushn');if(!el)return;const n=pushTotal(today()),g=dxPushGoal(),q=lastPush()||20;el.textContent=n;$('#dxpushb').style.width=Math.min(100,Math.round(n/g*100))+'%';const b=$('[data-dx=pushq]');if(b){b.dataset.n=q;b.textContent='+ '+q;b.setAttribute('aria-label','Log '+q+' push-ups');}}
+const dxUF=updFab;updFab=function(){dxUF();try{dxPushRefresh();}catch(e){}};
 /* ----- Activity view ----- */
 const DX_TYPES=['Walk','Run','Basketball','Bike','Swim','Football','Gym cardio','Other'];
 let dxType='Walk',dxEdit=null;
@@ -1518,7 +1579,7 @@ function dxTitle(){const t=(S.settings.title||'').trim(),sp=document.querySelect
 let dxInstall=null;
 const dxStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 function dxSettingsCards(){
-  const sk=[['electric','Electric',['#0091FF','#7B3BFF','#FF2E7E']],['camo','Camo',['#556B2F','#86693A','#A63D2A']],['melon','Melon 🍉',['#E8435E','#2E7D4F','#BEE8C8']]];
+  const sk=[['graphite','Graphite',['#0E0F11','#D7FF3D','#3DDC97']],['camo','Camo',['#556B2F','#86693A','#A63D2A']],['melon','Melon 🍉',['#E8435E','#2E7D4F','#BEE8C8']]];
   return `<div class="card"><p class="h2" style="margin:0">Rest timer</p><p class="sub">The timer pops up at the bottom when you tick a set. Tap it to go full screen.</p>
   <label class="dx-tog"><span>Open full screen automatically</span><input type="checkbox" data-dxt="autofull" ${S.settings.autofull?'checked':''}></label>
   <label class="dx-tog"><span>Beep at 10 seconds and when rest is over</span><input type="checkbox" data-dxt="sound" ${S.settings.sound===false?'':'checked'}></label>
@@ -1526,6 +1587,8 @@ function dxSettingsCards(){
   <div class="card"><p class="h2" style="margin:0">App name</p><p class="sub">Call it whatever you like. The last word is shown in colour.</p>
   <div class="xadd" style="margin-top:8px"><input class="input" id="dxtitle" maxlength="30" value="${dxEsc(S.settings.title||DXDEF)}" aria-label="App name"><button class="btn primary" data-dx="titlesave">Save</button></div></div>
   <div class="card"><p class="h2" style="margin:0">Theme</p><p class="sub">Light or dark is set with the button at the top.</p><div class="dx-skins">${sk.map(([k,l,c])=>`<button class="dx-skin ${skin===k?'on':''}" data-dx="skin" data-k="${k}" aria-pressed="${skin===k}"><span class="dx-sw">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span>${l}</button>`).join('')}</div></div>
+  <div class="card"><p class="h2" style="margin:0">Daily push-up target</p><p class="sub">Shown on the push-ups counter at the top of the Session screen.</p>
+  <select id="dxpushgoal" style="margin-top:8px" aria-label="Daily push-up target">${[50,100,150,200,300].map(v=>`<option value="${v}" ${dxPushGoal()===v?'selected':''}>${v} a day</option>`).join('')}</select></div>
   <div class="card"><p class="h2" style="margin:0">Daily activity target</p><p class="sub">Minutes of cardio or activity a day. Warm-ups and anything you log in Activity count.</p>
   <select id="dxdaily" style="margin-top:8px" aria-label="Daily target">${[20,30,45,60].map(v=>`<option value="${v}" ${dxDaily()===v?'selected':''}>${v} min a day</option>`).join('')}</select></div>
   <div class="card"><p class="h2" style="margin:0">Backup your data</p><p class="sub">On this site your data is saved on this device. Download a backup now and then (it includes photos), and restore it on a new phone.${S.settings.lastBackup?` Last backup: <b>${dxFmtD(S.settings.lastBackup)}</b>.`:' <b>No backup yet.</b>'}</p>
@@ -1541,6 +1604,8 @@ const dxRS=renderSettings;renderSettings=function(){dxRS();try{$('#v-settings').
 /* ----- Events ----- */
 document.addEventListener('click',e=>{const b=e.target.closest('[data-dx]');if(!b)return;const a=b.dataset.dx,id=b.dataset.id;
   if(a==='actopen'){dxOpenAct();return;}
+  if(a==='pushq'){logPush(b.dataset.n);dxPushRefresh();return;}
+  if(a==='pushopen'){openSheet();return;}
   if(a==='actedit'){dxOpenAct(id);return;}
   if(a==='close'){dxHide(b.dataset.k);return;}
   if(a==='atype'){dxType=b.dataset.t;document.querySelectorAll('#dxtchips .dx-chip').forEach(c=>{const on=c.dataset.t===dxType;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});$('#dxother').hidden=dxType!=='Other';if(dxType==='Other')$('#dxother').focus();return;}
@@ -1587,6 +1652,7 @@ document.addEventListener('change',e=>{const t=e.target;
   if(t.dataset.dxw&&t.tagName==='SELECT'){const W=dxWU(),w=W[cur]||(W[cur]={});w.type=t.value;w.date=w.date||(S.sessions[cur]?.date)||today();if(w.saved){w.saved=false;const b=$('[data-dx=wusave]');if(b){b.className='btn full primary';b.textContent='Save warm-up';}}save();return;}
   if(t.id==='dxgt'){dxGForm(true);return;}
   if(t.id==='dxdaily'){S.settings.daily=+t.value;save();dxToast('Daily target saved');return;}
+  if(t.id==='dxpushgoal'){S.settings.pushDaily=+t.value;save();dxToast('Push-up target saved');return;}
   if(t.id==='dxphd'){const p=DXPH&&DXPH.find(x=>x.id===t.dataset.id);if(p&&t.value){p.date=t.value;DXDB.put(p).then(dxLoadPh).then(()=>{renderProgress();dxViewPh(p.id);dxToast('Date saved ✓');});}return;}
   if(t.id==='sdate'&&cur&&dxWU()[cur]){dxWU()[cur].date=t.value;save();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')['act','g','ph'].forEach(k=>{if(!$('#dx'+k+'sheet').hidden)dxHide(k);});
@@ -1671,11 +1737,11 @@ function applyTheme(t){if(t==='auto')document.documentElement.removeAttribute('d
 let theme='auto';try{theme=localStorage.getItem('bench120.theme')||'auto';}catch(e){}
 applyTheme(theme);
 $('#themebtn').addEventListener('click',()=>{theme=TH[(TH.indexOf(theme)+1)%3];try{localStorage.setItem('bench120.theme',theme);}catch(e){}applyTheme(theme);});
-const SKL={electric:'⚡ Electric',camo:'✪ Camo',melon:'🍉 Melon'};
-function applySkin(k){if(!SKL[k])k='electric';if(k!=='electric')document.documentElement.setAttribute('data-skin',k);else document.documentElement.removeAttribute('data-skin');$('#skinbtn').textContent=SKL[k];const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',k==='camo'?'#1D2217':k==='melon'?'#D42A45':'#070A17');}
-let skin='electric';try{skin=localStorage.getItem('bench120.skin')||'electric';}catch(e){}
+const SKL={graphite:'◼ Graphite',camo:'✪ Camo',melon:'🍉 Melon'};
+function applySkin(k){if(!SKL[k])k='graphite';document.documentElement.setAttribute('data-skin',k);$('#skinbtn').textContent=SKL[k];const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',k==='camo'?'#1D2217':k==='melon'?'#D42A45':'#0E0F11');}
+let skin='graphite';try{skin=localStorage.getItem('bench120.skin')||'graphite';}catch(e){}if(skin==='electric')skin='graphite';
 applySkin(skin);
-$('#skinbtn').addEventListener('click',()=>{skin=skin==='electric'?'camo':skin==='camo'?'melon':'electric';try{localStorage.setItem('bench120.skin',skin);}catch(e){}applySkin(skin);toast(SKL[skin].replace(/^\S+ /,'')+' mode');if(view==='settings')renderSettings();});
+$('#skinbtn').addEventListener('click',()=>{skin=skin==='graphite'?'camo':skin==='camo'?'melon':'graphite';try{localStorage.setItem('bench120.skin',skin);}catch(e){}applySkin(skin);toast(SKL[skin].replace(/^\S+ /,'')+' mode');if(view==='settings')renderSettings();});
 if(needSave){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
 syncSeg();
 renderToday();

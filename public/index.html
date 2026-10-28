@@ -569,6 +569,34 @@ body.dx-pillon .wrap{padding-bottom:130px}
 [data-skin="melon"] .card.hero-card{background:linear-gradient(135deg,#2E7D4F,#D42A45)}
 [data-skin="melon"] .dx-pbar>span{background:radial-gradient(circle at 50% 50%,#2B1D1F 0 1.2px,transparent 1.6px) 0 0/14px 10px,var(--steel)}
 
+/* ================= Food ================= */
+nav.tabs .in{grid-template-columns:repeat(7,minmax(0,1fr))}
+nav.tabs .in button{font-size:10.5px}
+.fd-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.fd-nav .d{font-family:var(--cond);font-weight:700;font-size:22px;text-align:center;flex:1}
+.fd-rings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:10px}
+.fd-ring{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.fd-ring svg{width:100%;max-width:84px;height:auto;display:block}
+.fd-ring .rv{font-family:var(--cond);font-weight:700;font-size:20px;fill:var(--ink)}
+.fd-ring .ru{font-size:10px;fill:var(--muted)}
+.fd-ring .l{font-size:12px;font-weight:600;margin-top:2px}
+.fd-ring .s{font-size:11px;color:var(--muted);line-height:1.2}
+.fd-meal{display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 6px;font-size:15px}
+.fd-meal:first-child{margin-top:4px}
+.fd-meal span{color:var(--muted);font-size:13px}
+.fd-meal .add{border:0;background:none;color:var(--steel);font-weight:600;font-size:14px;padding:4px 0 4px 8px;min-height:32px}
+.fd-mac{font-size:12px;color:var(--muted)}
+.fd-res{display:grid;gap:4px;margin-top:8px;max-height:220px;overflow:auto}
+.fd-res button{display:flex;justify-content:space-between;gap:8px;text-align:left;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:8px 10px;color:var(--ink);font-size:14px}
+.fd-res button small{color:var(--muted);white-space:nowrap}
+.fd-four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.fd-four .input{width:100%;padding:8px;text-align:center}
+.fd-chk{display:flex;gap:10px;align-items:center;margin-top:12px;font-size:15px}
+.fd-chk input{width:20px;height:20px;accent-color:var(--green)}
+.fd-tot{background:var(--sunk);border-radius:10px;padding:8px 10px;margin-top:10px;font-size:14px}
+.fd-fav{display:flex;align-items:center;gap:0;border:1px solid var(--line);background:var(--sunk);border-radius:99px;overflow:hidden}
+.fd-fav button{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 10px;min-height:40px}
+.fd-fav button.x{color:var(--muted);padding:6px 10px 6px 4px}
 </style>
 </head>
 <body>
@@ -587,6 +615,7 @@ body.dx-pillon .wrap{padding-bottom:130px}
 
   <section class="view on" id="v-today" aria-label="Session"></section>
   <section class="view" id="v-activity" aria-label="Activity"></section>
+  <section class="view" id="v-food" aria-label="Food"></section>
   <section class="view" id="v-plan" aria-label="Plan"></section>
   <section class="view" id="v-progress" aria-label="Progress"></section>
   <section class="view" id="v-cali" aria-label="Calisthenics"></section>
@@ -599,6 +628,8 @@ body.dx-pillon .wrap{padding-bottom:130px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>Session</button>
     <button role="tab" data-v="activity" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activity</button>
+    <button role="tab" data-v="food" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M4 2v5a3 3 0 0 0 6 0V2M7 10v12M17 22V2c-2.5 1.5-4 4.5-4 8v4h4"/></svg>Food</button>
     <button role="tab" data-v="plan" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plan</button>
     <button role="tab" data-v="progress" aria-selected="false">
@@ -632,6 +663,9 @@ body.dx-pillon .wrap{padding-bottom:130px}
 <div class="sheet-bg" id="dxphbg" data-dx="close" data-k="ph" hidden></div>
 <div class="sheet dx-sheet" id="dxphsheet" role="dialog" aria-modal="true" aria-labelledby="dxph-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxph-h" style="margin:0">Photo</p><button class="iconbtn" data-dx="close" data-k="ph" aria-label="Close">✕</button></div><div id="dxphbody"></div></div>
+<div class="sheet-bg" id="dxfdbg" data-dx="close" data-k="fd" hidden></div>
+<div class="sheet dx-sheet" id="dxfdsheet" role="dialog" aria-modal="true" aria-labelledby="dxfd-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxfd-h" style="margin:0">Add food</p><button class="iconbtn" data-dx="close" data-k="fd" aria-label="Close">✕</button></div><div id="dxfdbody"></div></div>
 <input type="file" id="dxphfile" accept="image/*" hidden><input type="file" id="dxrestore" accept="application/json,.json" hidden>
 <div class="dx-pill idle" id="dxpill" hidden>
   <button class="main" data-dx="fullopen" aria-label="Open the rest timer full screen">
@@ -1725,7 +1759,164 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-dx]');if(!
 document.addEventListener('change',e=>{const t=e.target;if(t.dataset.dxt){S.settings[t.dataset.dxt]=t.checked;save();dxToast('Saved ✓');}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dxFull)dxCloseFull();});
 
-const RN={today:renderToday,activity:renderActivity,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
+/* ================= Food ================= */
+const FD_MEALS=['Breakfast','Lunch','Dinner','Snacks'];
+const FD_ACT=[[1.375,'Light','1–3 workouts a week'],[1.55,'Moderate','3–5 workouts a week'],[1.725,'Very active','6–7 workouts a week'],[1.9,'Athlete','Hard training plus a physical job']];
+const FD_GOALS=[['build','Build muscle','Small surplus, +250 cal'],['maintain','Maintain','Eat to your burn'],['lean','Lean out','Gentle deficit, −300 cal']];
+/* Approximate values per serving. Edit to match your packet. */
+const FD_COMMON=[
+ ['Eggs, 2 large',150,13,1,10],['Chicken breast, cooked 150 g',250,46,0,5],['Beef mince (lean), cooked 150 g',330,38,0,20],
+ ['Salmon fillet 150 g',310,31,0,20],['Tuna, 95 g can (drained)',100,23,0,1],['White rice, cooked 1 cup',245,5,53,0.5],
+ ['Pasta, cooked 1 cup',220,8,43,1.3],['Rolled oats 40 g (dry)',150,5,26,3],['Weet-Bix, 2 biscuits',107,4,20,0.4],
+ ['Wholemeal bread, 1 slice',90,4,15,1.2],['Milk (blue top) 250 ml',165,8.5,12,9],['Greek yoghurt, plain 150 g',145,13,6,7.5],
+ ['Whey protein, 1 scoop',120,24,3,1.5],['Banana, medium',105,1.3,27,0.4],['Apple, medium',95,0.5,25,0.3],
+ ['Peanut butter, 1 tbsp',95,4,3,8],['Kūmara, baked 150 g',135,2.4,31,0.2],['Potato, boiled 150 g',130,3,30,0.2],
+ ['Broccoli, 1 cup',30,2.5,6,0.3],['Avocado, half',120,1.5,6,11],['Cheddar cheese, 2 slices',160,10,0,13],['Almonds, 30 g',175,6,6,15]
+].map(([name,kcal,p,c,f])=>({name,kcal,p,c,f}));
+let fdDate=null,fdEdit=null,fdMeal='Breakfast',fdQty=1;
+function fdS(){if(!S.food||typeof S.food!=='object')S.food={};const F=S.food;
+  if(!F.log||typeof F.log!=='object')F.log={};if(!Array.isArray(F.favs))F.favs=[];
+  if(!F.goal)F.goal='maintain';if(!F.act)F.act=1.55;if(!F.sex)F.sex='';return F;}
+const fdDay=d=>{const L=fdS().log;if(!Array.isArray(L[d]))L[d]=[];return L[d];};
+const fdR=v=>Math.round(v||0);
+const fdN1=v=>{v=Math.round((+v||0)*10)/10;return v%1?v.toFixed(1):String(v);};
+function fdDefMeal(){const h=new Date().getHours();return h<11?'Breakfast':h<15?'Lunch':h>=17&&h<21?'Dinner':'Snacks';}
+function fdWeight(){const lw=dxLatestW();return lw!==null?lw:(+fdS().kg||null);}
+/* Mifflin-St Jeor resting burn, times activity, plus goal adjustment */
+function fdCalc(){const F=fdS(),B=dxBody(),w=fdWeight(),h=+B.height,a=+B.age;
+  if(!(w>0&&h>0&&a>0&&F.sex))return null;
+  const bmr=10*w+6.25*h-5*a+(F.sex==='m'?5:-161),burn=bmr*(+F.act||1.55);
+  let kcal=burn+(F.goal==='build'?250:F.goal==='lean'?-300:0);kcal=Math.max(kcal,bmr*1.1);kcal=Math.round(kcal/10)*10;
+  const p=Math.round(w*(F.goal==='maintain'?1.8:2)),f=Math.round(kcal*.25/9),c=Math.max(0,Math.round((kcal-p*4-f*9)/4));
+  return {kcal,p,c,f,bmr:Math.round(bmr),burn:Math.round(burn)};}
+function fdTarget(){const F=fdS();if(F.tgt&&F.tgt.manual)return F.tgt;return fdCalc();}
+function fdSum(list){return list.reduce((a,e)=>{const q=+e.qty||1;a.kcal+=(+e.kcal||0)*q;a.p+=(+e.p||0)*q;a.c+=(+e.c||0)*q;a.f+=(+e.f||0)*q;return a;},{kcal:0,p:0,c:0,f:0});}
+function fdRing(v,t,label,unit,col){const r=34,C=2*Math.PI*r,pct=t>0?Math.min(1,v/t):0,left=t>0?t-v:null;
+  return `<div class="fd-ring"><svg viewBox="0 0 84 84" role="img" aria-label="${label}: ${fdR(v)}${t?' of '+fdR(t):''} ${unit}"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--sunk)" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(${col})" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C*(1-pct)).toFixed(1)}" transform="rotate(-90 42 42)"/><text x="42" y="44" text-anchor="middle" class="rv">${fdR(v)}</text><text x="42" y="58" text-anchor="middle" class="ru">${t?'of '+fdR(t):unit}</text></svg>
+  <div class="l">${label}</div><div class="s">${left===null?'&nbsp;':left>=0?fdR(left)+' '+unit+' left':pct>=1&&label!=='Calories'?'Target hit ✓':fdR(-left)+' '+unit+' over'}</div></div>`;}
+function fdEntryRow(e){const q=+e.qty||1;
+  return `<button class="dx-entry" data-fd="edit" data-id="${e.id}"><span><b>${esc(e.name)}</b>${q!==1?' ×'+fdN1(q):''}<small>${fdR(e.kcal*q)} cal · P ${fdN1(e.p*q)} · C ${fdN1(e.c*q)} · F ${fdN1(e.f*q)} g</small></span><span aria-hidden="true">›</span></button>`;}
+function fdTargetsCard(){const F=fdS(),B=dxBody(),calc=fdCalc(),T=fdTarget(),w=fdWeight(),man=F.tgt&&F.tgt.manual,lw=dxLatestW();
+  const open=!T;
+  return `<details class="card" id="fdtcard" ${open?'open':''}><summary class="h2" style="cursor:pointer;margin:0">${T?`Daily targets · ${fdR(T.kcal)} cal`:'Set your daily targets'}</summary>
+  <p class="sub" style="margin-top:6px">${T?(man?'You set these yourself.':'Worked out from your stats, activity and goal. Change anything below and they update.'):'Fill in your stats and the app works out calories, protein, carbs and fat for you.'}</p>
+  <div class="dx-two" style="margin-top:10px">
+   <div class="field"><label for="fdage" style="font-size:13px">Age</label><input class="input" id="fdage" type="number" inputmode="numeric" min="10" max="100" data-fdb="age" value="${esc(B.age)}"></div>
+   <div class="field"><label for="fdht" style="font-size:13px">Height (cm)</label><input class="input" id="fdht" type="number" inputmode="decimal" min="100" max="230" data-fdb="height" value="${esc(B.height)}"></div>
+   <div class="field"><label for="fdkg" style="font-size:13px">Weight (kg)</label><input class="input" id="fdkg" type="number" inputmode="decimal" min="30" max="250" data-fdf="kg" value="${esc(w??'')}" ${lw!==null?'disabled title="From your latest bodyweight entry on the Progress tab"':''}></div>
+   <div class="field"><label for="fdsex" style="font-size:13px">Sex (for the formula)</label><select id="fdsex" data-fdf="sex"><option value="">Choose…</option><option value="m" ${F.sex==='m'?'selected':''}>Male</option><option value="f" ${F.sex==='f'?'selected':''}>Female</option></select></div>
+  </div>
+  ${lw!==null?'<p class="sub" style="margin-top:6px">Weight comes from your latest bodyweight entry on the Progress tab.</p>':''}
+  <p class="dx-lbl">Activity</p><div class="dx-chips">${FD_ACT.map(([v,l,s])=>`<button class="dx-chip ${+F.act===v?'on':''}" data-fd="act" data-v="${v}" aria-pressed="${+F.act===v}" title="${s}">${l}</button>`).join('')}</div>
+  <p class="sub" style="margin-top:4px">${(FD_ACT.find(a=>a[0]===+F.act)||FD_ACT[1])[2]}</p>
+  <p class="dx-lbl">Goal</p><div class="dx-chips">${FD_GOALS.map(([k,l])=>`<button class="dx-chip ${F.goal===k?'on':''}" data-fd="goal" data-v="${k}" aria-pressed="${F.goal===k}">${l}</button>`).join('')}</div>
+  <p class="sub" style="margin-top:4px">${(FD_GOALS.find(g=>g[0]===F.goal)||FD_GOALS[1])[2]}. Protein is set at ${F.goal==='maintain'?'1.8':'2'} g per kg of bodyweight.</p>
+  ${calc?`<p class="sub" style="margin-top:8px">Resting burn about <b>${calc.bmr}</b> cal, daily burn about <b>${calc.burn}</b> cal.</p>`:''}
+  ${T?`<p class="dx-lbl">Targets${man?' (your own)':''}</p>
+  <div class="fd-four">${[['kcal','Cal'],['p','Protein g'],['c','Carbs g'],['f','Fat g']].map(([k,l])=>`<div class="field"><label for="fdt${k}" style="font-size:12px">${l}</label><input class="input" id="fdt${k}" type="number" inputmode="numeric" min="0" data-fdt="${k}" value="${fdR(T[k])}"></div>`).join('')}</div>
+  ${man&&calc?'<button class="btn" style="margin-top:10px" data-fd="recalc">Use calculated targets</button>':''}`:''}
+  <p class="sub" style="margin-top:10px">These are estimates. Watch your weight trend for 2–3 weeks and adjust by 100–200 cal if needed.</p>
+  </details>`;}
+function fdFavCard(){const F=fdS();if(!F.favs.length)return '';
+  return `<div class="card"><p class="h2" style="margin:0">Favourites</p><p class="sub">Tap to add to ${esc(fdDefMealFor())}. ✕ removes a favourite.</p>
+  <div class="dx-chips" style="margin-top:8px">${F.favs.map((x,i)=>`<span class="fd-fav"><button data-fd="favq" data-i="${i}">★ ${esc(x.name)} <span class="fd-mac">${fdR(x.kcal)}</span></button><button class="x" data-fd="favdel" data-i="${i}" aria-label="Remove ${esc(x.name)} from favourites">✕</button></span>`).join('')}</div></div>`;}
+function fdDefMealFor(){return fdDate===today()?fdDefMeal():'Snacks';}
+function fdWeekCard(T){const td=today(),days=[...Array(7)].map((_,i)=>dxAdd(td,i-6)),sums=days.map(d=>fdSum(fdS().log[d]||[])),logged=sums.filter(s=>s.kcal>0);
+  if(!logged.length)return '';
+  const avg=k=>fdR(logged.reduce((a,s)=>a+s[k],0)/logged.length),pHit=T?sums.filter(s=>s.p>=T.p*.95).length:0;
+  const W=340,H=150,L=34,Bm=18,mx=Math.max(1,T?T.kcal*1.15:0,...sums.map(s=>s.kcal)),bw=(W-L)/7;
+  let svg=`<svg class="dx-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Calories per day, last 7 days"><text x="0" y="10">${fdR(mx)}</text><text x="0" y="${H-Bm}">0</text><line x1="${L}" x2="${W}" y1="${H-Bm}" y2="${H-Bm}" stroke="var(--line)"/>`;
+  sums.forEach((s,i)=>{const bh=(H-Bm-8)*s.kcal/mx,x=L+i*bw+3;svg+=`<rect x="${x}" y="${H-Bm-bh}" width="${bw-6}" height="${bh}" rx="3" fill="var(--steel)"><title>${dxDay(days[i])}: ${fdR(s.kcal)} cal</title></rect><text x="${x+(bw-6)/2}" y="${H-4}" text-anchor="middle">${new Date(days[i]+'T00:00').toLocaleDateString('en-NZ',{weekday:'short'}).slice(0,2)}</text>`;});
+  if(T){const y=H-Bm-(H-Bm-8)*T.kcal/mx;svg+=`<line x1="${L}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--muted)" stroke-dasharray="4 4"/>`;}
+  svg+='</svg>';
+  return `<div class="card"><p class="h2" style="margin:0">Last 7 days</p><p class="sub">${T?'Dashed line is your calorie target. ':''}Averages count only days you logged.</p>
+  <div class="dx-kpis"><div class="dx-kpi"><div class="v">${avg('kcal')}</div><div class="l">Avg calories</div></div><div class="dx-kpi"><div class="v">${avg('p')} g</div><div class="l">Avg protein</div></div><div class="dx-kpi"><div class="v">${T?pHit+'/7':logged.length+'/7'}</div><div class="l">${T?'Days protein hit':'Days logged'}</div></div></div>
+  <div style="margin-top:10px">${svg}</div></div>`;}
+function renderFood(){const F=fdS(),td=today();if(!fdDate||fdDate>td)fdDate=td;
+  const list=F.log[fdDate]||[],tot=fdSum(list),T=fdTarget();
+  let h=`<div class="fd-nav"><button class="iconbtn" data-fd="prev" aria-label="Previous day">‹</button><div class="d">${dxDay(fdDate)}</div><button class="iconbtn" data-fd="next" aria-label="Next day" ${fdDate>=td?'disabled':''}>›</button></div>`;
+  h+=`<div class="card"><div class="fd-rings">${fdRing(tot.kcal,T&&T.kcal,'Calories','cal','--steel')}${fdRing(tot.p,T&&T.p,'Protein','g','--b2')}${fdRing(tot.c,T&&T.c,'Carbs','g','--sun')}${fdRing(tot.f,T&&T.f,'Fat','g','--b3')}</div>
+  ${T?'':'<p class="sub" style="margin-top:10px;text-align:center">Set your daily targets below to fill the rings.</p>'}
+  <button class="btn primary full" style="margin-top:12px" data-fd="open">+ Add food</button></div>`;
+  h+=`<div class="card"><p class="h2" style="margin:0">Food log</p>`;
+  if(!list.length){const yd=F.log[dxAdd(fdDate,-1)]||[];
+    h+=`<p class="sub" style="margin-top:6px">Nothing logged for ${dxDay(fdDate).toLowerCase()} yet.</p>${yd.length?`<button class="btn" style="margin-top:10px" data-fd="copyprev">Copy the day before (${yd.length} item${yd.length>1?'s':''})</button>`:''}`;}
+  FD_MEALS.forEach(m=>{const items=list.filter(e=>(e.meal||'Snacks')===m);if(!items.length&&!list.length)return;const s=fdSum(items);
+    h+=`<div class="fd-meal"><b>${m}${items.length?` <span>${fdR(s.kcal)} cal · P ${fdR(s.p)} g</span>`:''}</b><button class="add" data-fd="open" data-m="${m}">+ Add</button></div>`+items.map(fdEntryRow).join('');});
+  h+='</div>';
+  h+=fdFavCard()+fdWeekCard(T)+fdTargetsCard();
+  h+=`<div class="card"><p class="h2" style="margin:0">Fuel for training</p><p class="sub">Hitting protein every day matters most for strength. Spread it over 3–4 meals, and eat carbs before your bench and pull days so you have energy for the big sets.</p></div>`;
+  $('#v-food').innerHTML=h;}
+/* ----- Add / edit sheet ----- */
+function fdMatches(q){q=q.trim().toLowerCase();const F=fdS(),seen=new Set(),out=[];
+  const recent=[];Object.keys(F.log).sort().reverse().slice(0,14).forEach(d=>(F.log[d]||[]).forEach(e=>recent.push(e)));
+  const add=(x,src)=>{const k=x.name.toLowerCase();if(seen.has(k))return;if(q&&!k.includes(q))return;seen.add(k);out.push({x,src});};
+  F.favs.forEach(x=>add(x,'fav'));recent.forEach(x=>add(x,'recent'));FD_COMMON.forEach(x=>add(x,'common'));
+  return out.slice(0,q?12:8);}
+function fdResults(){const q=($('#fdname')||{}).value||'',r=fdMatches(q);
+  const box=$('#fdres');if(!box)return;
+  box.innerHTML=r.length?r.map(({x,src},i)=>`<button data-fd="pick" data-src="${src}" data-name="${esc(x.name)}"><span>${src==='fav'?'★ ':src==='recent'?'↻ ':''}${esc(x.name)}</span><small>${fdR(x.kcal)} cal · P ${fdN1(x.p)}</small></button>`).join(''):`<p class="sub">No match. Fill in the numbers below to add “${esc(q.trim())}”.</p>`;}
+function fdFind(name,src){const F=fdS(),k=name.toLowerCase(),pool=src==='fav'?F.favs:src==='common'?FD_COMMON:[].concat(...Object.values(F.log));return pool.find(x=>x.name.toLowerCase()===k);}
+function fdFill(x){['kcal','p','c','f'].forEach(k=>{const el=$('#fd'+k);if(el)el.value=x[k]===undefined||x[k]===''?'':fdN1(x[k]);});fdTotals();}
+function fdTotals(){const el=$('#fdtot');if(!el)return;const v=k=>parseFloat(($('#fd'+k)||{}).value)||0,q=fdQty;
+  let kcal=v('kcal');const est=!kcal&&(v('p')||v('c')||v('f'));if(est)kcal=v('p')*4+v('c')*4+v('f')*9;
+  el.innerHTML=`This entry: <b>${fdR(kcal*q)} cal</b> · P ${fdN1(v('p')*q)} · C ${fdN1(v('c')*q)} · F ${fdN1(v('f')*q)} g${est?' <span class="fd-mac">(calories estimated from macros)</span>':''}`;}
+function fdOpen(id,meal){fdEdit=id||null;const e=id?fdDay(fdDate).find(x=>x.id===id):null,F=fdS();
+  fdMeal=e?(e.meal||'Snacks'):(meal||fdDefMealFor());fdQty=e?(+e.qty||1):1;
+  const isFav=e&&F.favs.some(x=>x.name.toLowerCase()===e.name.toLowerCase());
+  $('#dxfd-h').textContent=e?'Edit food':'Add food';
+  $('#dxfdbody').innerHTML=`<p class="dx-lbl" style="margin-top:0">Meal</p><div class="dx-chips" id="fdmeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===fdMeal?'on':''}" data-fd="meal" data-m="${m}" aria-pressed="${m===fdMeal}">${m}</button>`).join('')}</div>
+  <p class="dx-lbl">Food</p><input class="input" id="fdname" style="width:100%" maxlength="60" autocomplete="off" placeholder="Search or type a food" value="${e?esc(e.name):''}" aria-label="Food name">
+  ${e?'':'<div class="fd-res" id="fdres"></div>'}
+  <p class="dx-lbl">Per serving</p>
+  <div class="fd-four">${[['kcal','Cal'],['p','Protein g'],['c','Carbs g'],['f','Fat g']].map(([k,l])=>`<div class="field"><label for="fd${k}" style="font-size:12px">${l}</label><input class="input" id="fd${k}" type="number" inputmode="decimal" min="0" step="any" data-fdin="1" value="${e?fdN1(e[k]):''}"></div>`).join('')}</div>
+  <p class="dx-lbl">Servings</p><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="dx-chips" id="fdqchips">${[.5,1,1.5,2,3].map(q=>`<button class="dx-chip ${q===fdQty?'on':''}" data-fd="qty" data-q="${q}" aria-pressed="${q===fdQty}">${q===.5?'½':q===1.5?'1½':q}</button>`).join('')}</div><input class="input" id="fdqty" type="number" inputmode="decimal" min="0.1" step="any" style="width:80px;text-align:center" value="${fdN1(fdQty)}" aria-label="Servings"></div>
+  <div class="fd-tot" id="fdtot"></div>
+  <label class="fd-chk"><input type="checkbox" id="fdfav" ${isFav?'checked':''}> Save to favourites</label>
+  <p class="sub" style="margin-top:8px">Common foods use approximate values. Check the nutrition panel on the packet for exact numbers.</p>
+  <button class="btn primary full" style="margin-top:12px" data-fd="save">${e?'Save changes':'Add to '+fdMeal.toLowerCase()}</button>
+  ${e?`<button class="btn ghost full" style="margin-top:8px;color:var(--red)" data-fd="del" data-id="${e.id}">Delete this entry</button>`:''}`;
+  dxShow('fd');fdResults();fdTotals();if(!e)setTimeout(()=>{const n=$('#fdname');if(n)n.focus();},50);}
+function fdSave(){const name=$('#fdname').value.trim().replace(/\s+/g,' ');if(!name){dxToast('Give the food a name');return;}
+  const v=k=>Math.max(0,parseFloat($('#fd'+k).value)||0),q=Math.max(.1,parseFloat($('#fdqty').value)||fdQty||1);
+  const o={name,kcal:v('kcal'),p:v('p'),c:v('c'),f:v('f')};
+  if(!o.kcal)o.kcal=Math.round(o.p*4+o.c*4+o.f*9);
+  if(!o.kcal){dxToast('Add calories or macros');return;}
+  const list=fdDay(fdDate),F=fdS();
+  if(fdEdit){const e=list.find(x=>x.id===fdEdit);if(e)Object.assign(e,o,{qty:q,meal:fdMeal});}
+  else list.push(Object.assign({id:'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)},o,{qty:q,meal:fdMeal}));
+  const fi=F.favs.findIndex(x=>x.name.toLowerCase()===name.toLowerCase());
+  if($('#fdfav').checked){if(fi>=0)F.favs[fi]=o;else F.favs.push(o);F.favs.sort((a,b)=>a.name.localeCompare(b.name));}
+  else if(fi>=0&&fdEdit)F.favs.splice(fi,1);
+  save();dxHide('fd');renderFood();dxToast(fdEdit?'Saved ✓':'Added to '+fdMeal.toLowerCase()+' ✓');}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-fd]');if(!b)return;const a=b.dataset.fd,F=fdS();
+  if(a==='prev'){fdDate=dxAdd(fdDate,-1);renderFood();return;}
+  if(a==='next'){if(fdDate<today()){fdDate=dxAdd(fdDate,1);renderFood();}return;}
+  if(a==='open'){fdOpen(null,b.dataset.m);return;}
+  if(a==='edit'){fdOpen(b.dataset.id);return;}
+  if(a==='meal'){fdMeal=b.dataset.m;document.querySelectorAll('#fdmeals .dx-chip').forEach(c=>{const on=c.dataset.m===fdMeal;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});
+    const s=document.querySelector('[data-fd="save"]');if(s&&!fdEdit)s.textContent='Add to '+fdMeal.toLowerCase();return;}
+  if(a==='qty'){fdQty=+b.dataset.q;$('#fdqty').value=fdN1(fdQty);document.querySelectorAll('#fdqchips .dx-chip').forEach(c=>{const on=+c.dataset.q===fdQty;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});fdTotals();return;}
+  if(a==='pick'){const x=fdFind(b.dataset.name,b.dataset.src);if(!x)return;$('#fdname').value=x.name;fdFill(x);$('#fdfav').checked=b.dataset.src==='fav';const r=$('#fdres');if(r)r.innerHTML='';return;}
+  if(a==='save'){fdSave();return;}
+  if(a==='del'){const list=fdDay(fdDate),i=list.findIndex(x=>x.id===b.dataset.id);if(i<0)return;const [gone]=list.splice(i,1),d=fdDate;save();dxHide('fd');renderFood();
+    dxToast('Entry deleted',()=>{fdDay(d).splice(i,0,gone);save();renderFood();});return;}
+  if(a==='favq'){const x=F.favs[+b.dataset.i];if(!x)return;const m=fdDefMealFor();fdDay(fdDate).push(Object.assign({id:'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)},x,{qty:1,meal:m}));save();renderFood();dxToast(x.name+' added to '+m.toLowerCase()+' ✓');return;}
+  if(a==='favdel'){const i=+b.dataset.i,x=F.favs[i];if(!x)return;F.favs.splice(i,1);save();renderFood();dxToast('Removed from favourites',()=>{F.favs.splice(i,0,x);save();renderFood();});return;}
+  if(a==='copyprev'){const src=F.log[dxAdd(fdDate,-1)]||[];const list=fdDay(fdDate);src.forEach((x,i)=>list.push(Object.assign({},x,{id:'f'+Date.now().toString(36)+i})));save();renderFood();dxToast('Copied '+src.length+' item'+(src.length>1?'s':'')+' ✓');return;}
+  if(a==='act'){F.act=+b.dataset.v;save();renderFood();$('#fdtcard').open=true;return;}
+  if(a==='goal'){F.goal=b.dataset.v;if(F.tgt)F.tgt.manual=false;save();renderFood();$('#fdtcard').open=true;return;}
+  if(a==='recalc'){F.tgt=null;save();renderFood();$('#fdtcard').open=true;dxToast('Using calculated targets');return;}
+});
+document.addEventListener('input',e=>{const t=e.target;if(t.id==='fdname'&&!fdEdit)fdResults();
+  if(t.dataset.fdin)fdTotals();
+  if(t.id==='fdqty'){const q=parseFloat(t.value);if(q>0){fdQty=q;document.querySelectorAll('#fdqchips .dx-chip').forEach(c=>{const on=+c.dataset.q===q;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});fdTotals();}}});
+document.addEventListener('change',e=>{const t=e.target,F=fdS();
+  if(t.dataset.fdb){dxBody()[t.dataset.fdb]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
+  if(t.dataset.fdf){F[t.dataset.fdf]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
+  if(t.dataset.fdt){const cur=fdTarget()||{kcal:0,p:0,c:0,f:0};F.tgt={kcal:+cur.kcal,p:+cur.p,c:+cur.c,f:+cur.f,manual:true};F.tgt[t.dataset.fdt]=Math.max(0,+t.value||0);save();renderFood();$('#fdtcard').open=true;dxToast('Targets saved ✓');}});
+
+const RN={today:renderToday,activity:renderActivity,food:renderFood,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
 let view='today';
 function show(v){view=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));RN[v]();window.scrollTo({top:0});}

@@ -597,6 +597,35 @@ nav.tabs .in button{font-size:10.5px}
 .fd-fav{display:flex;align-items:center;gap:0;border:1px solid var(--line);background:var(--sunk);border-radius:99px;overflow:hidden}
 .fd-fav button{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 10px;min-height:40px}
 .fd-fav button.x{color:var(--muted);padding:6px 10px 6px 4px}
+/* Scanner */
+.sc-reader{width:100%;min-height:220px;border-radius:12px;overflow:hidden;background:#000}
+.sc-reader video{width:100%!important;height:auto!important;display:block}
+.sc-reader img[alt="Info icon"],.sc-reader img[alt="Camera based scan"]{display:none!important}
+/* Stack */
+nav.tabs .in{grid-template-columns:repeat(8,minmax(0,1fr))}
+nav.tabs .in button{font-size:10px;padding-left:1px;padding-right:1px;overflow:hidden;text-overflow:ellipsis}
+nav.tabs svg{width:22px;height:22px}
+nav.tabs button[aria-selected="true"] svg{width:36px}
+.st-row{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
+.st-tick{flex:0 0 48px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:transparent;font-size:22px;font-weight:700}
+.st-tick:disabled{opacity:.35}
+.st-row.done .st-tick{background:var(--green);border-color:var(--green);color:#fff}
+.st-info{flex:1;min-width:0;text-align:left;border:1px solid transparent;background:var(--sunk);border-radius:12px;padding:8px 10px;color:var(--ink);font-size:15px}
+.st-row.done .st-info{background:var(--green-soft)}
+.st-info small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+.st-info .ok{color:var(--green);font-weight:600}
+.st-info .late{color:var(--red);font-weight:600}
+.st-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.st-cal .h{font-size:11px;font-weight:600;color:var(--muted);text-align:center;padding:2px 0}
+.st-day{border:1px solid transparent;background:var(--sunk);border-radius:10px;min-height:46px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink);font-size:14px;font-weight:600}
+.st-day.today{border-color:var(--steel)}
+.st-day.sel{background:var(--steel);color:var(--on-accent,#fff)}
+.st-day .dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;min-height:6px}
+.st-cal i,.st-key i{display:inline-block;width:6px;height:6px;border-radius:99px}
+i.t{background:var(--green)} i.m{background:var(--red)} i.u{background:transparent;box-shadow:inset 0 0 0 1.5px var(--steel)}
+.st-day.sel i.u{box-shadow:inset 0 0 0 1.5px currentColor}
+.st-key{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:8px 0 0}
+.st-key span{display:flex;align-items:center;gap:5px}
 </style>
 </head>
 <body>
@@ -616,6 +645,7 @@ nav.tabs .in button{font-size:10.5px}
   <section class="view on" id="v-today" aria-label="Session"></section>
   <section class="view" id="v-activity" aria-label="Activity"></section>
   <section class="view" id="v-food" aria-label="Food"></section>
+  <section class="view" id="v-stack" aria-label="Stack"></section>
   <section class="view" id="v-plan" aria-label="Plan"></section>
   <section class="view" id="v-progress" aria-label="Progress"></section>
   <section class="view" id="v-cali" aria-label="Calisthenics"></section>
@@ -630,12 +660,14 @@ nav.tabs .in button{font-size:10.5px}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activity</button>
     <button role="tab" data-v="food" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M4 2v5a3 3 0 0 0 6 0V2M7 10v12M17 22V2c-2.5 1.5-4 4.5-4 8v4h4"/></svg>Food</button>
+    <button role="tab" data-v="stack" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3.5a5 5 0 0 1 7 7l-7 7a5 5 0 0 1-7-7z"/><path d="M7 7l7 7"/></svg>Stack</button>
     <button role="tab" data-v="plan" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plan</button>
     <button role="tab" data-v="progress" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 16l5-5 4 3 6-7"/></svg>Progress</button>
     <button role="tab" data-v="cali" aria-selected="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M4 9h16M12 9v6M12 15l-4 6M12 15l4 6"/></svg>Calisthenics</button>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M4 9h16M12 9v6M12 15l-4 6M12 15l4 6"/></svg>Cali</button>
     <button role="tab" data-v="settings" aria-selected="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Settings</button>
   </div>
@@ -666,6 +698,12 @@ nav.tabs .in button{font-size:10.5px}
 <div class="sheet-bg" id="dxfdbg" data-dx="close" data-k="fd" hidden></div>
 <div class="sheet dx-sheet" id="dxfdsheet" role="dialog" aria-modal="true" aria-labelledby="dxfd-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxfd-h" style="margin:0">Add food</p><button class="iconbtn" data-dx="close" data-k="fd" aria-label="Close">✕</button></div><div id="dxfdbody"></div></div>
+<div class="sheet-bg" id="dxscbg" data-sc="close" hidden></div>
+<div class="sheet dx-sheet" id="dxscsheet" role="dialog" aria-modal="true" aria-labelledby="dxsc-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxsc-h" style="margin:0">Scan a barcode</p><button class="iconbtn" data-sc="close" aria-label="Close">✕</button></div><div id="dxscbody"></div></div>
+<div class="sheet-bg" id="dxstbg" data-dx="close" data-k="st" hidden></div>
+<div class="sheet dx-sheet" id="dxstsheet" role="dialog" aria-modal="true" aria-labelledby="dxst-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxst-h" style="margin:0">Add to your stack</p><button class="iconbtn" data-dx="close" data-k="st" aria-label="Close">✕</button></div><div id="dxstbody"></div></div>
 <input type="file" id="dxphfile" accept="image/*" hidden><input type="file" id="dxrestore" accept="application/json,.json" hidden>
 <div class="dx-pill idle" id="dxpill" hidden>
   <button class="main" data-dx="fullopen" aria-label="Open the rest timer full screen">
@@ -1861,13 +1899,15 @@ function fdFill(x){['kcal','p','c','f'].forEach(k=>{const el=$('#fd'+k);if(el)el
 function fdTotals(){const el=$('#fdtot');if(!el)return;const v=k=>parseFloat(($('#fd'+k)||{}).value)||0,q=fdQty;
   let kcal=v('kcal');const est=!kcal&&(v('p')||v('c')||v('f'));if(est)kcal=v('p')*4+v('c')*4+v('f')*9;
   el.innerHTML=`This entry: <b>${fdR(kcal*q)} cal</b> · P ${fdN1(v('p')*q)} · C ${fdN1(v('c')*q)} · F ${fdN1(v('f')*q)} g${est?' <span class="fd-mac">(calories estimated from macros)</span>':''}`;}
-function fdOpen(id,meal){fdEdit=id||null;const e=id?fdDay(fdDate).find(x=>x.id===id):null,F=fdS();
+function fdOpen(id,meal){fdEdit=id||null;scCur=null;const e=id?fdDay(fdDate).find(x=>x.id===id):null,F=fdS();
   fdMeal=e?(e.meal||'Snacks'):(meal||fdDefMealFor());fdQty=e?(+e.qty||1):1;
   const isFav=e&&F.favs.some(x=>x.name.toLowerCase()===e.name.toLowerCase());
   $('#dxfd-h').textContent=e?'Edit food':'Add food';
   $('#dxfdbody').innerHTML=`<p class="dx-lbl" style="margin-top:0">Meal</p><div class="dx-chips" id="fdmeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===fdMeal?'on':''}" data-fd="meal" data-m="${m}" aria-pressed="${m===fdMeal}">${m}</button>`).join('')}</div>
+  ${e?'':'<button class="btn full fd-scanbtn" style="margin-top:12px" data-sc="open">▥ Scan a barcode</button>'}
   <p class="dx-lbl">Food</p><input class="input" id="fdname" style="width:100%" maxlength="60" autocomplete="off" placeholder="Search or type a food" value="${e?esc(e.name):''}" aria-label="Food name">
   ${e?'':'<div class="fd-res" id="fdres"></div>'}
+  <div id="fdbasis"></div>
   <p class="dx-lbl">Per serving</p>
   <div class="fd-four">${[['kcal','Cal'],['p','Protein g'],['c','Carbs g'],['f','Fat g']].map(([k,l])=>`<div class="field"><label for="fd${k}" style="font-size:12px">${l}</label><input class="input" id="fd${k}" type="number" inputmode="decimal" min="0" step="any" data-fdin="1" value="${e?fdN1(e[k]):''}"></div>`).join('')}</div>
   <p class="dx-lbl">Servings</p><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="dx-chips" id="fdqchips">${[.5,1,1.5,2,3].map(q=>`<button class="dx-chip ${q===fdQty?'on':''}" data-fd="qty" data-q="${q}" aria-pressed="${q===fdQty}">${q===.5?'½':q===1.5?'1½':q}</button>`).join('')}</div><input class="input" id="fdqty" type="number" inputmode="decimal" min="0.1" step="any" style="width:80px;text-align:center" value="${fdN1(fdQty)}" aria-label="Servings"></div>
@@ -1882,6 +1922,7 @@ function fdSave(){const name=$('#fdname').value.trim().replace(/\s+/g,' ');if(!n
   const o={name,kcal:v('kcal'),p:v('p'),c:v('c'),f:v('f')};
   if(!o.kcal)o.kcal=Math.round(o.p*4+o.c*4+o.f*9);
   if(!o.kcal){dxToast('Add calories or macros');return;}
+  if(scCur)scRemember(o);
   const list=fdDay(fdDate),F=fdS();
   if(fdEdit){const e=list.find(x=>x.id===fdEdit);if(e)Object.assign(e,o,{qty:q,meal:fdMeal});}
   else list.push(Object.assign({id:'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)},o,{qty:q,meal:fdMeal}));
@@ -1897,7 +1938,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-fd]');if(!
   if(a==='meal'){fdMeal=b.dataset.m;document.querySelectorAll('#fdmeals .dx-chip').forEach(c=>{const on=c.dataset.m===fdMeal;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});
     const s=document.querySelector('[data-fd="save"]');if(s&&!fdEdit)s.textContent='Add to '+fdMeal.toLowerCase();return;}
   if(a==='qty'){fdQty=+b.dataset.q;$('#fdqty').value=fdN1(fdQty);document.querySelectorAll('#fdqchips .dx-chip').forEach(c=>{const on=+c.dataset.q===fdQty;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});fdTotals();return;}
-  if(a==='pick'){const x=fdFind(b.dataset.name,b.dataset.src);if(!x)return;$('#fdname').value=x.name;fdFill(x);$('#fdfav').checked=b.dataset.src==='fav';const r=$('#fdres');if(r)r.innerHTML='';return;}
+  if(a==='pick'){const x=fdFind(b.dataset.name,b.dataset.src);if(!x)return;scCur=null;const bs=$('#fdbasis');if(bs)bs.innerHTML='';$('#fdname').value=x.name;fdFill(x);$('#fdfav').checked=b.dataset.src==='fav';const r=$('#fdres');if(r)r.innerHTML='';return;}
   if(a==='save'){fdSave();return;}
   if(a==='del'){const list=fdDay(fdDate),i=list.findIndex(x=>x.id===b.dataset.id);if(i<0)return;const [gone]=list.splice(i,1),d=fdDate;save();dxHide('fd');renderFood();
     dxToast('Entry deleted',()=>{fdDay(d).splice(i,0,gone);save();renderFood();});return;}
@@ -1916,7 +1957,213 @@ document.addEventListener('change',e=>{const t=e.target,F=fdS();
   if(t.dataset.fdf){F[t.dataset.fdf]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
   if(t.dataset.fdt){const cur=fdTarget()||{kcal:0,p:0,c:0,f:0};F.tgt={kcal:+cur.kcal,p:+cur.p,c:+cur.c,f:+cur.f,manual:true};F.tgt[t.dataset.fdt]=Math.max(0,+t.value||0);save();renderFood();$('#fdtcard').open=true;dxToast('Targets saved ✓');}});
 
-const RN={today:renderToday,activity:renderActivity,food:renderFood,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
+/* ================= Barcode scanner ================= */
+/* Camera scanning uses the html5-qrcode library (works on iPhone Safari), loaded only when you tap Scan.
+   Product lookups use Open Food Facts. Every product you scan or type in is remembered on this device. */
+const SC_LIB='https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js';
+let scCur=null,scQr=null,scBusy=false;
+function scCodes(){const F=fdS();if(!F.codes||typeof F.codes!=='object')F.codes={};return F.codes;}
+function scLoadLib(){if(window.__Html5QrcodeLibrary__)return Promise.resolve(window.__Html5QrcodeLibrary__);
+  if(scLoadLib.p)return scLoadLib.p;
+  scLoadLib.p=new Promise((res,rej)=>{const s=document.createElement('script');s.src=SC_LIB;s.async=true;
+    s.onload=()=>window.__Html5QrcodeLibrary__?res(window.__Html5QrcodeLibrary__):rej(new Error('lib'));
+    s.onerror=()=>{scLoadLib.p=null;s.remove();rej(new Error('lib'));};document.head.appendChild(s);});
+  return scLoadLib.p;}
+async function scStop(){const q=scQr;scQr=null;if(q){try{await q.stop();}catch(e){}try{q.clear();}catch(e){}}}
+async function scOpen(){scBusy=false;
+  $('#dxscbody').innerHTML=`<div id="screader" class="sc-reader"></div><p class="sub" id="scmsg" style="text-align:center;margin-top:8px">Starting camera…</p>
+  <p class="dx-lbl">Or type the barcode number</p><div class="xadd"><input class="input" id="sccode" inputmode="numeric" maxlength="14" autocomplete="off" placeholder="e.g. 9400547001017" aria-label="Barcode number"><button class="btn primary" data-sc="lookup">Look up</button></div>`;
+  dxShow('sc');
+  try{const L=await scLoadLib();if($('#dxscsheet').hidden)return;
+    const Fm=L.Html5QrcodeSupportedFormats;
+    scQr=new L.Html5Qrcode('screader',{formatsToSupport:[Fm.EAN_13,Fm.EAN_8,Fm.UPC_A,Fm.UPC_E],verbose:false});
+    await scQr.start({facingMode:'environment'},{fps:10,qrbox:(w,h)=>({width:Math.max(120,Math.min(300,Math.round(w*.85))),height:Math.max(80,Math.min(170,Math.round(h*.6)))})},code=>scGot(code),()=>{});
+    if($('#dxscsheet').hidden){scStop();return;}
+    const m=$('#scmsg');if(m)m.textContent='Point the camera at the barcode and hold steady.';
+  }catch(err){scQr=null;const m=$('#scmsg');if(!m)return;
+    m.textContent=String(err&&err.message||err)==='lib'?'Couldn’t load the scanner. Check your connection, or type the number below.':'Camera not available. Allow camera access for this site (iPhone Settings → Apps → Safari → Camera), or type the number below.';}}
+async function scClose(){await scStop();dxHide('sc');}
+async function scGot(code){if(scBusy)return;scBusy=true;await scClose();scLookup(code);}
+function scNum(n,k){const v=parseFloat(n[k]);return isFinite(v)?v:null;}
+function scFromOFF(p,code){const n=p.nutriments||{};
+  const kcal=s=>{const k=scNum(n,'energy-kcal'+s);if(k!==null)return k;const kj=scNum(n,'energy-kj'+s)??scNum(n,'energy'+s);return kj===null?null:kj/4.184;};
+  const per100={kcal:kcal('_100g'),p:scNum(n,'proteins_100g'),c:scNum(n,'carbohydrates_100g'),f:scNum(n,'fat_100g')};
+  const has=Object.values(per100).some(v=>v!==null);
+  const pname=String(p.product_name_en||p.product_name||'').trim(),brand=String(p.brands||'').split(',')[0].trim();
+  let name=(brand&&!pname.toLowerCase().includes(brand.toLowerCase())?brand+' ':'')+pname;name=name.trim()||'Product '+code;
+  const g=parseFloat(p.serving_quantity);
+  return {name:name.slice(0,60),per100:has?per100:null,srvG:g>0?g:null,srvLabel:String(p.serving_size||'').slice(0,30)};}
+async function scLookup(code){code=String(code||'').replace(/\D/g,'');if(code.length<6){dxToast('That barcode looks too short');return;}
+  const known=scCodes()[code];if(known){scApply(code,known,true);return;}
+  const bs=$('#fdbasis');if(bs)bs.innerHTML='<div class="note" style="margin-top:10px">Looking up '+code+'…</div>';
+  let info=null;
+  try{const r=await fetch('https://world.openfoodfacts.org/api/v2/product/'+code+'.json?fields=product_name,product_name_en,brands,serving_size,serving_quantity,nutriments');
+    if(r.ok){const j=await r.json();if(j&&j.status===1&&j.product)info=scFromOFF(j.product,code);}
+  }catch(e){scApply(code,null,false,true);return;}
+  scApply(code,info,false);}
+function scApply(code,info,saved,offline){scCur={code,info,basis:null,g:0};const nm=$('#fdname'),bs=$('#fdbasis');if(!nm||!bs)return;
+  const res=$('#fdres');if(res)res.innerHTML='';
+  if(!info){nm.value='';fdFill({});
+    bs.innerHTML=`<div class="note" style="margin-top:10px">${offline?'Couldn’t reach the food database (no connection?).':'Barcode <b>'+code+'</b> isn’t in the food database yet.'} Type the name and the numbers from the nutrition panel once, and it’s remembered the next time you scan it.</div>`;
+    setTimeout(()=>nm.focus(),50);return;}
+  nm.value=info.name;
+  if(info.per100){const opts=[];if(info.srvG)opts.push(['srv','1 serving ('+fdN1(info.srvG)+' g)']);opts.push(['100','100 g']);
+    bs.innerHTML=`<div class="note" style="margin-top:10px">${saved?'Scanned before':'Found'}: <b>${esc(info.name)}</b>${info.srvLabel?' · serving size '+esc(info.srvLabel):''}${info.per100.kcal===null?'<br>No calorie figure listed. Check the packet.':''}</div>
+    <p class="dx-lbl">How much?</p><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="dx-chips" id="scbasis">${opts.map(([k,l])=>`<button class="dx-chip" data-sc="basis" data-b="${k}" aria-pressed="false">${l}</button>`).join('')}</div><input class="input" id="scg" type="number" inputmode="decimal" min="1" placeholder="grams" style="width:90px;text-align:center" aria-label="Amount in grams"></div>`;
+    if(info.lastG){$('#scg').value=fdN1(info.lastG);scBasis('g');}else scBasis(info.srvG?'srv':'100');}
+  else if(info.srv){bs.innerHTML=`<div class="note" style="margin-top:10px">Scanned before: <b>${esc(info.name)}</b></div>`;fdFill(info.srv);}
+  else{fdFill({});bs.innerHTML=`<div class="note" style="margin-top:10px">Found <b>${esc(info.name)}</b>, but it has no nutrition info listed. Add the numbers from the packet once and it’s remembered.</div>`;}}
+function scBasis(k){const c=scCur;if(!c||!c.info||!c.info.per100)return;c.basis=k;
+  const g=k==='srv'?c.info.srvG:k==='100'?100:(parseFloat(($('#scg')||{}).value)||0);
+  document.querySelectorAll('#scbasis .dx-chip').forEach(b=>{const on=b.dataset.b===k;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  if(k!=='g'&&$('#scg'))$('#scg').value='';
+  const P=c.info.per100,f=g/100,v=x=>x===null?'':x*f;c.g=g;
+  fdFill({kcal:P.kcal===null?'':Math.round(P.kcal*f),p:v(P.p),c:v(P.c),f:v(P.f)});}
+/* Called from fdSave: remember the product for next time and label the amount */
+function scRemember(o){const c=scCur;if(!c)return;const codes=scCodes(),base=o.name;
+  if(c.info&&c.info.per100){codes[c.code]=Object.assign({},c.info,{name:base,lastG:c.basis==='g'&&c.g>0?c.g:undefined});
+    if(c.g>0)o.name=base+' ('+fdN1(c.g)+' g)';}
+  else codes[c.code]={name:base,srv:{kcal:o.kcal,p:o.p,c:o.c,f:o.f}};
+  scCur=null;}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sc]');if(!b)return;const a=b.dataset.sc;
+  if(a==='open'){scOpen();return;}
+  if(a==='close'){scClose();return;}
+  if(a==='lookup'){const v=($('#sccode')||{}).value||'';scClose().then(()=>scLookup(v));return;}
+  if(a==='basis'){scBasis(b.dataset.b);return;}});
+document.addEventListener('input',e=>{if(e.target.id==='scg'&&scCur)scBasis('g');});
+document.addEventListener('keydown',e=>{if(e.target.id==='sccode'&&e.key==='Enter'){e.preventDefault();const v=e.target.value;scClose().then(()=>scLookup(v));}});
+
+/* ================= Stack: supplements & peptides ================= */
+const ST_UNITS=['mg','mcg','g','IU','ml','units','caps','tabs','scoops','drops'];
+const ST_WD=['Mo','Tu','We','Th','Fr','Sa','Su'],ST_WDI=[1,2,3,4,5,6,0]; /* Monday-first, mapped to getDay() */
+const ST_ICS=['SU','MO','TU','WE','TH','FR','SA'];
+let stMonth=null,stSel=null,stEdit=null;
+function stS(){if(!S.stack||typeof S.stack!=='object')S.stack={};const T=S.stack;if(!Array.isArray(T.items))T.items=[];if(!T.log||typeof T.log!=='object')T.log={};return T;}
+const stDiff=(a,b)=>Math.round((new Date(b+'T00:00')-new Date(a+'T00:00'))/864e5);
+const stWd=d=>new Date(d+'T00:00').getDay();
+const stTaken=(it,d)=>{const L=stS().log[d];return !!(L&&L[it.id]);};
+function stLastTaken(it,before){const L=stS().log;let best=null;for(const d in L){if(d<before&&L[d]&&L[d][it.id]&&(!best||d>best))best=d;}return best;}
+const stOn=(it,d)=>!it.paused&&d>=it.start&&(!it.end||d<=it.end);
+function stDue(it,d){if(!stOn(it,d))return false;
+  if(it.type==='every'){const n=Math.max(1,+it.n||1),a=stLastTaken(it,d);return stDiff(a||it.start,d)%n===0;}
+  return (it.days||[]).includes(stWd(d));}
+/* Next date it's due. For every-N items this counts from the last time you took it, so it can be in the past (overdue). */
+function stNext(it){const td=today();if(it.paused)return null;
+  if(it.type==='every'){const n=Math.max(1,+it.n||1),a=stLastTaken(it,dxAdd(td,1)),nx=a?dxAdd(a,n):it.start;return it.end&&nx>it.end?null:nx;}
+  let d=stTaken(it,td)?dxAdd(td,1):td;if(d<it.start)d=it.start;
+  for(let i=0;i<7;i++){const x=dxAdd(d,i);if(it.end&&x>it.end)return null;if((it.days||[]).includes(stWd(x)))return x;}return null;}
+function stSched(it){if(it.type==='every'){const n=+it.n||1;return n===1?'Every day':'Every '+n+' days';}
+  const ds=it.days||[];if(ds.length===7)return 'Every day';return ST_WDI.filter(i=>ds.includes(i)).map(i=>ST_WD[ST_WDI.indexOf(i)]).join(', ')||'No days set';}
+const stDose=it=>(it.dose!==''&&it.dose!==undefined?fdN1(it.dose)+' '+esc(it.unit||''):'').trim();
+const stTime=t=>{if(!t)return '';const [h,m]=t.split(':').map(Number);return (h%12||12)+(m?':'+String(m).padStart(2,'0'):'')+(h<12?'am':'pm');};
+const stSort=(a,b)=>(a.time||'99').localeCompare(b.time||'99')||a.name.localeCompare(b.name);
+function stTodayItems(){const td=today();return stS().items.filter(it=>{if(stTaken(it,td)||stDue(it,td))return true;const nx=it.type==='every'&&stNext(it);return nx&&nx<td&&stOn(it,td);}).sort(stSort);}
+function stRow(it,d){const td=today(),tk=stS().log[d]&&stS().log[d][it.id],nx=stNext(it);
+  let st='';if(tk)st=`<span class="ok">Taken${tk.t?' '+stTime(tk.t):''}</span>`;
+  else if(d===td&&it.type==='every'&&nx&&nx<td)st=`<span class="late">Overdue ${stDiff(nx,td)} day${stDiff(nx,td)>1?'s':''}</span>`;
+  else if(d<td)st='<span class="late">Missed</span>';
+  else st=it.time?'Due '+stTime(it.time):'Due';
+  const can=d<=td;
+  return `<div class="st-row ${tk?'done':''}"><button class="st-tick" ${can?'':'disabled'} data-st="tick" data-id="${it.id}" data-d="${d}" aria-pressed="${!!tk}" aria-label="${tk?'Untick':'Mark taken'}: ${esc(it.name)}">✓</button>
+  <button class="st-info" data-st="edit" data-id="${it.id}"><b>${esc(it.name)}</b>${stDose(it)?' · '+stDose(it):''}<small>${esc(it.kind||'Supplement')} · ${stSched(it)} · ${st}</small></button></div>`;}
+function stCal(){const td=today(),T=stS();if(!stMonth)stMonth=td.slice(0,7);if(!stSel)stSel=td;
+  const [y,m]=stMonth.split('-').map(Number),first=new Date(y,m-1,1),days=new Date(y,m,0).getDate(),lead=(first.getDay()+6)%7;
+  let cells='';for(let i=0;i<lead;i++)cells+='<span></span>';
+  for(let i=1;i<=days;i++){const d=stMonth+'-'+String(i).padStart(2,'0');let tk=0,due=0,miss=0;
+    T.items.forEach(it=>{if(stTaken(it,d))tk++;else if(stDue(it,d)){if(d<td)miss++;else due++;}});
+    const dots='<i class="t"></i>'.repeat(Math.min(tk,4))+'<i class="m"></i>'.repeat(Math.min(miss,4))+'<i class="u"></i>'.repeat(Math.min(due,4));
+    cells+=`<button class="st-day ${d===td?'today':''} ${d===stSel?'sel':''}" data-st="day" data-d="${d}" aria-label="${dxDay(d)}: ${tk} taken, ${due} due, ${miss} missed"><span>${i}</span><span class="dots">${dots}</span></button>`;}
+  const mname=first.toLocaleDateString('en-NZ',{month:'long',year:'numeric'});
+  const sel=T.items.filter(it=>stTaken(it,stSel)||stDue(it,stSel)).sort(stSort);
+  return `<div class="card"><div class="fd-nav" style="margin-bottom:6px"><button class="iconbtn" data-st="mprev" aria-label="Previous month">‹</button><div class="d">${mname}</div><button class="iconbtn" data-st="mnext" aria-label="Next month">›</button></div>
+  <div class="st-cal">${ST_WD.map(w=>`<span class="h">${w}</span>`).join('')}${cells}</div>
+  <p class="st-key"><span><i class="t"></i>Taken</span><span><i class="u"></i>Due</span><span><i class="m"></i>Missed</span></p>
+  <p class="dx-lbl">${dxDay(stSel)}</p>${sel.length?sel.map(it=>stRow(it,stSel)).join(''):'<p class="sub">Nothing scheduled.</p>'}</div>`;}
+function renderStack(){const T=stS(),td=today(),list=stTodayItems(),left=list.filter(it=>!stTaken(it,td)).length;
+  let h=`<div class="card"><p class="h2" style="margin:0">Today</p><p class="sub">${T.items.length?(list.length?(left?left+' still to take':'All done for today ✓'):'Nothing due today.'):'Add your supplements and peptides to track what’s due and when to take them again.'}</p>
+  <div style="margin-top:8px">${list.map(it=>stRow(it,td)).join('')}</div>
+  <button class="btn primary full" style="margin-top:12px" data-st="new">+ Add supplement or peptide</button></div>`;
+  if(T.items.length){h+=stCal();
+    h+=`<div class="card"><p class="h2" style="margin:0">Your stack</p><p class="sub">Tap one to edit, pause or delete it.</p><div style="margin-top:8px">${[...T.items].sort(stSort).map(it=>{const nx=stNext(it);
+      return `<button class="dx-entry" data-st="edit" data-id="${it.id}"><span><b>${esc(it.name)}</b>${stDose(it)?' · '+stDose(it):''}${it.time?' · '+stTime(it.time):''}<small>${esc(it.kind||'Supplement')} · ${stSched(it)} · ${it.paused?'Paused':nx?(nx<td?'Overdue since '+dxDay(nx):'Next: '+dxDay(nx)):'Finished'}${it.end&&!it.paused?' · ends '+dxFmtD(it.end):''}</small></span><span aria-hidden="true">›</span></button>`;}).join('')}</div></div>`;
+    h+=`<div class="card"><p class="h2" style="margin:0">Phone reminders</p><p class="sub">Adds each item to your iPhone Calendar as a repeating event with an alert at its time. Open the downloaded file and tap <b>Add All</b>. If you change your stack, delete the old events and add them again.</p>
+    <div class="row" style="margin-top:10px"><button class="btn primary" data-st="ics">Download calendar file</button>${navigator.canShare?'<button class="btn" data-st="icsshare">Share…</button>':''}</div>
+    <p class="sub" style="margin-top:8px">“Every N days” reminders follow a fixed rhythm from the next due date. If you take a dose late, the app’s schedule shifts but the calendar doesn’t.</p></div>`;}
+  h+='<p class="sub" style="text-align:center;margin:4px 8px 0">This tracker just records what you enter. It doesn’t check doses or interactions.</p>';
+  $('#v-stack').innerHTML=h;}
+/* ----- Add / edit sheet ----- */
+function stOpen(id){const it=id?stS().items.find(x=>x.id===id):null;stEdit=it?it.id:null;
+  const f=it?JSON.parse(JSON.stringify(it)):{name:'',kind:'Supplement',dose:'',unit:'mg',time:'08:00',type:'days',days:[0,1,2,3,4,5,6],n:2,start:today(),end:'',notes:'',paused:false};
+  stOpen.f=f;
+  $('#dxst-h').textContent=it?'Edit item':'Add to your stack';
+  $('#dxstbody').innerHTML=`<div class="dx-chips" id="stkind">${['Supplement','Peptide','Medication','Other'].map(k=>`<button class="dx-chip ${f.kind===k?'on':''}" data-st="kind" data-k="${k}" aria-pressed="${f.kind===k}">${k}</button>`).join('')}</div>
+  <p class="dx-lbl">Name</p><input class="input" id="stname" style="width:100%" maxlength="40" value="${esc(f.name)}" placeholder="e.g. Creatine" aria-label="Name">
+  <div class="dx-two" style="margin-top:10px"><div class="field"><label for="stdose" style="font-size:13px">Dose</label><div style="display:flex;gap:6px"><input class="input" id="stdose" type="number" inputmode="decimal" min="0" step="any" style="width:100%;min-width:0" value="${esc(f.dose)}"><select id="stunit" aria-label="Unit">${ST_UNITS.map(u=>`<option ${f.unit===u?'selected':''}>${u}</option>`).join('')}</select></div></div>
+  <div class="field"><label for="sttime" style="font-size:13px">Time</label><input class="input" id="sttime" type="time" value="${esc(f.time)}"></div></div>
+  <p class="dx-lbl">How often?</p><div class="dx-chips" id="sttype"><button class="dx-chip ${f.type==='days'?'on':''}" data-st="type" data-t="days" aria-pressed="${f.type==='days'}">Set days of the week</button><button class="dx-chip ${f.type==='every'?'on':''}" data-st="type" data-t="every" aria-pressed="${f.type==='every'}">Every few days</button></div>
+  <div id="stschedbox" style="margin-top:8px"></div>
+  <div class="dx-two" style="margin-top:10px"><div class="field"><label for="ststart" style="font-size:13px">Start date</label><input class="input" id="ststart" type="date" value="${esc(f.start)}"></div>
+  <div class="field"><label for="stend" style="font-size:13px">End date (optional)</label><input class="input" id="stend" type="date" value="${esc(f.end||'')}"></div></div>
+  <p class="dx-lbl">Notes</p><textarea id="stnotes" maxlength="300" placeholder="e.g. with food, before bed, store in fridge">${esc(f.notes||'')}</textarea>
+  ${it?`<label class="fd-chk"><input type="checkbox" id="stpaused" ${f.paused?'checked':''}> Paused (hide from today and the calendar)</label>`:''}
+  <button class="btn primary full" style="margin-top:12px" data-st="save">${it?'Save changes':'Add to stack'}</button>
+  ${it?`<button class="btn ghost full" style="margin-top:8px;color:var(--red)" data-st="del">Delete ${esc(it.name)}</button>`:''}`;
+  stSchedBox();dxShow('st');}
+function stSchedBox(){const f=stOpen.f,box=$('#stschedbox');if(!box)return;
+  box.innerHTML=f.type==='every'?`<div style="display:flex;gap:10px;align-items:center"><span>Every</span><input class="input" id="stn" type="number" inputmode="numeric" min="1" max="60" value="${esc(f.n||2)}" style="width:80px;text-align:center" aria-label="Number of days"><span>days</span></div><p class="sub" style="margin-top:6px">Counts from the last time you took it, so a late dose moves the next one.</p>`
+  :`<div class="dx-chips">${ST_WD.map((w,i)=>{const on=(f.days||[]).includes(ST_WDI[i]);return `<button class="dx-chip ${on?'on':''}" data-st="wd" data-i="${ST_WDI[i]}" aria-pressed="${on}">${w}</button>`;}).join('')}</div>
+  <div class="row" style="margin-top:6px"><button class="btn ghost" data-st="wdall">Every day</button><button class="btn ghost" data-st="wdmwf">Mon, Wed, Fri</button><button class="btn ghost" data-st="wdwk">Weekdays</button></div>`;}
+function stRead(){const f=stOpen.f;f.name=$('#stname').value.trim().replace(/\s+/g,' ');f.dose=$('#stdose').value;f.unit=$('#stunit').value;f.time=$('#sttime').value;
+  f.start=$('#ststart').value||today();f.end=$('#stend').value||'';f.notes=$('#stnotes').value.trim();if($('#stn'))f.n=Math.max(1,parseInt($('#stn').value)||1);if($('#stpaused'))f.paused=$('#stpaused').checked;return f;}
+function stSave(){const f=stRead(),T=stS();if(!f.name){dxToast('Give it a name');return;}
+  if(f.type==='days'&&!(f.days||[]).length){dxToast('Pick at least one day');return;}
+  if(f.end&&f.end<f.start){dxToast('End date is before the start date');return;}
+  if(stEdit){const i=T.items.findIndex(x=>x.id===stEdit);if(i>=0)T.items[i]=Object.assign(T.items[i],f);}
+  else T.items.push(Object.assign({id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)},f));
+  save();dxHide('st');renderStack();dxToast(stEdit?'Saved ✓':f.name+' added ✓');}
+/* ----- Calendar file (.ics) ----- */
+function stIcs(){const T=stS(),td=today(),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z',tx=s=>String(s||'').replace(/\\/g,'\\\\').replace(/[,;]/g,m=>'\\'+m).replace(/\n/g,'\\n');
+  const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Double Twenty//Stack//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:Double Twenty stack'];let n=0;
+  T.items.filter(it=>!it.paused&&(!it.end||it.end>=td)).forEach(it=>{let d=stNext(it);if(!d)return;if(d<td)d=td;
+    const t=(it.time||'08:00').replace(':','')+'00',ds=d.replace(/-/g,'');
+    const rule=it.type==='every'?'FREQ=DAILY;INTERVAL='+Math.max(1,+it.n||1):'FREQ=WEEKLY;BYDAY='+(it.days||[]).map(i=>ST_ICS[i]).join(',');
+    const sum=(it.kind==='Peptide'?'💉 ':'💊 ')+it.name+(it.dose!==''?' '+fdN1(it.dose)+' '+(it.unit||''):'');
+    L.push('BEGIN:VEVENT','UID:'+it.id+'@double-twenty','DTSTAMP:'+stamp,'DTSTART:'+ds+'T'+t,'DURATION:PT10M','RRULE:'+rule+(it.end?';UNTIL='+it.end.replace(/-/g,'')+'T235959':''),
+      'SUMMARY:'+tx(sum),...(it.notes?['DESCRIPTION:'+tx(it.notes)]:[]),'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+tx(sum),'TRIGGER:-PT0M','END:VALARM','END:VEVENT');n++;});
+  L.push('END:VCALENDAR');return {text:L.join('\r\n')+'\r\n',n};}
+async function stIcsOut(share){const {text,n}=stIcs();if(!n){dxToast('Nothing active to add');return;}
+  const name='double-twenty-stack.ics';
+  if(share){try{const f=new File([text],name,{type:'text/calendar'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Double Twenty stack'});return;}}catch(e){if(e&&e.name==='AbortError')return;}}
+  try{const a=document.createElement('a');a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(text);a.download=name;document.body.appendChild(a);a.click();a.remove();dxToast('Calendar file ready: '+n+' item'+(n>1?'s':''));}catch(e){dxToast('Download not available here');}}
+/* ----- Events ----- */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;const a=b.dataset.st,T=stS();
+  if(a==='go'){show('stack');return;}
+  if(a==='new'){stOpen(null);return;}
+  if(a==='edit'){stOpen(b.dataset.id);return;}
+  if(a==='tick'){const d=b.dataset.d,id=b.dataset.id;if(d>today())return;T.log[d]=T.log[d]||{};
+    if(T.log[d][id])delete T.log[d][id];else{const n=new Date();T.log[d][id]={t:d===today()?String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'):''};}
+    if(!Object.keys(T.log[d]).length)delete T.log[d];save();if(view==='stack')renderStack();else renderToday();return;}
+  if(a==='day'){stSel=b.dataset.d;renderStack();return;}
+  if(a==='mprev'||a==='mnext'){const [y,m]=stMonth.split('-').map(Number),x=new Date(y,m-1+(a==='mnext'?1:-1),1);stMonth=x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0');renderStack();return;}
+  if(a==='ics'){stIcsOut(false);return;}
+  if(a==='icsshare'){stIcsOut(true);return;}
+  const f=stOpen.f;if(!f)return;
+  if(a==='kind'){f.kind=b.dataset.k;document.querySelectorAll('#stkind .dx-chip').forEach(c=>{const on=c.dataset.k===f.kind;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});return;}
+  if(a==='type'){stRead();f.type=b.dataset.t;document.querySelectorAll('#sttype .dx-chip').forEach(c=>{const on=c.dataset.t===f.type;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});stSchedBox();return;}
+  if(a==='wd'){const i=+b.dataset.i;f.days=f.days||[];f.days=f.days.includes(i)?f.days.filter(x=>x!==i):[...f.days,i];stSchedBox();return;}
+  if(a==='wdall'){f.days=[0,1,2,3,4,5,6];stSchedBox();return;}
+  if(a==='wdmwf'){f.days=[1,3,5];stSchedBox();return;}
+  if(a==='wdwk'){f.days=[1,2,3,4,5];stSchedBox();return;}
+  if(a==='save'){stSave();return;}
+  if(a==='del'){const i=T.items.findIndex(x=>x.id===stEdit);if(i<0)return;const [gone]=T.items.splice(i,1);save();dxHide('st');renderStack();
+    dxToast(gone.name+' deleted',()=>{T.items.splice(i,0,gone);save();renderStack();});return;}
+});
+/* Session tab: a strip showing what's still due today */
+const stRT=renderToday;renderToday=function(){stRT();try{const td=today(),left=stTodayItems().filter(it=>!stTaken(it,td));if(!left.length)return;
+  const v=$('#v-today'),strip=`<button class="dx-strip st-strip" data-st="go"><span>Stack: <b>${left.length}</b> still to take today</span><span class="go">${left.slice(0,2).map(it=>esc(it.name)).join(', ')}${left.length>2?'…':''} ›</span></button>`;
+  const after=v.querySelector('.dx-strip');if(after)after.insertAdjacentHTML('afterend',strip);else v.insertAdjacentHTML('afterbegin',strip);}catch(e){}};
+
+const RN={today:renderToday,activity:renderActivity,food:renderFood,stack:renderStack,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
 let view='today';
 function show(v){view=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));RN[v]();window.scrollTo({top:0});}

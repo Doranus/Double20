@@ -626,6 +626,30 @@ i.t{background:var(--green)} i.m{background:var(--red)} i.u{background:transpare
 .st-day.sel i.u{box-shadow:inset 0 0 0 1.5px currentColor}
 .st-key{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:8px 0 0}
 .st-key span{display:flex;align-items:center;gap:5px}
+
+/* ----- Photo food analysis ----- */
+.fd-srcs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.fd-srcs .btn{min-height:48px}
+.ai-shot{position:relative;margin-top:4px;border-radius:14px;overflow:hidden;background:var(--sunk)}
+.ai-shot img{display:block;width:100%;max-height:260px;object-fit:cover}
+.ai-shot .ai-busy{position:absolute;inset:auto 0 0 0;display:flex;align-items:center;gap:10px;padding:10px 12px;background:color-mix(in srgb,var(--surface) 88%,transparent);font-weight:600;font-size:15px}
+.ai-spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--steel);animation:aispin .8s linear infinite;flex:0 0 auto}
+@keyframes aispin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ai-spin{animation-duration:2.4s}}
+.ai-pick{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;min-height:150px;border:2px dashed var(--line);border-radius:14px;background:var(--sunk);color:var(--ink);font-size:17px;font-weight:600}
+.ai-pick svg{width:36px;height:36px;color:var(--steel)}
+.ai-pick small{font-weight:400;color:var(--muted);font-size:13px}
+.ai-item{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;background:var(--surface)}
+.ai-item.off{opacity:.45}
+.ai-item.off .fd-four,.ai-item.off .ai-qrow{display:none}
+.ai-top{display:flex;gap:8px;align-items:center}
+.ai-top input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);flex:0 0 auto}
+.ai-top .input{flex:1;min-width:0;font-weight:600}
+.ai-conf{font-size:12px;border-radius:99px;padding:2px 8px;white-space:nowrap;background:var(--sunk);color:var(--muted)}
+.ai-conf.high{background:var(--green-soft);color:var(--green)}
+.ai-conf.low{background:var(--b3s);color:var(--b3)}
+.ai-item .sub{margin:4px 0 8px 30px}
+.ai-qrow{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -701,6 +725,10 @@ i.t{background:var(--green)} i.m{background:var(--red)} i.u{background:transpare
 <div class="sheet-bg" id="dxscbg" data-sc="close" hidden></div>
 <div class="sheet dx-sheet" id="dxscsheet" role="dialog" aria-modal="true" aria-labelledby="dxsc-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxsc-h" style="margin:0">Scan a barcode</p><button class="iconbtn" data-sc="close" aria-label="Close">✕</button></div><div id="dxscbody"></div></div>
+<div class="sheet-bg" id="dxaibg" data-ai="close" hidden></div>
+<div class="sheet dx-sheet" id="dxaisheet" role="dialog" aria-modal="true" aria-labelledby="dxai-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxai-h" style="margin:0">Analyse a photo</p><button class="iconbtn" data-ai="close" aria-label="Close">✕</button></div><div id="dxaibody"></div></div>
+<input type="file" id="aifile" accept="image/*" hidden>
 <div class="sheet-bg" id="dxstbg" data-dx="close" data-k="st" hidden></div>
 <div class="sheet dx-sheet" id="dxstsheet" role="dialog" aria-modal="true" aria-labelledby="dxst-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxst-h" style="margin:0">Add to your stack</p><button class="iconbtn" data-dx="close" data-k="st" aria-label="Close">✕</button></div><div id="dxstbody"></div></div>
@@ -1353,6 +1381,10 @@ function renderSettings(){
     <div class="bwlist">${S.library.length?S.library.map(n=>`<div><span>${esc(n)}</span><button data-libdel="${esc(n)}" aria-label="Delete ${esc(n)}">✕</button></div>`).join(''):'<p class="empty">None yet.</p>'}</div>
   </div>
   <div class="card"><p class="h2">Weekly schedule</p><p class="sub">Six sessions a week: Day 1 push, Day 2 pull, Day 3 push, Day 4 pull, Day 5 push, Day 6 pull. Days 5 and 6 are the longer sessions, so they suit the weekend. Take at least one rest day each week. If you miss a day, just do the next session; the app always opens on it.</p></div>
+  <div class="card"><p class="h2">AI food photos</p><p class="sub" style="margin-bottom:10px">${aiPass()?'Passcode saved on this phone. Snap a meal on the Food tab to use it.':'Enter the passcode you set in Cloudflare (APP_PASSCODE) to turn on photo analysis.'} It’s stored on this device only and isn’t included in backups.</p>
+    <div class="xadd"><input class="input" id="aipassin" type="password" autocomplete="off" placeholder="${aiPass()?'••••••••':'Passcode'}" aria-label="AI passcode"><button class="btn primary" data-ai="setpass" data-src="settings">Save</button></div>
+    ${aiPass()?'<button class="btn ghost" style="margin-top:8px" data-ai="clearpass">Remove passcode</button>':''}
+  </div>
   <div class="card"><p class="h2">Your data</p><p class="sub" style="margin-bottom:12px">${docRef?'Synced to your Claude account, so it follows you across devices.':'Stored in this browser only.'}</p>
     <div class="row"><button class="btn" id="csv">Export to spreadsheet (CSV)</button><button class="btn danger" id="reset">Reset all data</button></div>
   </div>
@@ -1875,7 +1907,7 @@ function renderFood(){const F=fdS(),td=today();if(!fdDate||fdDate>td)fdDate=td;
   let h=`<div class="fd-nav"><button class="iconbtn" data-fd="prev" aria-label="Previous day">‹</button><div class="d">${dxDay(fdDate)}</div><button class="iconbtn" data-fd="next" aria-label="Next day" ${fdDate>=td?'disabled':''}>›</button></div>`;
   h+=`<div class="card"><div class="fd-rings">${fdRing(tot.kcal,T&&T.kcal,'Calories','cal','--steel')}${fdRing(tot.p,T&&T.p,'Protein','g','--b2')}${fdRing(tot.c,T&&T.c,'Carbs','g','--sun')}${fdRing(tot.f,T&&T.f,'Fat','g','--b3')}</div>
   ${T?'':'<p class="sub" style="margin-top:10px;text-align:center">Set your daily targets below to fill the rings.</p>'}
-  <button class="btn primary full" style="margin-top:12px" data-fd="open">+ Add food</button></div>`;
+  <div class="fd-srcs"><button class="btn primary" data-fd="open">+ Add food</button><button class="btn" data-ai="open">📷 Snap a meal</button></div></div>`;
   h+=`<div class="card"><p class="h2" style="margin:0">Food log</p>`;
   if(!list.length){const yd=F.log[dxAdd(fdDate,-1)]||[];
     h+=`<p class="sub" style="margin-top:6px">Nothing logged for ${dxDay(fdDate).toLowerCase()} yet.</p>${yd.length?`<button class="btn" style="margin-top:10px" data-fd="copyprev">Copy the day before (${yd.length} item${yd.length>1?'s':''})</button>`:''}`;}
@@ -1904,7 +1936,7 @@ function fdOpen(id,meal){fdEdit=id||null;scCur=null;const e=id?fdDay(fdDate).fin
   const isFav=e&&F.favs.some(x=>x.name.toLowerCase()===e.name.toLowerCase());
   $('#dxfd-h').textContent=e?'Edit food':'Add food';
   $('#dxfdbody').innerHTML=`<p class="dx-lbl" style="margin-top:0">Meal</p><div class="dx-chips" id="fdmeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===fdMeal?'on':''}" data-fd="meal" data-m="${m}" aria-pressed="${m===fdMeal}">${m}</button>`).join('')}</div>
-  ${e?'':'<button class="btn full fd-scanbtn" style="margin-top:12px" data-sc="open">▥ Scan a barcode</button>'}
+  ${e?'':'<div class="fd-srcs"><button class="btn fd-scanbtn" data-sc="open">▥ Scan barcode</button><button class="btn" data-ai="open" data-m="'+fdMeal+'">📷 Analyse photo</button></div>'}
   <p class="dx-lbl">Food</p><input class="input" id="fdname" style="width:100%" maxlength="60" autocomplete="off" placeholder="Search or type a food" value="${e?esc(e.name):''}" aria-label="Food name">
   ${e?'':'<div class="fd-res" id="fdres"></div>'}
   <div id="fdbasis"></div>
@@ -1956,6 +1988,95 @@ document.addEventListener('change',e=>{const t=e.target,F=fdS();
   if(t.dataset.fdb){dxBody()[t.dataset.fdb]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
   if(t.dataset.fdf){F[t.dataset.fdf]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
   if(t.dataset.fdt){const cur=fdTarget()||{kcal:0,p:0,c:0,f:0};F.tgt={kcal:+cur.kcal,p:+cur.p,c:+cur.c,f:+cur.f,manual:true};F.tgt[t.dataset.fdt]=Math.max(0,+t.value||0);save();renderFood();$('#fdtcard').open=true;dxToast('Targets saved ✓');}});
+
+/* ================= Photo food analysis ================= */
+/* Your photo is shrunk on the phone, then sent to this site's own Worker (/api/food), which asks Claude
+   to estimate the foods and macros. The Anthropic API key lives only on the Worker. The passcode is kept
+   on this device only, outside S, so it never ends up in backup files. Photos are not saved. */
+const AI_PASS='dt.aiPass';
+let aiRes=null,aiImg=null,aiMeal='Lunch',aiBusy=false,aiNote='',aiErr='';
+function aiPass(){try{return localStorage.getItem(AI_PASS)||'';}catch(e){return '';}}
+function aiSetPass(v){try{v?localStorage.setItem(AI_PASS,v):localStorage.removeItem(AI_PASS);}catch(e){}}
+function aiOpen(meal){aiRes=null;aiImg=null;aiBusy=false;aiErr='';aiNote='';aiMeal=meal||fdDefMealFor();
+  if(!$('#dxfdsheet').hidden)dxHide('fd');dxShow('ai');aiRender();}
+function aiClose(){if(aiBusy)aiBusy='cancelled';dxHide('ai');}
+const AI_CAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+function aiMealChips(){return `<p class="dx-lbl">Add to</p><div class="dx-chips" id="aimeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===aiMeal?'on':''}" data-ai="meal" data-m="${m}" aria-pressed="${m===aiMeal}">${m}</button>`).join('')}</div>`;}
+function aiRender(){const B=$('#dxaibody');if(!B)return;
+  if(!aiPass()){
+    B.innerHTML=`<p class="sub" style="margin-top:0">Take a photo of your meal and Claude estimates what’s on the plate, the portions, and the calories, protein, carbs and fat. You check the numbers before anything is logged.</p>
+    ${aiErr?`<div class="note" style="margin-top:10px">${esc(aiErr)}</div>`:''}
+    <p class="dx-lbl">Passcode</p><div class="xadd"><input class="input" id="aipassin" type="password" autocomplete="off" placeholder="The APP_PASSCODE you set in Cloudflare" aria-label="AI passcode"><button class="btn primary" data-ai="setpass">Save</button></div>
+    <p class="sub" style="margin-top:6px">Saved on this phone only. You won’t be asked again.</p>`;return;}
+  if(aiBusy||(aiImg&&!aiRes&&!aiErr)){
+    B.innerHTML=`<div class="ai-shot">${aiImg?`<img src="${aiImg}" alt="Your meal">`:'<div style="height:160px"></div>'}<div class="ai-busy" role="status"><span class="ai-spin" aria-hidden="true"></span>${aiImg?'Working out what’s on the plate…':'Preparing photo…'}</div></div>
+    <p class="sub" style="margin-top:8px">This usually takes 5–15 seconds.</p>`;return;}
+  if(aiRes){const n=aiRes.items.filter(x=>x.on).length;
+    B.innerHTML=`<div class="ai-shot"><img src="${aiImg}" alt="Your meal"></div>
+    ${aiRes.name?`<p class="h2" style="margin:12px 0 0">${esc(aiRes.name)}</p>`:''}
+    <p class="sub" style="margin-top:4px">Estimates for the portion in the photo. Untick anything that isn’t there, and fix names or numbers before adding.</p>
+    ${aiRes.items.map((x,i)=>`<div class="ai-item ${x.on?'':'off'}" id="aiit${i}">
+      <div class="ai-top"><input type="checkbox" data-ai-on="${i}" ${x.on?'checked':''} aria-label="Include ${esc(x.name)}"><input class="input" data-ai-f="name" data-i="${i}" maxlength="60" value="${esc(x.name)}" aria-label="Food name"><span class="ai-conf ${x.conf}" title="How sure the estimate is">${x.conf==='high'?'Confident':x.conf==='low'?'Rough guess':'Estimate'}</span></div>
+      ${x.portion||x.grams?`<p class="sub">${esc(x.portion)}${x.grams?(x.portion?', ':'')+'about '+fdR(x.grams)+' g':''}</p>`:''}
+      <div class="fd-four">${[['kcal','Cal'],['p','Protein g'],['c','Carbs g'],['f','Fat g']].map(([k,l])=>`<div class="field"><label for="ai${k}${i}" style="font-size:12px">${l}</label><input class="input" id="ai${k}${i}" type="number" inputmode="decimal" min="0" step="any" data-ai-f="${k}" data-i="${i}" value="${fdN1(x[k])}"></div>`).join('')}</div>
+      <div class="ai-qrow"><span>Amount eaten</span><div class="dx-chips">${[.5,1,1.5,2].map(q=>`<button class="dx-chip ${q===x.q?'on':''}" data-ai="q" data-i="${i}" data-aq="${q}" aria-pressed="${q===x.q}">${q===.5?'½':q===1.5?'1½':q===1?'As shown':'2×'}</button>`).join('')}</div></div>
+    </div>`).join('')}
+    ${aiRes.notes?`<div class="note" style="margin-top:10px">${esc(aiRes.notes)}</div>`:''}
+    <div class="fd-tot" id="aitot"></div>
+    ${aiMealChips()}
+    <button class="btn primary full" style="margin-top:12px" data-ai="add" id="aiadd" ${n?'':'disabled'}>Add ${n} item${n===1?'':'s'} to ${aiMeal.toLowerCase()}</button>
+    <button class="btn ghost full" style="margin-top:8px" data-ai="pick">Try another photo</button>`;
+    aiTotals();return;}
+  B.innerHTML=`${aiErr?`<div class="note">${esc(aiErr)}</div>`:''}
+  <button class="ai-pick" data-ai="pick">${AI_CAM}<span>${aiErr?'Try again':'Take or choose a photo'}</span><small>Shoot from above, with the whole plate in frame</small></button>
+  <p class="dx-lbl">Anything the photo won’t show? (optional)</p>
+  <input class="input" id="ainote" style="width:100%" maxlength="200" autocomplete="off" placeholder="e.g. cooked in butter, 200 g steak, trim milk" value="${esc(aiNote)}" aria-label="Extra detail">
+  <p class="sub" style="margin-top:8px">Photo estimates can be out by 20–30%, especially for oils and sauces. Weighing key foods now and then keeps you honest.</p>
+  <button class="btn ghost" style="margin-top:6px" data-ai="clearpass">Change passcode</button>`;}
+function aiTotals(){if(!aiRes)return;const on=aiRes.items.filter(x=>x.on),t=fdSum(on.map(x=>({kcal:x.kcal,p:x.p,c:x.c,f:x.f,qty:x.q})));
+  const el=$('#aitot');if(el)el.innerHTML=`Meal total: <b>${fdR(t.kcal)} cal</b> · P ${fdR(t.p)} · C ${fdR(t.c)} · F ${fdR(t.f)} g`;
+  const b=$('#aiadd');if(b){b.disabled=!on.length;b.textContent=`Add ${on.length} item${on.length===1?'':'s'} to ${aiMeal.toLowerCase()}`;}}
+function aiShrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{try{const M=1280,w0=im.naturalWidth,h0=im.naturalHeight,k=Math.min(1,M/Math.max(w0,h0)),w=Math.round(w0*k),h=Math.round(h0*k),c=document.createElement('canvas');
+    c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.82));}catch(e){URL.revokeObjectURL(url);rej(new Error('img'));}};
+  im.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('img'));};im.src=url;});}
+async function aiAnalyse(file){aiErr='';aiRes=null;aiImg=null;aiBusy=true;aiRender();
+  try{aiImg=await aiShrink(file);if(aiBusy==='cancelled'){aiBusy=false;return;}aiRender();
+    const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),60000);let r;
+    try{r=await fetch('/api/food',{method:'POST',headers:{'Content-Type':'application/json','X-App-Passcode':aiPass()},body:JSON.stringify({image:aiImg.split(',')[1],mediaType:'image/jpeg',note:aiNote.trim().slice(0,200)}),signal:ctl.signal});}
+    finally{clearTimeout(t);}
+    const d=await r.json().catch(()=>({}));
+    if(r.status===401){aiSetPass('');aiErr='That passcode wasn’t accepted. Enter it again.';}
+    else if(r.status===404||r.status===405)aiErr='Photo analysis isn’t switched on for this site yet. The Worker needs deploying (see the setup steps).';
+    else if(!r.ok)aiErr=d.error||'The analysis didn’t work ('+r.status+'). Try again.';
+    else if(!d.is_food||!Array.isArray(d.items)||!d.items.length)aiErr=d.notes||'Couldn’t spot any food in that photo. Try a clearer shot from above.';
+    else aiRes={name:d.meal_name||'',notes:d.notes||'',items:d.items.map(x=>({on:true,q:1,name:String(x.name||'Food').slice(0,60),portion:x.portion||'',grams:+x.grams||0,kcal:+x.kcal||0,p:+x.p||0,c:+x.c||0,f:+x.f||0,conf:x.conf||'medium'}))};
+  }catch(err){aiErr=err&&err.message==='img'?'Couldn’t read that photo. Try a different one.':!navigator.onLine?'You’re offline. Photo analysis needs a connection.':err&&err.name==='AbortError'?'That took too long. Try again.':'Couldn’t reach the analyser. Check your connection and try again.';}
+  const wasCancelled=aiBusy==='cancelled';aiBusy=false;if(!wasCancelled)aiRender();}
+function aiAdd(){if(!aiRes)return;const on=aiRes.items.filter(x=>x.on&&x.name.trim());if(!on.length){dxToast('Tick at least one food');return;}
+  const list=fdDay(fdDate),m=aiMeal,ids=[];
+  on.forEach((x,i)=>{const kcal=x.kcal||Math.round(x.p*4+x.c*4+x.f*9);const id='f'+Date.now().toString(36)+i+Math.random().toString(36).slice(2,5);ids.push(id);
+    list.push({id,name:x.name.trim().replace(/\s+/g,' '),kcal,p:x.p,c:x.c,f:x.f,qty:x.q,meal:m,src:'photo'});});
+  save();dxHide('ai');aiRes=null;aiImg=null;if(view!=='food')show('food');else renderFood();
+  const d=fdDate;dxToast(on.length+' item'+(on.length>1?'s':'')+' added to '+m.toLowerCase()+' ✓',()=>{const L=fdDay(d);ids.forEach(id=>{const i=L.findIndex(e=>e.id===id);if(i>=0)L.splice(i,1);});save();renderFood();});}
+$('#aifile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)aiAnalyse(f);});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ai]');if(!b)return;const a=b.dataset.ai;
+  if(a==='open'){aiOpen(b.dataset.m);return;}
+  if(a==='close'){aiClose();return;}
+  if(a==='pick'){aiErr='';const n=$('#ainote');if(n)aiNote=n.value;$('#aifile').click();return;}
+  if(a==='setpass'){const v=($('#aipassin')||{}).value||'';if(!v.trim()){dxToast('Enter the passcode');return;}aiSetPass(v.trim());aiErr='';dxToast('Passcode saved ✓');
+    if(b.dataset.src==='settings')renderSettings();else aiRender();return;}
+  if(a==='clearpass'){aiSetPass('');if(view==='settings')renderSettings();if(!$('#dxaisheet').hidden)aiRender();dxToast('Passcode removed');return;}
+  if(a==='meal'){aiMeal=b.dataset.m;document.querySelectorAll('#aimeals .dx-chip').forEach(c=>{const on=c.dataset.m===aiMeal;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});aiTotals();return;}
+  if(a==='q'&&aiRes){const x=aiRes.items[+b.dataset.i];if(!x)return;x.q=+b.dataset.aq;b.parentNode.querySelectorAll('.dx-chip').forEach(c=>{const on=+c.dataset.aq===x.q;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});aiTotals();return;}
+  if(a==='add'){aiAdd();return;}});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.id==='ainote'){aiNote=t.value;return;}
+  if(t.dataset.aiF&&aiRes){const x=aiRes.items[+t.dataset.i];if(!x)return;const k=t.dataset.aiF;x[k]=k==='name'?t.value:Math.max(0,parseFloat(t.value)||0);aiTotals();}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.aiOn===undefined||!aiRes)return;const x=aiRes.items[+t.dataset.aiOn];if(!x)return;x.on=t.checked;
+  const card=$('#aiit'+t.dataset.aiOn);if(card)card.classList.toggle('off',!x.on);aiTotals();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#dxaisheet').hidden)aiClose();});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='aipassin'){const b=document.querySelector('[data-ai="setpass"]');if(b)b.click();}});
 
 /* ================= Barcode scanner ================= */
 /* Camera scanning uses the html5-qrcode library (works on iPhone Safari), loaded only when you tap Scan.

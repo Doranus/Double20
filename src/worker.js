@@ -17,11 +17,13 @@ Include likely hidden extras that change the numbers a lot (cooking oil, butter,
 Use New Zealand food names where natural (kumara, mince, capsicum). Round calories to the nearest 5 and grams of macros to one decimal place.
 If the photo shows packaged food with a visible nutrition panel, use the panel.
 If the photo contains no food or drink, set is_food to false and explain briefly in notes.
-Keep notes to one or two short, practical sentences.`;
+Keep notes to one or two short, practical sentences.
+Always reply by calling the report_meal tool exactly once, even when there is no food in the photo.`;
 
 const TOOL = {
   name: 'report_meal',
   description: 'Report the foods seen in the photo with estimated portions and nutrition.',
+  strict: true,
   input_schema: {
     type: 'object',
     properties: {
@@ -41,12 +43,14 @@ const TOOL = {
             fat_g: { type: 'number' },
             confidence: { type: 'string', enum: ['high', 'medium', 'low'] }
           },
-          required: ['name', 'portion', 'kcal', 'protein_g', 'carbs_g', 'fat_g', 'confidence']
+          required: ['name', 'portion', 'grams', 'kcal', 'protein_g', 'carbs_g', 'fat_g', 'confidence'],
+          additionalProperties: false
         }
       },
       notes: { type: 'string', description: 'One or two short tips, e.g. what would improve the estimate.' }
     },
-    required: ['is_food', 'items']
+    required: ['is_food', 'meal_name', 'items', 'notes'],
+    additionalProperties: false
   }
 };
 
@@ -96,10 +100,14 @@ async function handleFood(request, env) {
       },
       body: JSON.stringify({
         model: env.FOOD_MODEL || 'claude-sonnet-5-5',
-        max_tokens: 1500,
+        max_tokens: 4000,
+        // Skip up-front thinking: quicker replies for a single photo
+        thinking: { type: 'between_tools' },
         system: SYSTEM,
         tools: [TOOL],
-        tool_choice: { type: 'tool', name: 'report_meal' },
+        // Sonnet 5.5 doesn't allow forcing a tool, so the prompt asks for it and
+        // strict mode on the tool keeps the reply in the right shape
+        tool_choice: { type: 'auto' },
         messages: [{
           role: 'user',
           content: [
@@ -120,12 +128,20 @@ async function handleFood(request, env) {
     if (res.status === 401) return json({ error: 'Claude didn’t accept the API key. Check the ANTHROPIC_API_KEY secret.' }, 502);
     if (res.status === 429) return json({ error: 'Too many requests just now. Wait a minute and try again.' }, 429);
     if (/credit|billing/i.test(msg)) return json({ error: 'Your Anthropic account is out of credit. Top it up at console.anthropic.com.' }, 502);
-    if (res.status === 404 || /model/i.test(msg)) return json({ error: 'The Claude model name wasn’t recognised. Check the FOOD_MODEL variable.' }, 502);
-    return json({ error: 'Claude couldn’t analyse that photo. Try again.' }, 502);
+    if (res.status === 404 || /model: |not_found/i.test(msg)) return json({ error: 'The Claude model name wasn’t recognised. Check the FOOD_MODEL variable.' }, 502);
+    return json({ error: 'Claude couldn’t analyse that photo (' + res.status + '): ' + msg.slice(0, 200) }, 502);
   }
 
-  const tool = (data.content || []).find((b) => b.type === 'tool_use');
-  const r = (tool && tool.input) || {};
+  if (data.stop_reason === 'refusal') return json({ error: 'Claude declined to analyse that photo. Try a different one.' }, 422);
+  const tool = (data.content || []).find((b) => b.type === 'tool_use' && b.name === 'report_meal');
+  let r = tool && tool.input;
+  if (!r) {
+    // Fallback: if Claude answered in text instead, look for JSON in it
+    const t = (data.content || []).filter((b) => b.type === 'text').map((b) => b.text).join('\n');
+    const m = t.match(/\{[\s\S]*\}/);
+    try { r = m ? JSON.parse(m[0]) : null; } catch { r = null; }
+    if (!r) { console.log('No tool call in reply', JSON.stringify(data).slice(0, 500)); return json({ error: 'Claude replied in an unexpected way. Try again.' }, 502); }
+  }
   const items = (Array.isArray(r.items) ? r.items : []).slice(0, 15).map((x) => ({
     name: text(x.name, 60) || 'Food',
     portion: text(x.portion, 80),

@@ -1,9 +1,16 @@
 {
-  // The app's name; it becomes part of your URL: double-twenty.<your-subdomain>.workers.dev
+  // The app's name; it becomes part of your URL: double20.<your-subdomain>.workers.dev
   "name": "double20",
   "compatibility_date": "2026-10-01",
+  // The Worker script: serves the app and handles /api/food (photo analysis)
+  "main": "src/worker.js",
   // Serve everything in the ./public folder as a static website
   "assets": {
-    "directory": "./public"
-  }
+    "directory": "./public",
+    "binding": "ASSETS",
+    // Send /api/... requests to the Worker script instead of looking for a file
+    "run_worker_first": ["/api/*"]
+  },
+  // Lets you see errors in Cloudflare under Workers > double20 > Logs
+  "observability": { "enabled": true }
 }

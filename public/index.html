@@ -689,6 +689,20 @@ details.exdd .chev{font-size:22px;transition:transform .2s;display:inline-block}
 details.exdd[open] .chev{transform:rotate(90deg)}
 details.exdd[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
 details.exdd .exb{padding:0 14px 14px}
+/* Rest timer: compact, floating top-right */
+header.top{padding-right:118px;min-height:62px}
+header.top .hdr-r{flex-basis:100%;align-items:flex-start}
+.dx-pill{top:calc(env(safe-area-inset-top,0px) + 12px)!important;bottom:auto!important;left:auto!important;right:max(12px,calc(50% - 348px))!important;height:58px;padding:0 6px 0 4px;gap:6px;box-shadow:0 8px 24px -12px rgba(0,0,0,.45)}
+.dx-pill .main{flex:none;padding:0;gap:0}
+.dx-pill .txt{display:none}
+.dx-pill .rw{position:relative;display:grid;place-items:center;width:50px;height:50px}
+.dx-pill .rw svg{width:50px;height:50px;position:absolute;inset:0}
+.dx-pill .rw .t{position:relative;font-size:16px;line-height:1}
+.dx-pill .b{height:40px;padding:0 11px;font-size:14px}
+@media (max-width:380px){header.top h1.brand{font-size:18px;letter-spacing:.4px}}
+.dx-pill #dxp30{display:none!important}
+body.dx-pillon .wrap{padding-bottom:40px}
+@media (max-width:440px){header.top h1.brand{font-size:20px;letter-spacing:.6px;gap:8px}.brand-mark{width:30px;height:30px}}
 .card.sess .sess-nav:last-child{margin-bottom:0}
 details.exdd .set{grid-template-columns:30px minmax(0,1fr) minmax(0,1fr) 50px;gap:6px}
 details.exdd .field,details.exdd .field input{min-width:0}
@@ -757,8 +771,8 @@ details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;j
 <input type="file" id="dxphfile" accept="image/*" hidden><input type="file" id="dxrestore" accept="application/json,.json" hidden>
 <div class="dx-pill idle" id="dxpill" hidden>
   <button class="main" data-dx="fullopen" aria-label="Open the rest timer full screen">
-    <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="19" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle id="dxring" cx="23" cy="23" r="19" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 23 23)"></circle></svg>
-    <span class="txt"><span class="l" id="dxpl">Rest timer</span><span class="t" id="dxpt" role="timer">2:00</span></span>
+    <span class="rw"><svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="19" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle id="dxring" cx="23" cy="23" r="19" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 23 23)"></circle></svg><span class="t" id="dxpt" role="timer">2:00</span></span>
+    <span class="txt"><span class="l" id="dxpl">Rest timer</span></span>
   </button>
   <button class="b" id="dxp30" data-dx="p30" hidden>+30s</button>
   <button class="b go" id="dxpskip" data-dx="pskip">Start</button>

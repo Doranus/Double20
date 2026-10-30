@@ -664,8 +664,36 @@ header.top h1.brand{cursor:pointer}
 [data-skin="camo"] .tile .tv{font-family:"Black Ops One",var(--cond);font-weight:400}
 @media (prefers-reduced-motion:reduce){.tile{transition:none}}
 .hm-grid .dx-push{grid-column:1/-1;margin:0}
-.hm-grid .tile:last-of-type:nth-of-type(even){grid-column:1/-1;min-height:0}
-@media (min-width:600px){.hm-grid .tile:last-of-type:nth-of-type(even){grid-column:auto;min-height:132px}}
+.hm-grid .tile:last-of-type:nth-of-type(odd){grid-column:1/-1;min-height:0}
+@media (min-width:600px){.hm-grid .tile:last-of-type:nth-of-type(odd){grid-column:auto;min-height:132px}}
+.tile .tv.tv-s{font-size:22px}
+.tile.live{border:2px solid var(--green)}
+.tile.live .tn{color:var(--green)}
+details.wu-dd>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:28px;margin:0}
+details.wu-dd>summary::-webkit-details-marker{display:none}
+details.wu-dd .wu-st{font-size:14px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;white-space:nowrap}
+details.wu-dd .wu-st.ok{color:var(--green)}
+details.wu-dd .chev{font-size:20px;transition:transform .2s;display:inline-block}
+details.wu-dd[open] .chev{transform:rotate(90deg)}
+details.wu-dd[open]>summary{margin-bottom:4px}
+details.wu-dd:not([open]){padding-top:12px;padding-bottom:12px}
+details.exdd{padding:0;border-left:5px solid var(--pc);overflow:hidden}
+details.exdd>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 12px 14px;min-height:64px}
+details.exdd>summary::-webkit-details-marker{display:none}
+details.exdd .exh-t{display:flex;flex-direction:column;min-width:0}
+details.exdd .bp{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--pc)}
+details.exdd .exn{margin:0;font-size:21px;line-height:1.15;overflow:hidden;text-overflow:ellipsis}
+details.exdd .exp{font-family:var(--cond);font-weight:600;font-size:17px;color:var(--muted);display:flex;gap:10px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+details.exdd .exp.ok{color:var(--green)}
+details.exdd .chev{font-size:22px;transition:transform .2s;display:inline-block}
+details.exdd[open] .chev{transform:rotate(90deg)}
+details.exdd[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
+details.exdd .exb{padding:0 14px 14px}
+.card.sess .sess-nav:last-child{margin-bottom:0}
+details.exdd .set{grid-template-columns:30px minmax(0,1fr) minmax(0,1fr) 50px;gap:6px}
+details.exdd .field,details.exdd .field input{min-width:0}
+details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;justify-self:end}
+[data-skin="camo"] details.exdd .exn{font-family:"Black Ops One",var(--cond);font-weight:400}
 </style>
 </head>
 <body>
@@ -925,6 +953,16 @@ const e1=(w,r)=>r<=0?0:r===1?w:w*(1+r/30);
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),1800);}
 function setSync(m){$('#sync').textContent=m;}
 
+/* Last weight used for an exercise (by name) in any earlier session */
+function lastW(name,before){name=String(name||'').toLowerCase().replace(/^abs: /,'');let v='';
+  for(const id of ORDER){if(id===before)break;const r=S.sessions[id];if(!r)continue;
+    const L=[['d',r.dips],['p',r.pull],['a',r.abs],['sh',r.shoulders],['ar',r.arms]];
+    L.forEach(([sec,o])=>{if(!o||!o.sets)return;let n='';try{n=exName(id,sec).toLowerCase().replace(/^abs: /,'');}catch(e){}if(n!==name)return;o.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});
+    (r.extra||[]).forEach(e=>{if(e.name.toLowerCase()===name)e.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});}
+  return v;}
+function fillLast(id,sec,sets,fresh){if(!sets||!sets.length||sec==='b'||sec==='d')return sets;if(sec==='p'&&pullIsPU(id))return sets;
+  let w;try{w=lastW(exName(id,sec),id);}catch(e){w='';}if(w==='')return sets;
+  sets.forEach(x=>{if(!x.done&&(x.add===''||x.add===undefined||x.add===null||(fresh&&+x.add===0)))x.add=w;});return sets;}
 function defaults(p,sec){
   if(sec==='b')return p.type==='push'?p.sets.map(x=>({kg:kg(x.pct),reps:x.reps,done:false})):[];
   if(sec==='sh'||sec==='ar')return p[sec].sets.map(x=>({add:'',reps:x.reps,done:false}));
@@ -942,8 +980,8 @@ function secSets(id,sec,create){
   const p=info(id),r=create?rec(id):S.sessions[id];
   if(sec==='b'){if(!r)return defaults(p,'b');return r.sets;}
   const key={d:'dips',a:'abs',sh:'shoulders',ar:'arms'}[sec]||'pull';
-  if(!r||!r[key]){const d=defaults(p,sec);if(create){r[key]={sets:d};if(sec==='sh'||sec==='ar')r[key].ex=p[sec].ex;return r[key].sets;}return d;}
-  return r[key].sets;
+  if(!r||!r[key]){const d=fillLast(id,sec,defaults(p,sec),true);if(create){r[key]={sets:d};if(sec==='sh'||sec==='ar')r[key].ex=p[sec].ex;return r[key].sets;}return d;}
+  return fillLast(id,sec,r[key].sets);
 }
 function lastFor(name,before){
   const n=name.toLowerCase();let found=null;
@@ -1070,6 +1108,11 @@ function rows(sec,sets,targets,mode,ss,unit){
       <button class="tick" data-act="tick" aria-label="Mark set ${k+1} ${s.done?'not done':'done'}" aria-pressed="${s.done}">✓</button>
       <div class="target">${tgt}</div>${ss?`<div class="ssrow"><span class="ssl">+ Push-ups</span><input id="${sec}pp${k}" inputmode="numeric" data-f="push" value="${esc(s.push!==undefined?s.push:lastPush())}" aria-label="Push-ups for set ${k+1}"><span class="ssu">reps</span></div>`:''}</div>`;}).join('');
 }
+const EXO={};
+function exDD(key,part,col,name,prog,body,defOpen){const k=cur+'|'+key,open=k in EXO?EXO[k]:!!defOpen;
+  let ptxt='',all=false;if(Array.isArray(prog)){const [d,t]=prog;all=t>0&&d>=t;ptxt=t?(all?'✓ ':'')+d+'/'+t:'';}else if(prog)ptxt=prog;
+  return `<details class="card exdd" data-k="${key}" style="--pc:var(${col})" ${open?'open':''}><summary class="exh"><span class="exh-t"><span class="bp">${part}</span><span class="h2 exn">${esc(name)}</span></span><span class="exp${all?' ok':''}">${ptxt}<span class="chev" aria-hidden="true">›</span></span></summary><div class="exb">${body}</div></details>`;}
+function exProg(sec){const s=secSets(cur,sec,false)||[];return [s.filter(x=>x.done).length,s.length];}
 function renderToday(){
   if(!cur||!info(cur))cur=nextId();
   const p=info(cur),r=S.sessions[cur]||{acc:[],rpe:'',notes:'',done:false,date:''},i=ORDER.indexOf(cur),bk=blk(p.w);
@@ -1083,29 +1126,31 @@ function renderToday(){
   }else{
     const sets=secSets(cur,'p',false),showAdd=p.weighted||sets.some(x=>+x.add>0),pex=curEx(cur,'p');
     main=`<p class="sub" style="text-align:center;margin:-4px 0 10px">Pull-up max ${curMax()} reps, goal ${S.settings.puGoal}</p>
-    ${pex!==defEx(p,'p')?`<p class="h2" style="text-align:center">${esc(pex)}</p>`:''}${swapUI('p')}${cues(pex)}
+    ${swapUI('p')}${cues(pex)}
     <label class="sstog"><input type="checkbox" id="sstog" ${S.settings.superset?'checked':''}> Superset with push-ups</label>
     <div class="sets">${rows('p',sets,p.sets,p.load?'load':showAdd?'add':'bw',S.settings.superset)}</div>
     <div class="row" style="margin-top:10px;justify-content:space-between"><button class="btn ghost" data-act="add" data-sec="p">Add set</button>
       ${sets.length>p.sets.length?`<button class="btn ghost" data-act="rm" data-sec="p">Remove extra set</button>`:''}</div>`;
   }
+  const mainDD=p.type==='push'?exDD('m','Chest','--b3',p.lift,exProg('b'),main,true):exDD('m','Back','--b2',curEx(cur,'p'),exProg('p'),main,true);
   let dips='';
   if(p.dips){const ds=secSets(cur,'d',false);
-    dips=`<div class="card sess"><p class="wk" style="font-family:var(--cond);font-weight:600;font-size:15px;margin:0">Chest and triceps</p><p class="h2">${esc(curEx(cur,'d')!=='Dips'?curEx(cur,'d'):p.dips.name)}</p>${swapUI('d')}${cues(curEx(cur,'d'))}
+    dips=exDD('d','Chest &amp; triceps','--b3',curEx(cur,'d')!=='Dips'?curEx(cur,'d'):p.dips.name,exProg('d'),`${swapUI('d')}${cues(curEx(cur,'d'))}
     ${p.dips.note?`<p class="note">${esc(p.dips.note)}</p>`:''}<div class="sets">${rows('d',ds,p.dips.sets,'add')}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="d">Add set</button></div></div>`;}
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="d">Add set</button></div>`);}
   const as=secSets(cur,'a',false);
-  const abs=`<div class="card"><p class="h2">ABs</p><p class="sub" style="margin-bottom:6px">${esc(curEx(cur,'a'))}. Add weight once ${p.abs.sets[0].reps} reps feel easy.</p>${swapUI('a')}${cues(curEx(cur,'a'))}
+  const abs=exDD('a','Core','--green',curEx(cur,'a'),exProg('a'),`<p class="sub" style="margin-bottom:6px">${p.abs.sets.length}×${p.abs.sets[0].reps}. Add weight once ${p.abs.sets[0].reps} reps feel easy.</p>${swapUI('a')}${cues(curEx(cur,'a'))}
     <div class="sets">${rows('a',as,p.abs.sets,'add')}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="a">Add set</button></div></div>`;
-  const xcard=(sec,title)=>{const pl=p[sec],ss=secSets(cur,sec,false),key=sec==='sh'?'shoulders':'arms',exn=S.sessions[cur]?.[key]?.ex||pl.ex;return `<div class="card"><p class="h2">${title}</p><p class="sub" style="margin-bottom:10px">${esc(exn)}, ${pl.sets.length}×${pl.sets[0].reps}${pl.unit==='m'?' m':''}.${p.w===12?' Optional in test week.':' Enter the weight you use, and go up when all reps feel easy.'}</p>${swapUI(sec)}${cues(exn)}
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="a">Add set</button></div>`);
+  const xcard=(sec,title)=>{const pl=p[sec],ss=secSets(cur,sec,false),key=sec==='sh'?'shoulders':'arms',exn=S.sessions[cur]?.[key]?.ex||pl.ex;const part=sec==='sh'?(p.type==='pull'?'Back &amp; grip':'Shoulders'):(p.type==='pull'?'Biceps':'Triceps'),col=sec==='sh'?(p.type==='pull'?'--b2':'--b1'):'--sun';
+    return exDD(sec,part,col,exn,exProg(sec),`<p class="sub" style="margin-bottom:10px">${pl.sets.length}×${pl.sets[0].reps}${pl.unit==='m'?' m':''}.${p.w===12?' Optional in test week.':' Enter the weight you use, and go up when all reps feel easy.'}</p>${swapUI(sec)}${cues(exn)}
     <div class="sets">${rows(sec,ss,pl.sets,'load',false,pl.unit)}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div></div>`;};
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div>`);};
   const shar=xcard('sh',p.type==='pull'?'Back & grip':'Shoulders')+xcard('ar','Arms');
   const exs=(r.extra||[]);
   const used=exs.map(e=>e.name.toLowerCase());
   const picks=S.library.filter(n=>!used.includes(n.toLowerCase()));
-  const extra=`<div class="card"><p class="h2">Extra exercises</p>
+  const extra=exDD('x','Extras','--muted','Extra exercises',exs.length?exs.length+' added':'',`
     ${exs.map((e,i)=>{const prev=lastFor(e.name,cur),pt=prev?prev.sets.filter(s=>s.done).map(s=>(s.add!==''&&+s.add?fmt(+s.add)+'kg×':'')+s.reps).join(', '):'';
       const cx=CALI_BY[e.name.toLowerCase()];
       return `<div class="xex"><div class="xhead"><b>${esc(e.name)}</b><button class="btn ghost sm" data-act="rmex" data-i="${i}" aria-label="Remove ${esc(e.name)}">Remove</button></div>
@@ -1116,9 +1161,8 @@ function renderToday(){
     <div class="xadd"><input class="input" id="exname" list="exlist" placeholder="Type an exercise, e.g. Shrugs" autocomplete="off" aria-label="Exercise name">
       <datalist id="exlist">${S.library.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
       <button class="btn primary" data-act="addex">Add</button></div>
-    ${picks.length?`<p class="sub" style="margin:10px 0 6px">Your saved exercises</p><div class="picks">${picks.map(n=>`<button class="pick" data-act="pickex" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>`:`<p class="sub" style="margin-top:8px">Exercises you add are saved here for future sessions.</p>`}
-  </div>`;
-  const acc=p.acc.length?`<div class="card"><p class="h2">Accessories</p><div class="acc">${p.acc.map((a,k)=>`<label><input type="checkbox" data-acc="${k}" ${r.acc&&r.acc[k]?'checked':''}>${esc(a)}</label>`).join('')}</div></div>`:'';
+    ${picks.length?`<p class="sub" style="margin:10px 0 6px">Your saved exercises</p><div class="picks">${picks.map(n=>`<button class="pick" data-act="pickex" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>`:`<p class="sub" style="margin-top:8px">Exercises you add are saved here for future sessions.</p>`}`);
+  const acc=p.acc.length?exDD('acc',p.type==='pull'?'Back &amp; grip':'Chest',p.type==='pull'?'--b2':'--b3','Accessories',[p.acc.filter((a,k)=>r.acc&&r.acc[k]).length,p.acc.length],`<div class="acc">${p.acc.map((a,k)=>`<label><input type="checkbox" data-acc="${k}" ${r.acc&&r.acc[k]?'checked':''}>${esc(a)}</label>`).join('')}</div>`):'';
   $('#v-today').innerHTML=`<div class="blk${bk}">
   <div class="card sess">
     <div class="sess-nav">
@@ -1127,9 +1171,9 @@ function renderToday(){
         <div class="sub"><span class="tag ${p.type}">${p.type==='push'?'Push':'Pull'}</span> ${esc(p.lift)}</div>${r.done?`<span class="badge">Completed ${esc(r.date||'')}</span>`:''}</div>
       <button class="iconbtn" data-act="next" aria-label="Next session" ${i===ORDER.length-1?'disabled':''}>›</button>
     </div>
-    ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
-    ${main}
+    ${p.note?`<p class="note" style="margin-bottom:0">${esc(p.note)}</p>`:''}
   </div>
+  ${mainDD}
   ${dips}
   ${shar}
   ${abs}
@@ -1158,6 +1202,7 @@ function tickClock(){
   if(left===0&&timer.buzz!==timer.end){timer.buzz=timer.end;if(navigator.vibrate)navigator.vibrate([200,100,200]);}
 }
 $('#v-today').addEventListener('keydown',e=>{if(e.target.id==='exname'&&e.key==='Enter'){e.preventDefault();if(addExercise(e.target.value)){toast('Exercise added');renderToday();}}});
+$('#v-today').addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('exdd'))EXO[cur+'|'+d.dataset.k]=d.open;},true);
 $('#v-today').addEventListener('input',e=>{
   const t=e.target,row=t.closest('.set');
   if(row){const s=secSets(cur,row.dataset.sec,true)[+row.dataset.k];s[t.dataset.f]=t.value===''?'':+t.value;save();return;}
@@ -1460,7 +1505,7 @@ $('#v-cali').addEventListener('click',e=>{
   const f=e.target.closest('[data-cf]');if(f){cfilt=f.dataset.cf;renderCali();return;}
   const a=e.target.closest('[data-addc]');if(a){if(!cur||!info(cur))cur=nextId();
     const r=rec(cur);if((r.extra||[]).some(x=>x.name.toLowerCase()===a.dataset.addc.toLowerCase())){toast('Already in this session');show('today');return;}
-    addExercise(a.dataset.addc);toast(a.dataset.addc+' added');show('today');setTimeout(()=>{const el=document.querySelector('.xex:last-of-type');el&&el.scrollIntoView({block:'center'});},50);}
+    addExercise(a.dataset.addc);EXO[cur+'|x']=true;toast(a.dataset.addc+' added');show('today');setTimeout(()=>{const el=document.querySelector('.xex:last-of-type');el&&el.scrollIntoView({block:'center'});},50);}
 });
 function updFab(){$('#fabn').textContent=pushTotal(today());}
 function renderSheet(){
@@ -1491,7 +1536,7 @@ function openSwap(sec){swapSec=sec;const cx=curEx(cur,sec);
   $('#swapin').value='';$('#swapsheet').hidden=false;$('#swapbg').hidden=false;}
 function closeSwap(){$('#swapsheet').hidden=true;$('#swapbg').hidden=true;swapSec=null;}
 function doSwap(name){name=String(name||'').trim().replace(/\s+/g,' ');if(!name||!swapSec){toast('Type an exercise name');return;}
-  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);r[SECKEY[sec]].ex=name;
+  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);r[SECKEY[sec]].ex=name;if(sec!=='p'||info(cur).load)r[SECKEY[sec]].sets.forEach(x=>{if(!x.done)x.add='';});
   if(!S.library.some(x=>x.toLowerCase()===name.toLowerCase())){S.library.push(name);S.library.sort((a,b)=>a.localeCompare(b));}
   save();closeSwap();renderToday();toast('Swapped to '+name);}
 $('#swapx').addEventListener('click',closeSwap);$('#swapbg').addEventListener('click',closeSwap);
@@ -1528,13 +1573,13 @@ function dxBars(vals,labels,target,names){const W=340,H=150,L=26,B=18,mx=Math.ma
 /* ----- Session: today strip + warm-up cardio ----- */
 const DX_CARDIO=['Bike','Cross-trainer','Rower','Treadmill','Jog / run','Skipping','Other'];
 function dxToday(){const v=$('#v-today');if(!v||!cur)return;const E=dxEntries(),tm=dxDayMins(E,today()),T=dxDaily(),w=dxWU()[cur]||{},ok=w.saved&&+w.min>0;
-  v.insertAdjacentHTML('afterbegin',`<button class="dx-strip" data-dx="actopen"><span>Today: <b class="num" style="font-size:19px">${tm}</b> / ${T} min active${tm>=T?' ✓':''}</span><span class="go">+ Log activity</span><span class="dx-pbar"><span style="width:${Math.min(100,Math.round(tm/T*100))}%"></span></span></button>`);
-  const card=`<div class="card" id="dxwu"><div class="dx-head"><p class="h2" style="margin:0">Warm-up cardio</p><span class="sub">10 min</span></div>
-  <p class="sub" style="margin:4px 0 10px">10 minutes on the bike, rower or cross-trainer before you lift. It counts towards your daily activity.</p>
+  const wst=ok?`<span style="color:var(--green)">✓ ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}</span>`:'10 min';
+  const card=exDD('wu','Cardio','--sun','Warm-up cardio',wst,`
+  <p class="sub" style="margin:0 0 10px">10 minutes on the bike, rower or cross-trainer before you lift. It counts towards your daily activity.</p>
   <div class="dx-two"><div class="field"><label for="dxwt" style="font-size:13px">Type</label><select id="dxwt" data-dxw="type"><option value="">Choose…</option>${DX_CARDIO.map(c=>`<option ${w.type===c?'selected':''}>${c}</option>`).join('')}</select></div>
   <div class="field"><label for="dxwm" style="font-size:13px">Minutes</label><input class="input" id="dxwm" type="number" inputmode="numeric" min="0" data-dxw="min" value="${dxEsc(w.min||'')}"></div></div>
-  <button class="btn full ${ok?'done':'primary'}" style="margin-top:10px" data-dx="wusave">${ok?`✓ Saved: ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}`:'Save warm-up'}</button></div>`;
-  const nav=v.querySelector('.sess-nav');if(nav)nav.insertAdjacentHTML('afterend',card);else v.insertAdjacentHTML('beforeend',card);}
+  <button class="btn full ${ok?'done':'primary'}" style="margin-top:10px" data-dx="wusave">${ok?`✓ Saved: ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}`:'Save warm-up'}</button>`).replace('<details class="card exdd"','<details class="card exdd" id="dxwu"');
+  const first=v.querySelector('details.exdd');if(first)first.insertAdjacentHTML('beforebegin',card);else v.insertAdjacentHTML('beforeend',card);}
 
 const dxPushGoal=()=>+S.settings.pushDaily||100;
 function dxPushCard(){const n=pushTotal(today()),g=dxPushGoal(),q=lastPush()||20;
@@ -2194,7 +2239,7 @@ function renderHome(){const td=today(),h=new Date().getHours(),hi=h<12?'Good mor
   const act=hmSafe(()=>activeSession(),null),nx=act?act[0]:nextId(),p=hmSafe(()=>info(nx),null);
   const done=ORDER.filter(id=>S.sessions[id]&&S.sessions[id].done).length;
   let out=`<p class="hm-hello">${hi} · ${hmSafe(()=>dxDay(td),td)}</p><div class="hm-grid">`;
-  out+=`<button class="tile hero${act?' live':''}" data-go="today" data-id="${nx}"><span class="ti">${HM_ICONS.today}</span><span style="min-width:0"><span class="tn">${act?'Session in progress':'Next session'}</span><span class="tv" style="display:block">${p?esc(p.name):'Session'}</span><span class="ts">${p?`Week ${p.w} · ${p.day} · ${p.type==='push'?'Push':'Pull'}`:''}</span></span><span class="go" aria-hidden="true">›</span></button>`;
+  out+=`<button class="tile${act?' live':''}" data-go="today" data-id="${nx}" style="--tc:var(--b1)"><span class="ti">${HM_ICONS.today}</span><span class="tn">${act?'In progress':'Next session'}</span><span class="tv tv-s">${p?esc(p.name):'Session'}</span><span class="ts">${p?`Week ${p.w} · ${p.day} · ${p.type==='push'?'Push':'Pull'}`:''}</span></button>`;
   out+=hmSafe(()=>{const E=dxEntries(),m=dxDayMins(E,td),T=dxDaily();return hmTile('activity','Activity',`${m}<small>/ ${T} min</small>`,m>=T?'<span class="tok">Target hit ✓</span>':`${T-m} min to go`,m/T*100,'--green');},hmTile('activity','Activity','—','',null,'--green'));
   out+=hmSafe(()=>{const t=fdSum((fdS().log[td])||[]),T=fdTarget();return hmTile('food','Food',`${fdR(t.kcal)}<small>${T?'/ '+fdR(T.kcal):'cal'}</small>`,T?`${fdR(t.p)} / ${fdR(T.p)} g protein`:`${fdR(t.p)} g protein`,T?t.kcal/T.kcal*100:null,'--sun');},hmTile('food','Food','—','',null,'--sun'));
   out+=hmSafe(()=>{const it=stTodayItems(),left=it.filter(x=>!stTaken(x,td)).length,n=stS().items.length;return hmTile('stack','Stack',n?(left?`${left}<small>to take</small>`:'All done'):'Set up',n?(it.length?(left?it.filter(x=>!stTaken(x,td)).slice(0,2).map(x=>esc(x.name)).join(', '):'<span class="tok">Today complete ✓</span>'):'Nothing due today'):'Add supplements',it.length?(it.length-left)/it.length*100:null,'--b3');},hmTile('stack','Stack','—','',null,'--b3'));

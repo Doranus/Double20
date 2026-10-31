@@ -626,88 +626,89 @@ i.t{background:var(--green)} i.m{background:var(--red)} i.u{background:transpare
 .st-day.sel i.u{box-shadow:inset 0 0 0 1.5px currentColor}
 .st-key{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:8px 0 0}
 .st-key span{display:flex;align-items:center;gap:5px}
-/* ================= Home dashboard ================= */
-.view{padding-bottom:16px}
-.wrap{padding-bottom:40px}
-.toast,#dxtoast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-.dx-pill{bottom:calc(16px + env(safe-area-inset-bottom,0px))}
-header.top h1.brand{cursor:pointer}
-.pbar{display:flex;align-items:center;gap:10px;margin:-4px 0 12px}
-.pbar[hidden]{display:none}
-.pback{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--surface);color:var(--steel);border-radius:99px;padding:6px 14px 6px 8px;font-weight:700;font-size:15px;min-height:40px}
-.pback svg{width:20px;height:20px}
-.ptitle{font-family:var(--cond);font-weight:700;font-size:24px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hm-hello{font-family:var(--cond);font-weight:600;font-size:16px;color:var(--muted);margin:0 2px 10px}
-.hm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-@media (min-width:600px){.hm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.tile{--tc:var(--steel);position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;min-height:132px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);box-shadow:0 10px 30px -18px var(--glow);overflow:hidden;transition:transform .12s}
-.tile:active{transform:scale(.97)}
-.tile .ti{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--tc) 16%,transparent);color:var(--tc);margin-bottom:auto}
-.tile .ti svg{width:22px;height:22px}
-.tile .tn{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-top:10px}
-.tile .tv{font-family:var(--cond);font-weight:700;font-size:26px;line-height:1.05;font-variant-numeric:tabular-nums}
-.tile .tv small{font-size:15px;font-weight:600;color:var(--muted);margin-left:2px}
-.tile .ts{font-size:13px;color:var(--muted);line-height:1.25}
-.tile .tb{display:block;width:100%;height:6px;border-radius:99px;background:var(--sunk);overflow:hidden;margin-top:6px}
-.tile .tb>span{display:block;height:100%;background:var(--tc);border-radius:99px}
-.tile .tok{color:var(--green);font-weight:700}
-.tile.hero{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:14px;border:0;color:#fff;background:linear-gradient(135deg,var(--b1),var(--b2));box-shadow:0 14px 40px -16px var(--b1)}
-.tile.hero .ti{background:rgba(255,255,255,.2);color:#fff;margin:0;width:52px;height:52px;flex:0 0 auto}
-.tile.hero .ti svg{width:28px;height:28px}
-.tile.hero .tn,.tile.hero .ts{color:#fff;opacity:.85;margin:0}
-.tile.hero .tv{font-size:28px}
-.tile.hero .go{margin-left:auto;font-size:28px;opacity:.9}
-.tile.hero.live{background:linear-gradient(135deg,var(--green),var(--b1))}
-[data-skin="camo"] .tile,[data-skin="graphite"] .tile{box-shadow:0 6px 18px -14px rgba(0,0,0,.5)}
-[data-skin="camo"] .tile{border-radius:6px}
-[data-skin="camo"] .tile.hero{background:var(--b1)}
-[data-skin="camo"] .tile .tv{font-family:"Black Ops One",var(--cond);font-weight:400}
-@media (prefers-reduced-motion:reduce){.tile{transition:none}}
-.hm-grid .dx-push{grid-column:1/-1;margin:0}
-.hm-grid .tile:last-of-type:nth-of-type(odd){grid-column:1/-1;min-height:0}
-@media (min-width:600px){.hm-grid .tile:last-of-type:nth-of-type(odd){grid-column:auto;min-height:132px}}
-.tile .tv.tv-s{font-size:22px}
-.tile.live{border:2px solid var(--green)}
-.tile.live .tn{color:var(--green)}
-details.wu-dd>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:28px;margin:0}
-details.wu-dd>summary::-webkit-details-marker{display:none}
-details.wu-dd .wu-st{font-size:14px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;white-space:nowrap}
-details.wu-dd .wu-st.ok{color:var(--green)}
-details.wu-dd .chev{font-size:20px;transition:transform .2s;display:inline-block}
-details.wu-dd[open] .chev{transform:rotate(90deg)}
-details.wu-dd[open]>summary{margin-bottom:4px}
-details.wu-dd:not([open]){padding-top:12px;padding-bottom:12px}
-details.exdd{padding:0;border-left:5px solid var(--pc);overflow:hidden}
-details.exdd>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 12px 14px;min-height:64px}
-details.exdd>summary::-webkit-details-marker{display:none}
-details.exdd .exh-t{display:flex;flex-direction:column;min-width:0}
-details.exdd .bp{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--pc)}
-details.exdd .exn{margin:0;font-size:21px;line-height:1.15;overflow:hidden;text-overflow:ellipsis}
-details.exdd .exp{font-family:var(--cond);font-weight:600;font-size:17px;color:var(--muted);display:flex;gap:10px;align-items:center;white-space:nowrap;font-variant-numeric:tabular-nums}
-details.exdd .exp.ok{color:var(--green)}
-details.exdd .chev{font-size:22px;transition:transform .2s;display:inline-block}
-details.exdd[open] .chev{transform:rotate(90deg)}
-details.exdd[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
-details.exdd .exb{padding:0 14px 14px}
-/* Rest timer: compact, floating top-right */
-header.top{padding-right:118px;min-height:62px}
-header.top .hdr-r{flex-basis:100%;align-items:flex-start}
-.dx-pill{top:calc(env(safe-area-inset-top,0px) + 12px)!important;bottom:auto!important;left:auto!important;right:max(12px,calc(50% - 348px))!important;height:58px;padding:0 6px 0 4px;gap:6px;box-shadow:0 8px 24px -12px rgba(0,0,0,.45)}
-.dx-pill .main{flex:none;padding:0;gap:0}
-.dx-pill .txt{display:none}
-.dx-pill .rw{position:relative;display:grid;place-items:center;width:50px;height:50px}
-.dx-pill .rw svg{width:50px;height:50px;position:absolute;inset:0}
-.dx-pill .rw .t{position:relative;font-size:16px;line-height:1}
-.dx-pill .b{height:40px;padding:0 11px;font-size:14px}
-@media (max-width:380px){header.top h1.brand{font-size:18px;letter-spacing:.4px}}
-.dx-pill #dxp30{display:none!important}
-body.dx-pillon .wrap{padding-bottom:40px}
-@media (max-width:440px){header.top h1.brand{font-size:20px;letter-spacing:.6px;gap:8px}.brand-mark{width:30px;height:30px}}
-.card.sess .sess-nav:last-child{margin-bottom:0}
-details.exdd .set{grid-template-columns:30px minmax(0,1fr) minmax(0,1fr) 50px;gap:6px}
-details.exdd .field,details.exdd .field input{min-width:0}
-details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;justify-self:end}
-[data-skin="camo"] details.exdd .exn{font-family:"Black Ops One",var(--cond);font-weight:400}
+
+/* ----- Photo food analysis ----- */
+.fd-srcs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.fd-srcs .btn{min-height:48px}
+.ai-shot{position:relative;margin-top:4px;border-radius:14px;overflow:hidden;background:var(--sunk)}
+.ai-shot img{display:block;width:100%;max-height:260px;object-fit:cover}
+.ai-shot .ai-busy{position:absolute;inset:auto 0 0 0;display:flex;align-items:center;gap:10px;padding:10px 12px;background:color-mix(in srgb,var(--surface) 88%,transparent);font-weight:600;font-size:15px}
+.ai-spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--steel);animation:aispin .8s linear infinite;flex:0 0 auto}
+@keyframes aispin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ai-spin{animation-duration:2.4s}}
+.ai-pick{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;min-height:150px;border:2px dashed var(--line);border-radius:14px;background:var(--sunk);color:var(--ink);font-size:17px;font-weight:600}
+.ai-pick svg{width:36px;height:36px;color:var(--steel)}
+.ai-pick small{font-weight:400;color:var(--muted);font-size:13px}
+.ai-item{border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;background:var(--surface)}
+.ai-item.off{opacity:.45}
+.ai-item.off .fd-four,.ai-item.off .ai-qrow{display:none}
+.ai-top{display:flex;gap:8px;align-items:center}
+.ai-top input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);flex:0 0 auto}
+.ai-top .input{flex:1;min-width:0;font-weight:600}
+.ai-conf{font-size:12px;border-radius:99px;padding:2px 8px;white-space:nowrap;background:var(--sunk);color:var(--muted)}
+.ai-conf.high{background:var(--green-soft);color:var(--green)}
+.ai-conf.low{background:var(--b3s);color:var(--b3)}
+.ai-item .sub{margin:4px 0 8px 30px}
+.ai-qrow{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--muted)}
+
+/* ----- GPS run tracker ----- */
+.run-ov{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);padding:calc(10px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));overflow-y:auto;-webkit-overflow-scrolling:touch}
+.run-ov[hidden],.run-lock[hidden],.run-mini[hidden]{display:none}
+.run-in{max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;flex:1;min-height:0}
+.run-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.run-ttl{font-weight:800;letter-spacing:1.5px;font-size:15px;margin:0;flex:1;text-transform:uppercase}
+.run-gps{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);background:var(--sunk);border-radius:99px;padding:5px 10px}
+.run-gps i{width:9px;height:9px;border-radius:50%;background:var(--muted)}
+.run-gps.good i{background:var(--green)}.run-gps.ok i{background:var(--sun)}.run-gps.bad i{background:var(--red)}
+.run-time{font-family:var(--cond);font-weight:700;font-size:min(24vw,120px);line-height:.9;letter-spacing:-1px;text-align:center;font-variant-numeric:tabular-nums;margin-top:6px}
+.run-lbl{text-align:center;color:var(--muted);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.run-dist{text-align:center;margin-top:10px}
+.run-dist .num{font-size:min(17vw,84px);font-weight:700;line-height:1}
+.run-dist small{font-size:20px;font-weight:700;color:var(--muted);margin-left:4px}
+.run-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.run-grid div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+.run-grid b{display:block;font-size:28px;line-height:1.1}
+.run-grid span{font-size:12px;color:var(--muted);font-weight:600}
+.run-map{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.run-map svg{display:block;width:100%;height:auto}
+.run-map .rt{fill:none;stroke:var(--steel);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.run-map .st{fill:var(--green);stroke:var(--surface);stroke-width:2}.run-map .en{fill:var(--red);stroke:var(--surface);stroke-width:2}
+.run-map .me{fill:var(--steel);stroke:var(--surface);stroke-width:3}
+.run-map text{fill:var(--muted);font-size:13px}
+.run-ctl{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:auto;padding-top:14px}
+.run-big{width:96px;height:96px;border-radius:50%;border:0;font-weight:800;font-size:17px;background:var(--steel);color:#fff;display:grid;place-items:center;position:relative;overflow:hidden}
+.run-big.go{background:var(--green)}
+.run-big.fin{background:var(--red)}
+.run-sm{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:13px;font-weight:700;display:grid;place-items:center;padding:0;line-height:1.1}
+.hold{position:relative;overflow:hidden;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.hold::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.35);transform:scaleX(0);transform-origin:left}
+.hold.holding::after{transform:scaleX(1);transition:transform var(--hold,.9s) linear}
+.run-hint{font-size:13px;color:var(--muted);text-align:center;margin:8px 0 0}
+.run-ready{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}
+.run-ready .run-big{width:140px;height:140px;font-size:24px}
+.run-note{background:var(--sunk);border-radius:12px;padding:10px 12px;font-size:14px;color:var(--ink);text-align:left;width:100%;box-sizing:border-box}
+.run-tog{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
+.run-tog input{width:22px;height:22px;accent-color:var(--steel)}
+.run-splits{margin-top:10px}
+.run-sp{display:grid;grid-template-columns:44px 64px 1fr;gap:8px;align-items:center;font-size:15px;padding:5px 0;border-bottom:1px solid var(--line)}
+.run-sp:last-child{border-bottom:0}
+.run-sp .bar{height:10px;border-radius:99px;background:var(--steel-soft);overflow:hidden}
+.run-sp .bar span{display:block;height:100%;background:var(--steel);border-radius:99px}
+.run-sp.best .bar span{background:var(--green)}
+.run-sp.part{color:var(--muted)}
+.run-lock{position:fixed;inset:0;z-index:50;background:#05070c;color:#EAF0FF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(30px + env(safe-area-inset-bottom,0px));touch-action:none;user-select:none;-webkit-user-select:none}
+.run-lock .t{font-family:var(--cond);font-size:min(22vw,110px);font-weight:700;line-height:.9;font-variant-numeric:tabular-nums}
+.run-lock .d{font-family:var(--cond);font-size:44px;font-weight:700;color:#A3ACD6}
+.run-lock button{margin-top:30px;border:2px solid #A3ACD6;background:transparent;color:#EAF0FF;border-radius:99px;padding:16px 28px;font-weight:700;font-size:17px}
+.run-mini{position:fixed;left:50%;transform:translateX(-50%);top:calc(8px + env(safe-area-inset-top,0px));z-index:16;border:0;border-radius:99px;background:var(--green);color:#fff;font-weight:700;font-size:14px;padding:9px 16px;box-shadow:0 6px 20px -8px rgba(0,0,0,.5);display:flex;gap:8px;align-items:center}
+.run-mini.p{background:var(--sun);color:#111}
+.run-mini i{width:8px;height:8px;border-radius:50%;background:currentColor}
+@media (prefers-reduced-motion:no-preference){.run-mini:not(.p) i{animation:runblink 1.2s ease-in-out infinite}@keyframes runblink{50%{opacity:.25}}}
+.run-card .run-go{min-height:56px;font-size:18px}
+.run-list{margin-top:10px}
+.run-list .dx-entry small{display:block;color:var(--muted);font-size:13px}
+.run-kp3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.run-kp3 .dx-kpi .v{font-size:24px}
 </style>
 </head>
 <body>
@@ -724,9 +725,7 @@ details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;j
     <div class="hdr-r"><div class="skinrow"><button class="themebtn" id="skinbtn" aria-label="Change style">Electric</button><button class="themebtn" id="themebtn" aria-label="Change theme">Auto</button></div><span class="sync" id="sync">Loading…</span></div>
   </header>
 
-  <div class="pbar" id="pbar" hidden><button class="pback" id="pback" aria-label="Back to home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Home</button><p class="ptitle" id="ptitle"></p></div>
-  <section class="view on" id="v-home" aria-label="Home"></section>
-  <section class="view" id="v-today" aria-label="Session"></section>
+  <section class="view on" id="v-today" aria-label="Session"></section>
   <section class="view" id="v-activity" aria-label="Activity"></section>
   <section class="view" id="v-food" aria-label="Food"></section>
   <section class="view" id="v-stack" aria-label="Stack"></section>
@@ -736,6 +735,26 @@ details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;j
   <section class="view" id="v-settings" aria-label="Settings"></section>
 </div>
 
+<nav class="tabs" aria-label="Sections">
+  <div class="in" role="tablist">
+    <button role="tab" data-v="today" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>Session</button>
+    <button role="tab" data-v="activity" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activity</button>
+    <button role="tab" data-v="food" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v8M4 2v5a3 3 0 0 0 6 0V2M7 10v12M17 22V2c-2.5 1.5-4 4.5-4 8v4h4"/></svg>Food</button>
+    <button role="tab" data-v="stack" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3.5a5 5 0 0 1 7 7l-7 7a5 5 0 0 1-7-7z"/><path d="M7 7l7 7"/></svg>Stack</button>
+    <button role="tab" data-v="plan" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plan</button>
+    <button role="tab" data-v="progress" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 16l5-5 4 3 6-7"/></svg>Progress</button>
+    <button role="tab" data-v="cali" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M4 9h16M12 9v6M12 15l-4 6M12 15l4 6"/></svg>Cali</button>
+    <button role="tab" data-v="settings" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Settings</button>
+  </div>
+</nav>
 <button class="fab" id="fab" aria-haspopup="dialog"><span>＋ Push-ups</span><b id="fabn">0</b></button>
 <div class="sheet-bg" id="sheetbg" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h" hidden>
@@ -765,14 +784,27 @@ details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;j
 <div class="sheet-bg" id="dxscbg" data-sc="close" hidden></div>
 <div class="sheet dx-sheet" id="dxscsheet" role="dialog" aria-modal="true" aria-labelledby="dxsc-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxsc-h" style="margin:0">Scan a barcode</p><button class="iconbtn" data-sc="close" aria-label="Close">✕</button></div><div id="dxscbody"></div></div>
+<div class="run-ov" id="runov" role="dialog" aria-modal="true" aria-labelledby="run-h" hidden><div class="run-in">
+  <div class="run-top"><p class="run-ttl" id="run-h">Run</p><span class="run-gps" id="rungps" role="status"><i></i><span>GPS</span></span><button class="iconbtn" id="runx" aria-label="Minimise">⌄</button></div>
+  <div id="runbody" style="display:flex;flex-direction:column;flex:1"></div></div></div>
+<div class="run-lock" id="runlock" hidden aria-live="off"><div class="t" id="rlt">0:00</div><div class="d"><span id="rld">0.00</span> km</div><div id="rlp" style="color:#A3ACD6;font-size:17px"></div>
+  <button class="hold" id="rlu" style="--hold:1s">Hold to unlock</button></div>
+<button class="run-mini" id="runmini" hidden><i></i><span id="runminit">Run</span></button>
+<div class="sheet-bg" id="dxrunbg" data-dx="close" data-k="run" hidden></div>
+<div class="sheet dx-sheet" id="dxrunsheet" role="dialog" aria-modal="true" aria-labelledby="dxrun-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxrun-h" style="margin:0">Run</p><button class="iconbtn" data-dx="close" data-k="run" aria-label="Close">✕</button></div><div id="dxrunbody"></div></div>
+<div class="sheet-bg" id="dxaibg" data-ai="close" hidden></div>
+<div class="sheet dx-sheet" id="dxaisheet" role="dialog" aria-modal="true" aria-labelledby="dxai-h" hidden>
+  <div class="sheet-top"><p class="h2" id="dxai-h" style="margin:0">Analyse a photo</p><button class="iconbtn" data-ai="close" aria-label="Close">✕</button></div><div id="dxaibody"></div></div>
+<input type="file" id="aifile" accept="image/*" hidden>
 <div class="sheet-bg" id="dxstbg" data-dx="close" data-k="st" hidden></div>
 <div class="sheet dx-sheet" id="dxstsheet" role="dialog" aria-modal="true" aria-labelledby="dxst-h" hidden>
   <div class="sheet-top"><p class="h2" id="dxst-h" style="margin:0">Add to your stack</p><button class="iconbtn" data-dx="close" data-k="st" aria-label="Close">✕</button></div><div id="dxstbody"></div></div>
 <input type="file" id="dxphfile" accept="image/*" hidden><input type="file" id="dxrestore" accept="application/json,.json" hidden>
 <div class="dx-pill idle" id="dxpill" hidden>
   <button class="main" data-dx="fullopen" aria-label="Open the rest timer full screen">
-    <span class="rw"><svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="19" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle id="dxring" cx="23" cy="23" r="19" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 23 23)"></circle></svg><span class="t" id="dxpt" role="timer">2:00</span></span>
-    <span class="txt"><span class="l" id="dxpl">Rest timer</span></span>
+    <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="19" fill="none" stroke="var(--line)" stroke-width="5"></circle><circle id="dxring" cx="23" cy="23" r="19" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 23 23)"></circle></svg>
+    <span class="txt"><span class="l" id="dxpl">Rest timer</span><span class="t" id="dxpt" role="timer">2:00</span></span>
   </button>
   <button class="b" id="dxp30" data-dx="p30" hidden>+30s</button>
   <button class="b go" id="dxpskip" data-dx="pskip">Start</button>
@@ -967,16 +999,6 @@ const e1=(w,r)=>r<=0?0:r===1?w:w*(1+r/30);
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),1800);}
 function setSync(m){$('#sync').textContent=m;}
 
-/* Last weight used for an exercise (by name) in any earlier session */
-function lastW(name,before){name=String(name||'').toLowerCase().replace(/^abs: /,'');let v='';
-  for(const id of ORDER){if(id===before)break;const r=S.sessions[id];if(!r)continue;
-    const L=[['d',r.dips],['p',r.pull],['a',r.abs],['sh',r.shoulders],['ar',r.arms]];
-    L.forEach(([sec,o])=>{if(!o||!o.sets)return;let n='';try{n=exName(id,sec).toLowerCase().replace(/^abs: /,'');}catch(e){}if(n!==name)return;o.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});
-    (r.extra||[]).forEach(e=>{if(e.name.toLowerCase()===name)e.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});}
-  return v;}
-function fillLast(id,sec,sets,fresh){if(!sets||!sets.length||sec==='b'||sec==='d')return sets;if(sec==='p'&&pullIsPU(id))return sets;
-  let w;try{w=lastW(exName(id,sec),id);}catch(e){w='';}if(w==='')return sets;
-  sets.forEach(x=>{if(!x.done&&(x.add===''||x.add===undefined||x.add===null||(fresh&&+x.add===0)))x.add=w;});return sets;}
 function defaults(p,sec){
   if(sec==='b')return p.type==='push'?p.sets.map(x=>({kg:kg(x.pct),reps:x.reps,done:false})):[];
   if(sec==='sh'||sec==='ar')return p[sec].sets.map(x=>({add:'',reps:x.reps,done:false}));
@@ -994,8 +1016,8 @@ function secSets(id,sec,create){
   const p=info(id),r=create?rec(id):S.sessions[id];
   if(sec==='b'){if(!r)return defaults(p,'b');return r.sets;}
   const key={d:'dips',a:'abs',sh:'shoulders',ar:'arms'}[sec]||'pull';
-  if(!r||!r[key]){const d=fillLast(id,sec,defaults(p,sec),true);if(create){r[key]={sets:d};if(sec==='sh'||sec==='ar')r[key].ex=p[sec].ex;return r[key].sets;}return d;}
-  return fillLast(id,sec,r[key].sets);
+  if(!r||!r[key]){const d=defaults(p,sec);if(create){r[key]={sets:d};if(sec==='sh'||sec==='ar')r[key].ex=p[sec].ex;return r[key].sets;}return d;}
+  return r[key].sets;
 }
 function lastFor(name,before){
   const n=name.toLowerCase();let found=null;
@@ -1122,11 +1144,6 @@ function rows(sec,sets,targets,mode,ss,unit){
       <button class="tick" data-act="tick" aria-label="Mark set ${k+1} ${s.done?'not done':'done'}" aria-pressed="${s.done}">✓</button>
       <div class="target">${tgt}</div>${ss?`<div class="ssrow"><span class="ssl">+ Push-ups</span><input id="${sec}pp${k}" inputmode="numeric" data-f="push" value="${esc(s.push!==undefined?s.push:lastPush())}" aria-label="Push-ups for set ${k+1}"><span class="ssu">reps</span></div>`:''}</div>`;}).join('');
 }
-const EXO={};
-function exDD(key,part,col,name,prog,body,defOpen){const k=cur+'|'+key,open=k in EXO?EXO[k]:!!defOpen;
-  let ptxt='',all=false;if(Array.isArray(prog)){const [d,t]=prog;all=t>0&&d>=t;ptxt=t?(all?'✓ ':'')+d+'/'+t:'';}else if(prog)ptxt=prog;
-  return `<details class="card exdd" data-k="${key}" style="--pc:var(${col})" ${open?'open':''}><summary class="exh"><span class="exh-t"><span class="bp">${part}</span><span class="h2 exn">${esc(name)}</span></span><span class="exp${all?' ok':''}">${ptxt}<span class="chev" aria-hidden="true">›</span></span></summary><div class="exb">${body}</div></details>`;}
-function exProg(sec){const s=secSets(cur,sec,false)||[];return [s.filter(x=>x.done).length,s.length];}
 function renderToday(){
   if(!cur||!info(cur))cur=nextId();
   const p=info(cur),r=S.sessions[cur]||{acc:[],rpe:'',notes:'',done:false,date:''},i=ORDER.indexOf(cur),bk=blk(p.w);
@@ -1140,31 +1157,29 @@ function renderToday(){
   }else{
     const sets=secSets(cur,'p',false),showAdd=p.weighted||sets.some(x=>+x.add>0),pex=curEx(cur,'p');
     main=`<p class="sub" style="text-align:center;margin:-4px 0 10px">Pull-up max ${curMax()} reps, goal ${S.settings.puGoal}</p>
-    ${swapUI('p')}${cues(pex)}
+    ${pex!==defEx(p,'p')?`<p class="h2" style="text-align:center">${esc(pex)}</p>`:''}${swapUI('p')}${cues(pex)}
     <label class="sstog"><input type="checkbox" id="sstog" ${S.settings.superset?'checked':''}> Superset with push-ups</label>
     <div class="sets">${rows('p',sets,p.sets,p.load?'load':showAdd?'add':'bw',S.settings.superset)}</div>
     <div class="row" style="margin-top:10px;justify-content:space-between"><button class="btn ghost" data-act="add" data-sec="p">Add set</button>
       ${sets.length>p.sets.length?`<button class="btn ghost" data-act="rm" data-sec="p">Remove extra set</button>`:''}</div>`;
   }
-  const mainDD=p.type==='push'?exDD('m','Chest','--b3',p.lift,exProg('b'),main,true):exDD('m','Back','--b2',curEx(cur,'p'),exProg('p'),main,true);
   let dips='';
   if(p.dips){const ds=secSets(cur,'d',false);
-    dips=exDD('d','Chest &amp; triceps','--b3',curEx(cur,'d')!=='Dips'?curEx(cur,'d'):p.dips.name,exProg('d'),`${swapUI('d')}${cues(curEx(cur,'d'))}
+    dips=`<div class="card sess"><p class="wk" style="font-family:var(--cond);font-weight:600;font-size:15px;margin:0">Chest and triceps</p><p class="h2">${esc(curEx(cur,'d')!=='Dips'?curEx(cur,'d'):p.dips.name)}</p>${swapUI('d')}${cues(curEx(cur,'d'))}
     ${p.dips.note?`<p class="note">${esc(p.dips.note)}</p>`:''}<div class="sets">${rows('d',ds,p.dips.sets,'add')}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="d">Add set</button></div>`);}
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="d">Add set</button></div></div>`;}
   const as=secSets(cur,'a',false);
-  const abs=exDD('a','Core','--green',curEx(cur,'a'),exProg('a'),`<p class="sub" style="margin-bottom:6px">${p.abs.sets.length}×${p.abs.sets[0].reps}. Add weight once ${p.abs.sets[0].reps} reps feel easy.</p>${swapUI('a')}${cues(curEx(cur,'a'))}
+  const abs=`<div class="card"><p class="h2">ABs</p><p class="sub" style="margin-bottom:6px">${esc(curEx(cur,'a'))}. Add weight once ${p.abs.sets[0].reps} reps feel easy.</p>${swapUI('a')}${cues(curEx(cur,'a'))}
     <div class="sets">${rows('a',as,p.abs.sets,'add')}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="a">Add set</button></div>`);
-  const xcard=(sec,title)=>{const pl=p[sec],ss=secSets(cur,sec,false),key=sec==='sh'?'shoulders':'arms',exn=S.sessions[cur]?.[key]?.ex||pl.ex;const part=sec==='sh'?(p.type==='pull'?'Back &amp; grip':'Shoulders'):(p.type==='pull'?'Biceps':'Triceps'),col=sec==='sh'?(p.type==='pull'?'--b2':'--b1'):'--sun';
-    return exDD(sec,part,col,exn,exProg(sec),`<p class="sub" style="margin-bottom:10px">${pl.sets.length}×${pl.sets[0].reps}${pl.unit==='m'?' m':''}.${p.w===12?' Optional in test week.':' Enter the weight you use, and go up when all reps feel easy.'}</p>${swapUI(sec)}${cues(exn)}
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="a">Add set</button></div></div>`;
+  const xcard=(sec,title)=>{const pl=p[sec],ss=secSets(cur,sec,false),key=sec==='sh'?'shoulders':'arms',exn=S.sessions[cur]?.[key]?.ex||pl.ex;return `<div class="card"><p class="h2">${title}</p><p class="sub" style="margin-bottom:10px">${esc(exn)}, ${pl.sets.length}×${pl.sets[0].reps}${pl.unit==='m'?' m':''}.${p.w===12?' Optional in test week.':' Enter the weight you use, and go up when all reps feel easy.'}</p>${swapUI(sec)}${cues(exn)}
     <div class="sets">${rows(sec,ss,pl.sets,'load',false,pl.unit)}</div>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div>`);};
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div></div>`;};
   const shar=xcard('sh',p.type==='pull'?'Back & grip':'Shoulders')+xcard('ar','Arms');
   const exs=(r.extra||[]);
   const used=exs.map(e=>e.name.toLowerCase());
   const picks=S.library.filter(n=>!used.includes(n.toLowerCase()));
-  const extra=exDD('x','Extras','--muted','Extra exercises',exs.length?exs.length+' added':'',`
+  const extra=`<div class="card"><p class="h2">Extra exercises</p>
     ${exs.map((e,i)=>{const prev=lastFor(e.name,cur),pt=prev?prev.sets.filter(s=>s.done).map(s=>(s.add!==''&&+s.add?fmt(+s.add)+'kg×':'')+s.reps).join(', '):'';
       const cx=CALI_BY[e.name.toLowerCase()];
       return `<div class="xex"><div class="xhead"><b>${esc(e.name)}</b><button class="btn ghost sm" data-act="rmex" data-i="${i}" aria-label="Remove ${esc(e.name)}">Remove</button></div>
@@ -1175,8 +1190,9 @@ function renderToday(){
     <div class="xadd"><input class="input" id="exname" list="exlist" placeholder="Type an exercise, e.g. Shrugs" autocomplete="off" aria-label="Exercise name">
       <datalist id="exlist">${S.library.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
       <button class="btn primary" data-act="addex">Add</button></div>
-    ${picks.length?`<p class="sub" style="margin:10px 0 6px">Your saved exercises</p><div class="picks">${picks.map(n=>`<button class="pick" data-act="pickex" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>`:`<p class="sub" style="margin-top:8px">Exercises you add are saved here for future sessions.</p>`}`);
-  const acc=p.acc.length?exDD('acc',p.type==='pull'?'Back &amp; grip':'Chest',p.type==='pull'?'--b2':'--b3','Accessories',[p.acc.filter((a,k)=>r.acc&&r.acc[k]).length,p.acc.length],`<div class="acc">${p.acc.map((a,k)=>`<label><input type="checkbox" data-acc="${k}" ${r.acc&&r.acc[k]?'checked':''}>${esc(a)}</label>`).join('')}</div>`):'';
+    ${picks.length?`<p class="sub" style="margin:10px 0 6px">Your saved exercises</p><div class="picks">${picks.map(n=>`<button class="pick" data-act="pickex" data-name="${esc(n)}">+ ${esc(n)}</button>`).join('')}</div>`:`<p class="sub" style="margin-top:8px">Exercises you add are saved here for future sessions.</p>`}
+  </div>`;
+  const acc=p.acc.length?`<div class="card"><p class="h2">Accessories</p><div class="acc">${p.acc.map((a,k)=>`<label><input type="checkbox" data-acc="${k}" ${r.acc&&r.acc[k]?'checked':''}>${esc(a)}</label>`).join('')}</div></div>`:'';
   $('#v-today').innerHTML=`<div class="blk${bk}">
   <div class="card sess">
     <div class="sess-nav">
@@ -1185,9 +1201,9 @@ function renderToday(){
         <div class="sub"><span class="tag ${p.type}">${p.type==='push'?'Push':'Pull'}</span> ${esc(p.lift)}</div>${r.done?`<span class="badge">Completed ${esc(r.date||'')}</span>`:''}</div>
       <button class="iconbtn" data-act="next" aria-label="Next session" ${i===ORDER.length-1?'disabled':''}>›</button>
     </div>
-    ${p.note?`<p class="note" style="margin-bottom:0">${esc(p.note)}</p>`:''}
+    ${p.note?`<p class="note">${esc(p.note)}</p>`:''}
+    ${main}
   </div>
-  ${mainDD}
   ${dips}
   ${shar}
   ${abs}
@@ -1216,7 +1232,6 @@ function tickClock(){
   if(left===0&&timer.buzz!==timer.end){timer.buzz=timer.end;if(navigator.vibrate)navigator.vibrate([200,100,200]);}
 }
 $('#v-today').addEventListener('keydown',e=>{if(e.target.id==='exname'&&e.key==='Enter'){e.preventDefault();if(addExercise(e.target.value)){toast('Exercise added');renderToday();}}});
-$('#v-today').addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('exdd'))EXO[cur+'|'+d.dataset.k]=d.open;},true);
 $('#v-today').addEventListener('input',e=>{
   const t=e.target,row=t.closest('.set');
   if(row){const s=secSets(cur,row.dataset.sec,true)[+row.dataset.k];s[t.dataset.f]=t.value===''?'':+t.value;save();return;}
@@ -1434,6 +1449,10 @@ function renderSettings(){
     <div class="bwlist">${S.library.length?S.library.map(n=>`<div><span>${esc(n)}</span><button data-libdel="${esc(n)}" aria-label="Delete ${esc(n)}">✕</button></div>`).join(''):'<p class="empty">None yet.</p>'}</div>
   </div>
   <div class="card"><p class="h2">Weekly schedule</p><p class="sub">Six sessions a week: Day 1 push, Day 2 pull, Day 3 push, Day 4 pull, Day 5 push, Day 6 pull. Days 5 and 6 are the longer sessions, so they suit the weekend. Take at least one rest day each week. If you miss a day, just do the next session; the app always opens on it.</p></div>
+  <div class="card"><p class="h2">AI food photos</p><p class="sub" style="margin-bottom:10px">${aiPass()?'Passcode saved on this phone. Snap a meal on the Food tab to use it.':'Enter the passcode you set in Cloudflare (APP_PASSCODE) to turn on photo analysis.'} It’s stored on this device only and isn’t included in backups.</p>
+    <div class="xadd"><input class="input" id="aipassin" type="password" autocomplete="off" placeholder="${aiPass()?'••••••••':'Passcode'}" aria-label="AI passcode"><button class="btn primary" data-ai="setpass" data-src="settings">Save</button></div>
+    ${aiPass()?'<button class="btn ghost" style="margin-top:8px" data-ai="clearpass">Remove passcode</button>':''}
+  </div>
   <div class="card"><p class="h2">Your data</p><p class="sub" style="margin-bottom:12px">${docRef?'Synced to your Claude account, so it follows you across devices.':'Stored in this browser only.'}</p>
     <div class="row"><button class="btn" id="csv">Export to spreadsheet (CSV)</button><button class="btn danger" id="reset">Reset all data</button></div>
   </div>
@@ -1519,7 +1538,7 @@ $('#v-cali').addEventListener('click',e=>{
   const f=e.target.closest('[data-cf]');if(f){cfilt=f.dataset.cf;renderCali();return;}
   const a=e.target.closest('[data-addc]');if(a){if(!cur||!info(cur))cur=nextId();
     const r=rec(cur);if((r.extra||[]).some(x=>x.name.toLowerCase()===a.dataset.addc.toLowerCase())){toast('Already in this session');show('today');return;}
-    addExercise(a.dataset.addc);EXO[cur+'|x']=true;toast(a.dataset.addc+' added');show('today');setTimeout(()=>{const el=document.querySelector('.xex:last-of-type');el&&el.scrollIntoView({block:'center'});},50);}
+    addExercise(a.dataset.addc);toast(a.dataset.addc+' added');show('today');setTimeout(()=>{const el=document.querySelector('.xex:last-of-type');el&&el.scrollIntoView({block:'center'});},50);}
 });
 function updFab(){$('#fabn').textContent=pushTotal(today());}
 function renderSheet(){
@@ -1550,7 +1569,7 @@ function openSwap(sec){swapSec=sec;const cx=curEx(cur,sec);
   $('#swapin').value='';$('#swapsheet').hidden=false;$('#swapbg').hidden=false;}
 function closeSwap(){$('#swapsheet').hidden=true;$('#swapbg').hidden=true;swapSec=null;}
 function doSwap(name){name=String(name||'').trim().replace(/\s+/g,' ');if(!name||!swapSec){toast('Type an exercise name');return;}
-  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);r[SECKEY[sec]].ex=name;if(sec!=='p'||info(cur).load)r[SECKEY[sec]].sets.forEach(x=>{if(!x.done)x.add='';});
+  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);r[SECKEY[sec]].ex=name;
   if(!S.library.some(x=>x.toLowerCase()===name.toLowerCase())){S.library.push(name);S.library.sort((a,b)=>a.localeCompare(b));}
   save();closeSwap();renderToday();toast('Swapped to '+name);}
 $('#swapx').addEventListener('click',closeSwap);$('#swapbg').addEventListener('click',closeSwap);
@@ -1587,13 +1606,13 @@ function dxBars(vals,labels,target,names){const W=340,H=150,L=26,B=18,mx=Math.ma
 /* ----- Session: today strip + warm-up cardio ----- */
 const DX_CARDIO=['Bike','Cross-trainer','Rower','Treadmill','Jog / run','Skipping','Other'];
 function dxToday(){const v=$('#v-today');if(!v||!cur)return;const E=dxEntries(),tm=dxDayMins(E,today()),T=dxDaily(),w=dxWU()[cur]||{},ok=w.saved&&+w.min>0;
-  const wst=ok?`<span style="color:var(--green)">✓ ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}</span>`:'10 min';
-  const card=exDD('wu','Cardio','--sun','Warm-up cardio',wst,`
-  <p class="sub" style="margin:0 0 10px">10 minutes on the bike, rower or cross-trainer before you lift. It counts towards your daily activity.</p>
+  v.insertAdjacentHTML('afterbegin',dxPushCard()+`<button class="dx-strip" data-dx="actopen"><span>Today: <b class="num" style="font-size:19px">${tm}</b> / ${T} min active${tm>=T?' ✓':''}</span><span class="go">+ Log activity</span><span class="dx-pbar"><span style="width:${Math.min(100,Math.round(tm/T*100))}%"></span></span></button>`);
+  const card=`<div class="card" id="dxwu"><div class="dx-head"><p class="h2" style="margin:0">Warm-up cardio</p><span class="sub">10 min</span></div>
+  <p class="sub" style="margin:4px 0 10px">10 minutes on the bike, rower or cross-trainer before you lift. It counts towards your daily activity.</p>
   <div class="dx-two"><div class="field"><label for="dxwt" style="font-size:13px">Type</label><select id="dxwt" data-dxw="type"><option value="">Choose…</option>${DX_CARDIO.map(c=>`<option ${w.type===c?'selected':''}>${c}</option>`).join('')}</select></div>
   <div class="field"><label for="dxwm" style="font-size:13px">Minutes</label><input class="input" id="dxwm" type="number" inputmode="numeric" min="0" data-dxw="min" value="${dxEsc(w.min||'')}"></div></div>
-  <button class="btn full ${ok?'done':'primary'}" style="margin-top:10px" data-dx="wusave">${ok?`✓ Saved: ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}`:'Save warm-up'}</button>`).replace('<details class="card exdd"','<details class="card exdd" id="dxwu"');
-  const first=v.querySelector('details.exdd');if(first)first.insertAdjacentHTML('beforebegin',card);else v.insertAdjacentHTML('beforeend',card);}
+  <button class="btn full ${ok?'done':'primary'}" style="margin-top:10px" data-dx="wusave">${ok?`✓ Saved: ${dxEsc(w.min)} min${w.type?' '+dxEsc(w.type).toLowerCase():''}`:'Save warm-up'}</button></div>`;
+  const nav=v.querySelector('.sess-nav');if(nav)nav.insertAdjacentHTML('afterend',card);else v.insertAdjacentHTML('beforeend',card);}
 
 const dxPushGoal=()=>+S.settings.pushDaily||100;
 function dxPushCard(){const n=pushTotal(today()),g=dxPushGoal(),q=lastPush()||20;
@@ -1956,7 +1975,7 @@ function renderFood(){const F=fdS(),td=today();if(!fdDate||fdDate>td)fdDate=td;
   let h=`<div class="fd-nav"><button class="iconbtn" data-fd="prev" aria-label="Previous day">‹</button><div class="d">${dxDay(fdDate)}</div><button class="iconbtn" data-fd="next" aria-label="Next day" ${fdDate>=td?'disabled':''}>›</button></div>`;
   h+=`<div class="card"><div class="fd-rings">${fdRing(tot.kcal,T&&T.kcal,'Calories','cal','--steel')}${fdRing(tot.p,T&&T.p,'Protein','g','--b2')}${fdRing(tot.c,T&&T.c,'Carbs','g','--sun')}${fdRing(tot.f,T&&T.f,'Fat','g','--b3')}</div>
   ${T?'':'<p class="sub" style="margin-top:10px;text-align:center">Set your daily targets below to fill the rings.</p>'}
-  <button class="btn primary full" style="margin-top:12px" data-fd="open">+ Add food</button></div>`;
+  <div class="fd-srcs"><button class="btn primary" data-fd="open">+ Add food</button><button class="btn" data-ai="open">📷 Snap a meal</button></div></div>`;
   h+=`<div class="card"><p class="h2" style="margin:0">Food log</p>`;
   if(!list.length){const yd=F.log[dxAdd(fdDate,-1)]||[];
     h+=`<p class="sub" style="margin-top:6px">Nothing logged for ${dxDay(fdDate).toLowerCase()} yet.</p>${yd.length?`<button class="btn" style="margin-top:10px" data-fd="copyprev">Copy the day before (${yd.length} item${yd.length>1?'s':''})</button>`:''}`;}
@@ -1985,7 +2004,7 @@ function fdOpen(id,meal){fdEdit=id||null;scCur=null;const e=id?fdDay(fdDate).fin
   const isFav=e&&F.favs.some(x=>x.name.toLowerCase()===e.name.toLowerCase());
   $('#dxfd-h').textContent=e?'Edit food':'Add food';
   $('#dxfdbody').innerHTML=`<p class="dx-lbl" style="margin-top:0">Meal</p><div class="dx-chips" id="fdmeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===fdMeal?'on':''}" data-fd="meal" data-m="${m}" aria-pressed="${m===fdMeal}">${m}</button>`).join('')}</div>
-  ${e?'':'<button class="btn full fd-scanbtn" style="margin-top:12px" data-sc="open">▥ Scan a barcode</button>'}
+  ${e?'':'<div class="fd-srcs"><button class="btn fd-scanbtn" data-sc="open">▥ Scan barcode</button><button class="btn" data-ai="open" data-m="'+fdMeal+'">📷 Analyse photo</button></div>'}
   <p class="dx-lbl">Food</p><input class="input" id="fdname" style="width:100%" maxlength="60" autocomplete="off" placeholder="Search or type a food" value="${e?esc(e.name):''}" aria-label="Food name">
   ${e?'':'<div class="fd-res" id="fdres"></div>'}
   <div id="fdbasis"></div>
@@ -2037,6 +2056,278 @@ document.addEventListener('change',e=>{const t=e.target,F=fdS();
   if(t.dataset.fdb){dxBody()[t.dataset.fdb]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
   if(t.dataset.fdf){F[t.dataset.fdf]=t.value;save();renderFood();$('#fdtcard').open=true;return;}
   if(t.dataset.fdt){const cur=fdTarget()||{kcal:0,p:0,c:0,f:0};F.tgt={kcal:+cur.kcal,p:+cur.p,c:+cur.c,f:+cur.f,manual:true};F.tgt[t.dataset.fdt]=Math.max(0,+t.value||0);save();renderFood();$('#fdtcard').open=true;dxToast('Targets saved ✓');}});
+
+/* ================= Photo food analysis ================= */
+/* Your photo is shrunk on the phone, then sent to this site's own Worker (/api/food), which asks Claude
+   to estimate the foods and macros. The Anthropic API key lives only on the Worker. The passcode is kept
+   on this device only, outside S, so it never ends up in backup files. Photos are not saved. */
+const AI_PASS='dt.aiPass';
+let aiRes=null,aiImg=null,aiMeal='Lunch',aiBusy=false,aiNote='',aiErr='';
+function aiPass(){try{return localStorage.getItem(AI_PASS)||'';}catch(e){return '';}}
+function aiSetPass(v){try{v?localStorage.setItem(AI_PASS,v):localStorage.removeItem(AI_PASS);}catch(e){}}
+function aiOpen(meal){aiRes=null;aiImg=null;aiBusy=false;aiErr='';aiNote='';aiMeal=meal||fdDefMealFor();
+  if(!$('#dxfdsheet').hidden)dxHide('fd');dxShow('ai');aiRender();}
+function aiClose(){if(aiBusy)aiBusy='cancelled';dxHide('ai');}
+const AI_CAM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+function aiMealChips(){return `<p class="dx-lbl">Add to</p><div class="dx-chips" id="aimeals">${FD_MEALS.map(m=>`<button class="dx-chip ${m===aiMeal?'on':''}" data-ai="meal" data-m="${m}" aria-pressed="${m===aiMeal}">${m}</button>`).join('')}</div>`;}
+function aiRender(){const B=$('#dxaibody');if(!B)return;
+  if(!aiPass()){
+    B.innerHTML=`<p class="sub" style="margin-top:0">Take a photo of your meal and Claude estimates what’s on the plate, the portions, and the calories, protein, carbs and fat. You check the numbers before anything is logged.</p>
+    ${aiErr?`<div class="note" style="margin-top:10px">${esc(aiErr)}</div>`:''}
+    <p class="dx-lbl">Passcode</p><div class="xadd"><input class="input" id="aipassin" type="password" autocomplete="off" placeholder="The APP_PASSCODE you set in Cloudflare" aria-label="AI passcode"><button class="btn primary" data-ai="setpass">Save</button></div>
+    <p class="sub" style="margin-top:6px">Saved on this phone only. You won’t be asked again.</p>`;return;}
+  if(aiBusy||(aiImg&&!aiRes&&!aiErr)){
+    B.innerHTML=`<div class="ai-shot">${aiImg?`<img src="${aiImg}" alt="Your meal">`:'<div style="height:160px"></div>'}<div class="ai-busy" role="status"><span class="ai-spin" aria-hidden="true"></span>${aiImg?'Working out what’s on the plate…':'Preparing photo…'}</div></div>
+    <p class="sub" style="margin-top:8px">This usually takes 5–15 seconds.</p>`;return;}
+  if(aiRes){const n=aiRes.items.filter(x=>x.on).length;
+    B.innerHTML=`<div class="ai-shot"><img src="${aiImg}" alt="Your meal"></div>
+    ${aiRes.name?`<p class="h2" style="margin:12px 0 0">${esc(aiRes.name)}</p>`:''}
+    <p class="sub" style="margin-top:4px">Estimates for the portion in the photo. Untick anything that isn’t there, and fix names or numbers before adding.</p>
+    ${aiRes.items.map((x,i)=>`<div class="ai-item ${x.on?'':'off'}" id="aiit${i}">
+      <div class="ai-top"><input type="checkbox" data-ai-on="${i}" ${x.on?'checked':''} aria-label="Include ${esc(x.name)}"><input class="input" data-ai-f="name" data-i="${i}" maxlength="60" value="${esc(x.name)}" aria-label="Food name"><span class="ai-conf ${x.conf}" title="How sure the estimate is">${x.conf==='high'?'Confident':x.conf==='low'?'Rough guess':'Estimate'}</span></div>
+      ${x.portion||x.grams?`<p class="sub">${esc(x.portion)}${x.grams?(x.portion?', ':'')+'about '+fdR(x.grams)+' g':''}</p>`:''}
+      <div class="fd-four">${[['kcal','Cal'],['p','Protein g'],['c','Carbs g'],['f','Fat g']].map(([k,l])=>`<div class="field"><label for="ai${k}${i}" style="font-size:12px">${l}</label><input class="input" id="ai${k}${i}" type="number" inputmode="decimal" min="0" step="any" data-ai-f="${k}" data-i="${i}" value="${fdN1(x[k])}"></div>`).join('')}</div>
+      <div class="ai-qrow"><span>Amount eaten</span><div class="dx-chips">${[.5,1,1.5,2].map(q=>`<button class="dx-chip ${q===x.q?'on':''}" data-ai="q" data-i="${i}" data-aq="${q}" aria-pressed="${q===x.q}">${q===.5?'½':q===1.5?'1½':q===1?'As shown':'2×'}</button>`).join('')}</div></div>
+    </div>`).join('')}
+    ${aiRes.notes?`<div class="note" style="margin-top:10px">${esc(aiRes.notes)}</div>`:''}
+    <div class="fd-tot" id="aitot"></div>
+    ${aiMealChips()}
+    <button class="btn primary full" style="margin-top:12px" data-ai="add" id="aiadd" ${n?'':'disabled'}>Add ${n} item${n===1?'':'s'} to ${aiMeal.toLowerCase()}</button>
+    <button class="btn ghost full" style="margin-top:8px" data-ai="pick">Try another photo</button>`;
+    aiTotals();return;}
+  B.innerHTML=`${aiErr?`<div class="note">${esc(aiErr)}</div>`:''}
+  <button class="ai-pick" data-ai="pick">${AI_CAM}<span>${aiErr?'Try again':'Take or choose a photo'}</span><small>Shoot from above, with the whole plate in frame</small></button>
+  <p class="dx-lbl">Anything the photo won’t show? (optional)</p>
+  <input class="input" id="ainote" style="width:100%" maxlength="200" autocomplete="off" placeholder="e.g. cooked in butter, 200 g steak, trim milk" value="${esc(aiNote)}" aria-label="Extra detail">
+  <p class="sub" style="margin-top:8px">Photo estimates can be out by 20–30%, especially for oils and sauces. Weighing key foods now and then keeps you honest.</p>
+  <button class="btn ghost" style="margin-top:6px" data-ai="clearpass">Change passcode</button>`;}
+function aiTotals(){if(!aiRes)return;const on=aiRes.items.filter(x=>x.on),t=fdSum(on.map(x=>({kcal:x.kcal,p:x.p,c:x.c,f:x.f,qty:x.q})));
+  const el=$('#aitot');if(el)el.innerHTML=`Meal total: <b>${fdR(t.kcal)} cal</b> · P ${fdR(t.p)} · C ${fdR(t.c)} · F ${fdR(t.f)} g`;
+  const b=$('#aiadd');if(b){b.disabled=!on.length;b.textContent=`Add ${on.length} item${on.length===1?'':'s'} to ${aiMeal.toLowerCase()}`;}}
+function aiShrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{try{const M=1280,w0=im.naturalWidth,h0=im.naturalHeight,k=Math.min(1,M/Math.max(w0,h0)),w=Math.round(w0*k),h=Math.round(h0*k),c=document.createElement('canvas');
+    c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.82));}catch(e){URL.revokeObjectURL(url);rej(new Error('img'));}};
+  im.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('img'));};im.src=url;});}
+async function aiAnalyse(file){aiErr='';aiRes=null;aiImg=null;aiBusy=true;aiRender();
+  try{aiImg=await aiShrink(file);if(aiBusy==='cancelled'){aiBusy=false;return;}aiRender();
+    const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),60000);let r;
+    try{r=await fetch('/api/food',{method:'POST',headers:{'Content-Type':'application/json','X-App-Passcode':aiPass()},body:JSON.stringify({image:aiImg.split(',')[1],mediaType:'image/jpeg',note:aiNote.trim().slice(0,200)}),signal:ctl.signal});}
+    finally{clearTimeout(t);}
+    const d=await r.json().catch(()=>({}));
+    if(r.status===401){aiSetPass('');aiErr='That passcode wasn’t accepted. Enter it again.';}
+    else if(r.status===404||r.status===405)aiErr='Photo analysis isn’t switched on for this site yet. The Worker needs deploying (see the setup steps).';
+    else if(!r.ok)aiErr=d.error||'The analysis didn’t work ('+r.status+'). Try again.';
+    else if(!d.is_food||!Array.isArray(d.items)||!d.items.length)aiErr=d.notes||'Couldn’t spot any food in that photo. Try a clearer shot from above.';
+    else aiRes={name:d.meal_name||'',notes:d.notes||'',items:d.items.map(x=>({on:true,q:1,name:String(x.name||'Food').slice(0,60),portion:x.portion||'',grams:+x.grams||0,kcal:+x.kcal||0,p:+x.p||0,c:+x.c||0,f:+x.f||0,conf:x.conf||'medium'}))};
+  }catch(err){aiErr=err&&err.message==='img'?'Couldn’t read that photo. Try a different one.':!navigator.onLine?'You’re offline. Photo analysis needs a connection.':err&&err.name==='AbortError'?'That took too long. Try again.':'Couldn’t reach the analyser. Check your connection and try again.';}
+  const wasCancelled=aiBusy==='cancelled';aiBusy=false;if(!wasCancelled)aiRender();}
+function aiAdd(){if(!aiRes)return;const on=aiRes.items.filter(x=>x.on&&x.name.trim());if(!on.length){dxToast('Tick at least one food');return;}
+  const list=fdDay(fdDate),m=aiMeal,ids=[];
+  on.forEach((x,i)=>{const kcal=x.kcal||Math.round(x.p*4+x.c*4+x.f*9);const id='f'+Date.now().toString(36)+i+Math.random().toString(36).slice(2,5);ids.push(id);
+    list.push({id,name:x.name.trim().replace(/\s+/g,' '),kcal,p:x.p,c:x.c,f:x.f,qty:x.q,meal:m,src:'photo'});});
+  save();dxHide('ai');aiRes=null;aiImg=null;if(view!=='food')show('food');else renderFood();
+  const d=fdDate;dxToast(on.length+' item'+(on.length>1?'s':'')+' added to '+m.toLowerCase()+' ✓',()=>{const L=fdDay(d);ids.forEach(id=>{const i=L.findIndex(e=>e.id===id);if(i>=0)L.splice(i,1);});save();renderFood();});}
+$('#aifile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)aiAnalyse(f);});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ai]');if(!b)return;const a=b.dataset.ai;
+  if(a==='open'){aiOpen(b.dataset.m);return;}
+  if(a==='close'){aiClose();return;}
+  if(a==='pick'){aiErr='';const n=$('#ainote');if(n)aiNote=n.value;$('#aifile').click();return;}
+  if(a==='setpass'){const v=($('#aipassin')||{}).value||'';if(!v.trim()){dxToast('Enter the passcode');return;}aiSetPass(v.trim());aiErr='';dxToast('Passcode saved ✓');
+    if(b.dataset.src==='settings')renderSettings();else aiRender();return;}
+  if(a==='clearpass'){aiSetPass('');if(view==='settings')renderSettings();if(!$('#dxaisheet').hidden)aiRender();dxToast('Passcode removed');return;}
+  if(a==='meal'){aiMeal=b.dataset.m;document.querySelectorAll('#aimeals .dx-chip').forEach(c=>{const on=c.dataset.m===aiMeal;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});aiTotals();return;}
+  if(a==='q'&&aiRes){const x=aiRes.items[+b.dataset.i];if(!x)return;x.q=+b.dataset.aq;b.parentNode.querySelectorAll('.dx-chip').forEach(c=>{const on=+c.dataset.aq===x.q;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});aiTotals();return;}
+  if(a==='add'){aiAdd();return;}});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.id==='ainote'){aiNote=t.value;return;}
+  if(t.dataset.aiF&&aiRes){const x=aiRes.items[+t.dataset.i];if(!x)return;const k=t.dataset.aiF;x[k]=k==='name'?t.value:Math.max(0,parseFloat(t.value)||0);aiTotals();}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.aiOn===undefined||!aiRes)return;const x=aiRes.items[+t.dataset.aiOn];if(!x)return;x.on=t.checked;
+  const card=$('#aiit'+t.dataset.aiOn);if(card)card.classList.toggle('off',!x.on);aiTotals();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#dxaisheet').hidden)aiClose();});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='aipassin'){const b=document.querySelector('[data-ai="setpass"]');if(b)b.click();}});
+
+/* ================= GPS run tracker ================= */
+/* Tracks a run with the phone's GPS while the app is open. iPhone pauses web apps when the screen
+   locks, so the screen is kept awake (Wake Lock) and a pocket lock stops accidental taps.
+   The run in progress is saved on this device every few seconds, so it can be recovered if the
+   app is closed. Finished runs are saved as normal activities (type Run or Walk) with a gps record. */
+const RUN_KEY='dt.runLive',RUN_ACC=35;
+let R=null,runWatch=null,runTickH=null,runFix=null,runWake=null,runRecent=[],runHidAt=0,runLastSave=0,runErr='',runPrevView=null;
+const runNow=()=>Date.now();
+function runHav(a,b){const r=Math.PI/180,dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r,x=Math.sin(dLa/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dLo/2)**2;return 12742000*Math.asin(Math.min(1,Math.sqrt(x)));}
+function runFmt(sec){sec=Math.max(0,Math.round(sec));const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return h?h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'):m+':'+String(s).padStart(2,'0');}
+function runPace(sec,m){if(!(m>=20)||!(sec>0))return '–';const p=sec/(m/1000);return p>3599?'–':runFmt(p);}
+function runSay(sec){sec=Math.round(sec);const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return (h?h+(h>1?' hours ':' hour '):'')+(m?m+(m===1?' minute ':' minutes '):'')+(h?'':s+(s===1?' second':' seconds'));}
+function runMoving(at){if(!R)return 0;const t=at||runNow();return R.segs.reduce((a,[s,e])=>a+Math.max(0,Math.min(e||t,t)-s),0)/1000;}
+function runVoiceOn(){return S.settings.runVoice!==false;}
+function runSpeak(t){if(!runVoiceOn()||!('speechSynthesis' in window))return;try{const u=new SpeechSynthesisUtterance(t);u.lang='en-NZ';u.rate=1;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+function runPersist(force){if(!R)return;const n=runNow();if(!force&&n-runLastSave<5000)return;runLastSave=n;R.savedAt=n;try{localStorage.setItem(RUN_KEY,JSON.stringify(R));}catch(e){}}
+function runClearLive(){try{localStorage.removeItem(RUN_KEY);}catch(e){}}
+async function runWakeOn(){try{if('wakeLock' in navigator&&!runWake){runWake=await navigator.wakeLock.request('screen');runWake.addEventListener('release',()=>{runWake=null;});}}catch(e){runWake=null;}}
+function runWakeOff(){try{if(runWake)runWake.release();}catch(e){}runWake=null;}
+function runWatchOn(){if(runWatch!==null||!('geolocation' in navigator))return;runErr='';
+  runWatch=navigator.geolocation.watchPosition(runOnPos,runOnErr,{enableHighAccuracy:true,maximumAge:0,timeout:30000});}
+function runWatchOff(){if(runWatch!==null){try{navigator.geolocation.clearWatch(runWatch);}catch(e){}}runWatch=null;}
+function runOnErr(e){if(e.code===1){runErr='Location is blocked for this app. On iPhone: Settings › Privacy & Security › Location Services › Safari Websites › While Using the App, then reopen the app.';runWatchOff();}
+  else if(e.code===3)runErr='';else runErr='Can’t get a GPS fix. Head outside, away from tall buildings.';runGpsUI();if(R&&R.phase==='ready'||!R)runRender();}
+function runOnPos(p){const c=p.coords,acc=c.accuracy||999,t=p.timestamp||runNow();runFix={acc,at:runNow()};if(runErr){runErr='';if(!R||R.phase==='ready')runRender();}runGpsUI();
+  if(!R||R.phase!=='run'||acc>RUN_ACC)return;
+  const pt=[+c.latitude.toFixed(6),+c.longitude.toFixed(6)],a=R.anchor;
+  if(!a){R.anchor=[pt[0],pt[1],t];R.pts.push(null,[+pt[0].toFixed(5),+pt[1].toFixed(5)]);runRecent.push({t,d:R.dist});return;}
+  const d=runHav(a,pt),dt=Math.max(.001,(t-a[2])/1000);
+  if(dt<30&&d/dt>12)return;                                   // GPS glitch: faster than a sprinter
+  if(dt>=30&&d/dt>8){R.anchor=[pt[0],pt[1],t];R.pts.push(null,[+pt[0].toFixed(5),+pt[1].toFixed(5)]);return;} // big jump after a gap: start a new line, no distance
+  if(dt<30&&d<Math.max(4,acc*.5))return;                      // standing still: ignore jitter
+  if(dt>=30){R.gaps++;R.gapSecs+=dt;}
+  const prev=R.dist;R.dist+=d;
+  while(R.dist>=(R.splits.length+1)*1000){const b=(R.splits.length+1)*1000,f=(b-prev)/d,tc=a[2]+f*(t-a[2]),mv=runMoving(tc),done=R.splits.reduce((x,y)=>x+y,0),sp=Math.max(1,mv-done);
+    R.splits.push(Math.round(sp));const k=R.splits.length;runSpeak(`${k} ${k===1?'kilometre':'kilometres'}. Time ${runSay(mv)}. That kilometre ${runSay(sp)}.`);}
+  R.anchor=[pt[0],pt[1],t];R.pts.push([+pt[0].toFixed(5),+pt[1].toFixed(5)]);runRecent.push({t,d:R.dist});
+  const cut=t-90000;while(runRecent.length>2&&runRecent[0].t<cut)runRecent.shift();
+  runPersist();}
+function runNowPace(){if(!runRecent.length)return '–';const L=runRecent[runRecent.length-1];if(runNow()-L.t>15000)return '–';
+  let f=runRecent.find(x=>x.t>=L.t-30000)||runRecent[0];if(f===L&&runRecent.length>1)f=runRecent[runRecent.length-2];return runPace((L.t-f.t)/1000,L.d-f.d);}
+function runGpsUI(){const el=$('#rungps');if(!el)return;let c='',t='Searching…';
+  if(runErr){c='bad';t='No GPS';}else if(runFix&&runNow()-runFix.at<12000){const a=Math.round(runFix.acc);c=a<=15?'good':a<=RUN_ACC?'ok':'bad';t=(a<=15?'GPS strong':a<=RUN_ACC?'GPS OK':'GPS weak')+' ±'+a+' m';}
+  el.className='run-gps '+c;el.lastElementChild.textContent=t;}
+/* Route drawing: plain SVG trace, no map tiles needed (works offline) */
+function runRouteSVG(pts,live){const P=(pts||[]).filter(Boolean);const W=340,H=210,pad=14;
+  if(P.length<2)return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route"><text x="${W/2}" y="${H/2}" text-anchor="middle">${live?'Your route will draw here as you move':'No route recorded'}</text></svg>`;
+  const la0=P.reduce((a,p)=>a+p[0],0)/P.length,k=Math.cos(la0*Math.PI/180);let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  const pr=p=>[p[1]*k*111320,-p[0]*110540];P.forEach(p=>{const [x,y]=pr(p);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);});
+  const sc=Math.min((W-2*pad)/Math.max(30,x1-x0),(H-2*pad)/Math.max(30,y1-y0)),ox=(W-(x1-x0)*sc)/2,oy=(H-(y1-y0)*sc)/2,xy=p=>{const [x,y]=pr(p);return [(ox+(x-x0)*sc).toFixed(1),(oy+(y-y0)*sc).toFixed(1)];};
+  let d='',nw=true;(pts||[]).forEach(p=>{if(!p){nw=true;return;}const [x,y]=xy(p);d+=(nw?'M':'L')+x+' '+y;nw=false;});
+  const s=xy(P[0]),e=xy(P[P.length-1]);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map"><path class="rt" d="${d}"/><circle class="st" cx="${s[0]}" cy="${s[1]}" r="6"/><circle class="${live?'me':'en'}" cx="${e[0]}" cy="${e[1]}" r="${live?8:6}"/></svg>`;}
+/* Shrink a track for storage (Ramer–Douglas–Peucker), keeping line breaks */
+function runSimplify(pts,max){const segs=[];let cur=[];(pts||[]).forEach(p=>{if(!p){if(cur.length)segs.push(cur);cur=[];}else cur.push(p);});if(cur.length)segs.push(cur);
+  const dperp=(p,a,b)=>{const k=Math.cos(a[0]*Math.PI/180),ax=a[1]*k*111320,ay=a[0]*110540,bx=b[1]*k*111320-ax,by=b[0]*110540-ay,px=p[1]*k*111320-ax,py=p[0]*110540-ay,L=bx*bx+by*by;
+    if(!L)return Math.hypot(px,py);const u=Math.max(0,Math.min(1,(px*bx+py*by)/L));return Math.hypot(px-u*bx,py-u*by);};
+  const rdp=(A,eps)=>{if(A.length<3)return A.slice();const keep=new Uint8Array(A.length);keep[0]=keep[A.length-1]=1;const st=[[0,A.length-1]];
+    while(st.length){const [i,j]=st.pop();let md=0,mi=-1;for(let q=i+1;q<j;q++){const dd=dperp(A[q],A[i],A[j]);if(dd>md){md=dd;mi=q;}}if(md>eps){keep[mi]=1;st.push([i,mi],[mi,j]);}}
+    return A.filter((_,q)=>keep[q]);};
+  let eps=2,out;do{out=[];segs.forEach((g,i)=>{if(i)out.push(null);out.push(...rdp(g,eps));});eps*=1.6;}while(out.filter(Boolean).length>max&&eps<500);return out;}
+function runSplitsHTML(sp,totalM,totalS){if(!sp.length&&!(totalM>0))return '';const done=sp.reduce((a,b)=>a+b,0),restM=totalM-sp.length*1000,restS=totalS-done,rows=sp.map((x,i)=>({k:String(i+1),s:x,p:x}));
+  if(restM>=50&&restS>0)rows.push({k:(totalM/1000).toFixed(2).replace(/^\d+/,'')||'',s:restS,p:restS/(restM/1000),part:1,lbl:(restM/1000).toFixed(2)});
+  if(!rows.length)return '';const mx=Math.max(...rows.map(r=>r.p)),mn=Math.min(...rows.map(r=>r.p)),best=sp.length>1?sp.indexOf(Math.min(...sp)):-1;
+  return `<div class="run-splits" aria-label="Kilometre splits">${rows.map((r,i)=>`<div class="run-sp ${i===best?'best':''} ${r.part?'part':''}"><span>${r.part?r.lbl:'Km '+r.k}</span><b class="num">${runFmt(r.p)}</b><span class="bar"><span style="width:${Math.round(35+65*(mx===mn?1:(mx-r.p)/(mx-mn)))}%"></span></span></div>`).join('')}</div>`;}
+/* ----- Overlay rendering ----- */
+function runOpen(){if(!R)R={phase:'ready'};$('#runov').hidden=false;$('#runmini').hidden=true;document.body.style.overflow='hidden';runWatchOn();runRender();runTickStart();}
+function runMinimise(){if(!R||R.phase==='ready'){runCloseAll();return;}$('#runov').hidden=true;document.body.style.overflow='';runMiniUI();}
+function runCloseAll(){runWatchOff();runWakeOff();clearInterval(runTickH);runTickH=null;R=null;runRecent=[];$('#runov').hidden=true;$('#runlock').hidden=true;$('#runmini').hidden=true;document.body.style.overflow='';}
+function runMiniUI(){const m=$('#runmini');if(!R||R.phase==='ready'||!$('#runov').hidden){m.hidden=true;return;}m.hidden=false;m.classList.toggle('p',R.phase!=='run');
+  $('#runminit').textContent=R.phase==='done'?'Run finished · tap to save':(R.phase==='paused'?'Paused · ':'Run · ')+(R.dist/1000).toFixed(2)+' km · '+runFmt(runMoving());}
+function runTickStart(){if(runTickH)return;runTickH=setInterval(runTick,1000);}
+function runTick(){if(!R)return;runGpsUI();if(R.phase==='run'||R.phase==='paused'){const mv=runMoving(),km=(R.dist/1000).toFixed(2),avg=runPace(mv,R.dist);
+    const set=(id,v)=>{const e=$(id);if(e&&e.textContent!==v)e.textContent=v;};set('#rt',runFmt(mv));set('#rd',km);set('#rp',R.phase==='run'?runNowPace():'–');set('#ra',avg);
+    const done=R.splits.reduce((a,b)=>a+b,0);set('#rs',runFmt(mv-done));set('#rlt',runFmt(mv));set('#rld',km);set('#rlp',R.phase==='run'?'Avg '+avg+' /km':'Paused');
+    if(R.phase==='run'&&(!runTick.n||++runTick.n%3===0)){runTick.n=runTick.n||1;const m=$('#rmap');if(m&&!$('#runov').hidden)m.innerHTML=runRouteSVG(R.pts,true);const sp=$('#rsplits');if(sp&&sp.dataset.n!=R.splits.length){sp.dataset.n=R.splits.length;sp.innerHTML=runSplitsHTML(R.splits,R.splits.length*1000,done);}}
+    runPersist();}
+  runMiniUI();}
+function runRender(){const B=$('#runbody');if(!B||!R)return;const ph=R.phase;$('#run-h').textContent=ph==='done'?'Run summary':ph==='paused'?'Paused':ph==='run'?'Running':'Run';
+  $('#runx').setAttribute('aria-label',ph==='ready'?'Close':'Minimise');$('#runx').textContent=ph==='ready'?'✕':'⌄';
+  if(ph==='ready'){const noWake=!('wakeLock' in navigator),noGeo=!('geolocation' in navigator);
+    B.innerHTML=`<div class="run-ready">
+      ${noGeo?'<div class="run-note">This browser can’t use GPS.</div>':runErr?`<div class="run-note" role="alert">${dxEsc(runErr)}</div>`:''}
+      <button class="run-big go" data-run="start" ${noGeo?'disabled':''}>Start</button>
+      <p class="run-hint" id="runrdy">${runFix&&runFix.acc<=RUN_ACC?'GPS is ready. Go when you are.':'Waiting for a good GPS signal. You can start anyway; distance begins once the signal is good.'}</p>
+      <label class="run-tog"><input type="checkbox" data-run="voice" ${runVoiceOn()?'checked':''}> Voice update every km</label>
+      <div class="run-note"><b>Keep the app open while you run.</b> iPhone stops tracking web apps when the screen locks, so the screen stays on during your run. Tap 🔒 <b>Lock</b> once you’re moving to stop pocket taps.${noWake?' Your phone can’t keep the screen on automatically: set <b>Settings › Display & Brightness › Auto-Lock</b> to Never while you run.':''}</div>
+    </div>`;return;}
+  if(ph==='run'||ph==='paused'){const mv=runMoving(),done=R.splits.reduce((a,b)=>a+b,0);
+    B.innerHTML=`<div class="run-time num" id="rt">${runFmt(mv)}</div><div class="run-lbl">Moving time</div>
+      <div class="run-dist"><span class="num" id="rd">${(R.dist/1000).toFixed(2)}</span><small>km</small></div>
+      <div class="run-grid"><div><b class="num" id="rp">–</b><span>Pace now /km</span></div><div><b class="num" id="ra">${runPace(mv,R.dist)}</b><span>Avg pace /km</span></div><div><b class="num" id="rs">${runFmt(mv-done)}</b><span>This km</span></div></div>
+      ${R.recovered?`<div class="run-note" style="margin-top:10px" role="status">This run was interrupted when the app closed. Resume to carry on, or finish to save it.</div>`:''}
+      <div class="run-map" id="rmap">${runRouteSVG(R.pts,true)}</div>
+      <div id="rsplits" data-n="${R.splits.length}">${runSplitsHTML(R.splits,R.splits.length*1000,done)}</div>
+      ${ph==='run'?`<div class="run-ctl"><button class="run-sm" data-run="lock" aria-label="Pocket lock">🔒<br>Lock</button><button class="run-big" data-run="pause">Pause</button><span style="width:64px"></span></div>`
+        :`<div class="run-ctl"><button class="run-sm" data-run="discard" aria-label="Discard run">Discard</button><button class="run-big go" data-run="resume">Resume</button><button class="run-sm hold" data-run="finish" style="--hold:.8s;background:var(--red);color:#fff;border:0" aria-label="Finish run, press and hold">Finish</button></div><p class="run-hint">Hold Finish to end your run.</p>`}`;return;}
+  if(ph==='done'){const mv=R.final.secs,m=R.final.m;
+    B.innerHTML=`<p class="sub" style="margin:0">${new Date(R.start).toLocaleString('en-NZ',{weekday:'long',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}</p>
+      <div class="run-dist" style="text-align:left"><span class="num">${(m/1000).toFixed(2)}</span><small>km</small></div>
+      <div class="run-grid"><div><b class="num">${runFmt(mv)}</b><span>Moving time</span></div><div><b class="num">${runPace(mv,m)}</b><span>Avg pace /km</span></div><div><b class="num">${R.splits.length>1?runFmt(Math.min(...R.splits)):'–'}</b><span>Fastest km</span></div></div>
+      ${m<100?'<div class="run-note" style="margin-top:10px">Hardly any distance was recorded. GPS may not have locked on. You can still save the time.</div>':''}
+      ${R.gaps?`<div class="run-note" style="margin-top:10px">GPS stopped for ${Math.max(1,Math.round(R.gapSecs/60))} min while the screen was off. That stretch is counted as a straight line, so distance may be a bit short.</div>`:''}
+      <div class="run-map">${runRouteSVG(R.pts,false)}</div>
+      ${runSplitsHTML(R.splits,m,mv)}
+      <p class="dx-lbl">What was it?</p><div class="dx-chips" id="runtype">${['Run','Walk'].map(t=>`<button class="dx-chip ${R.type===t?'on':''}" data-run="type" data-t="${t}" aria-pressed="${R.type===t}">${t}</button>`).join('')}</div>
+      <p class="dx-lbl">How did it feel?</p><div class="dx-chips" id="runeff">${['Easy','Moderate','Hard'].map(t=>`<button class="dx-chip ${R.eff===t?'on':''}" data-run="eff" data-t="${t}" aria-pressed="${R.eff===t}">${t}</button>`).join('')}</div>
+      <button class="btn primary full" style="margin-top:14px;min-height:52px" data-run="save">Save ${R.type.toLowerCase()}</button>
+      <button class="btn ghost full" style="margin-top:8px;color:var(--red)" data-run="discard">Discard</button>`;}}
+/* ----- Actions ----- */
+function runStart(){const n=runNow();R={phase:'run',start:n,segs:[[n,null]],pts:[],dist:0,splits:[],anchor:null,gaps:0,gapSecs:0,type:'Run',eff:'Moderate'};runRecent=[];
+  runWakeOn();runSpeak('Run started');runPersist(true);runRender();runTickStart();}
+function runPause(){if(!R||R.phase!=='run')return;const n=runNow();R.segs[R.segs.length-1][1]=n;R.phase='paused';R.anchor=null;runRecent=[];runPersist(true);runRender();runTick();}
+function runResume(){if(!R)return;R.phase='run';R.recovered=false;R.segs.push([runNow(),null]);R.anchor=null;runWatchOn();runWakeOn();runPersist(true);runRender();runTick();}
+function runFinish(){if(!R)return;if(R.phase==='run')runPause();const mv=runMoving();R.final={secs:Math.round(mv),m:Math.round(R.dist)};R.phase='done';runWatchOff();runWakeOff();$('#runlock').hidden=true;runSpeak('Run finished. '+(R.dist/1000).toFixed(2)+' kilometres in '+runSay(mv)+'.');runPersist(true);runRender();}
+function runDiscard(){if(!R)return;if(R.dist>200&&!confirm('Discard this run? It won’t be saved.'))return;runClearLive();runCloseAll();dxToast('Run discarded');}
+function runSave(){if(!R||!R.final)return;const f=R.final,id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  const a={id,date:ymd(new Date(R.start)),type:R.type,min:Math.max(1,Math.round(f.secs/60)),dist:(f.m/1000).toFixed(2),eff:R.eff,
+    gps:{start:R.start,secs:f.secs,m:f.m,splits:R.splits.slice(),track:runSimplify(R.pts,250),gaps:R.gaps||0}};
+  dxActs().push(a);save();runClearLive();runCloseAll();show('activity');
+  dxToast(a.type+' saved · '+a.dist+' km ✓',()=>{S.acts=dxActs().filter(x=>x.id!==id);save();dxRerender();});}
+/* Hold-to-confirm buttons (Finish, Unlock); keyboard users get a confirm instead */
+let runHoldT=null;
+function runHoldStart(el,ms,cb){el.classList.add('holding');clearTimeout(runHoldT);runHoldT=setTimeout(()=>{el.classList.remove('holding');if(navigator.vibrate)navigator.vibrate(30);cb();},ms);}
+function runHoldEnd(el){clearTimeout(runHoldT);if(el)el.classList.remove('holding');}
+document.addEventListener('pointerdown',e=>{const f=e.target.closest('[data-run="finish"]');if(f){e.preventDefault();runHoldStart(f,800,runFinish);return;}
+  if(e.target.closest('#rlu')){e.preventDefault();runHoldStart($('#rlu'),1000,()=>{$('#runlock').hidden=true;});}});
+['pointerup','pointercancel','pointerleave'].forEach(t=>document.addEventListener(t,e=>{const el=e.target.closest&&e.target.closest('[data-run="finish"],#rlu');if(el)runHoldEnd(el);},true));
+document.addEventListener('click',e=>{const b=e.target.closest('[data-run]');
+  if(e.target.closest('#rlu')&&e.detail===0){$('#runlock').hidden=true;return;}
+  if(e.target.closest('#runx')){runMinimise();return;}
+  if(e.target.closest('#runmini')){runOpen();return;}
+  if(!b)return;const a=b.dataset.run;
+  if(a==='open'){if(!(view==='activity'))runPrevView=view;runOpen();return;}
+  if(a==='start'){runStart();return;}
+  if(a==='pause'){runPause();return;}
+  if(a==='resume'){runResume();return;}
+  if(a==='finish'){if(e.detail===0&&confirm('Finish this run?'))runFinish();return;}
+  if(a==='lock'){$('#runlock').hidden=false;runTick();return;}
+  if(a==='discard'){runDiscard();return;}
+  if(a==='save'){runSave();return;}
+  if(a==='type'||a==='eff'){R[a==='type'?'type':'eff']=b.dataset.t;b.parentNode.querySelectorAll('.dx-chip').forEach(c=>{const on=c===b;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on);});
+    if(a==='type'){const s=document.querySelector('[data-run="save"]');if(s)s.textContent='Save '+R.type.toLowerCase();}runPersist(true);return;}
+  if(a==='view'){runView(b.dataset.id);return;}
+  if(a==='edit'){dxHide('run');runOrigOpen(b.dataset.id);return;}
+  if(a==='del'){const i=dxActs().findIndex(x=>x.id===b.dataset.id);if(i<0)return;const gone=dxActs()[i];dxActs().splice(i,1);save();dxHide('run');dxRerender();
+    dxToast(gone.type+' deleted',()=>{dxActs().splice(i,0,gone);save();dxRerender();});return;}});
+document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.run==='voice'){S.settings.runVoice=e.target.checked;save();if(e.target.checked)runSpeak('Voice updates on');}});
+document.addEventListener('visibilitychange',()=>{if(!R||R.phase!=='run')return;
+  if(document.hidden){runHidAt=runNow();runPersist(true);return;}
+  runWakeOn();const gone=runHidAt?(runNow()-runHidAt)/1000:0;runHidAt=0;
+  if(gone>20)dxToast('GPS paused for '+runFmt(gone)+' while the screen was off');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#runov').hidden&&$('#runlock').hidden&&!e.defaultPrevented)runMinimise();});
+/* ----- Saved runs: Activity tab card, details sheet, goals ----- */
+const runAll=()=>dxActs().filter(a=>a.gps).sort((x,y)=>(y.gps.start||0)-(x.gps.start||0));
+function runBest5k(){let b=null;runAll().forEach(a=>{if(!/run|jog/i.test(a.type))return;const s=a.gps.splits||[];for(let i=0;i+5<=s.length;i++){const t=s.slice(i,i+5).reduce((x,y)=>x+y,0);if(b===null||t<b)b=t;}});return b;}
+function runCardHTML(){const all=runAll(),runs=all.filter(a=>/run|jog/i.test(a.type)),mon=dxAdd(today(),-((new Date().getDay()+6)%7));
+  const wk=dxActs().filter(a=>/run|jog/i.test(a.type)&&a.date>=mon).reduce((x,a)=>x+(+a.dist||0),0),last=all[0],b5=runBest5k(),long=runs.reduce((m,a)=>Math.max(m,+a.dist||0),0);
+  let fk=null;runs.forEach(a=>(a.gps.splits||[]).forEach(s=>{if(fk===null||s<fk)fk=s;}));
+  let live='';try{const L=JSON.parse(localStorage.getItem(RUN_KEY)||'null');if(L&&L.phase&&L.phase!=='ready'&&!R)live=`<button class="dx-strip" data-run="open" style="margin-top:10px"><span><b>Unfinished run</b> · ${(L.dist/1000).toFixed(2)} km</span><span class="go">Resume or save ›</span></button>`;}catch(e){}
+  return `<div class="card run-card"><div class="dx-head"><p class="h2" style="margin:0">GPS run</p><span class="sub">This week: <b>${wk.toFixed(1)}</b> km</span></div>
+  <button class="btn primary full run-go" style="margin-top:12px" data-run="open">▶ Start a run</button>${live}
+  ${runs.length?`<div class="run-kp3"><div class="dx-kpi"><div class="v num">${long.toFixed(1)}</div><div class="l">Longest km</div></div><div class="dx-kpi"><div class="v num">${fk===null?'–':runFmt(fk)}</div><div class="l">Fastest km</div></div><div class="dx-kpi"><div class="v num">${b5===null?'–':runFmt(b5)}</div><div class="l">Best 5 km</div></div></div>`:'<p class="sub" style="margin:10px 0 0">Track your route, distance, pace and kilometre splits with your phone’s GPS. Runs count towards your active minutes.</p>'}
+  ${all.length?`<div class="run-list">${all.slice(0,3).map(a=>`<button class="dx-entry" data-run="view" data-id="${a.id}"><span><b>${dxEsc(a.type)} · ${dxEsc(a.dist)} km</b> · ${runFmt(a.gps.secs)}<small>${dxDay(a.date)} · ${runPace(a.gps.secs,a.gps.m)} /km</small></span><span aria-hidden="true">›</span></button>`).join('')}</div>`:''}</div>`;}
+function runView(id){const a=dxActs().find(x=>x.id===id);if(!a||!a.gps)return;const g=a.gps;
+  $('#dxrun-h').textContent=a.type+' · '+dxDay(a.date);
+  $('#dxrunbody').innerHTML=`<p class="sub" style="margin:0">${new Date(g.start).toLocaleTimeString('en-NZ',{hour:'numeric',minute:'2-digit'})} · ${dxEsc(a.eff||'')}</p>
+    <div class="run-grid"><div><b class="num">${(g.m/1000).toFixed(2)}</b><span>km</span></div><div><b class="num">${runFmt(g.secs)}</b><span>Moving time</span></div><div><b class="num">${runPace(g.secs,g.m)}</b><span>Avg /km</span></div></div>
+    <div class="run-map">${runRouteSVG(g.track,false)}</div>${runSplitsHTML(g.splits||[],g.m,g.secs)}
+    ${g.gaps?'<p class="sub" style="margin-top:8px">GPS stopped at times while the screen was off, so distance may be a little short.</p>':''}
+    <button class="btn full" style="margin-top:12px" data-run="edit" data-id="${a.id}">Edit type, effort or date</button>
+    <button class="btn ghost full" style="margin-top:8px;color:var(--red)" data-run="del" data-id="${a.id}">Delete this ${dxEsc(a.type.toLowerCase())}</button>`;
+  dxShow('run');}
+const runOrigOpen=dxOpenAct;dxOpenAct=function(id){const e=id&&dxActs().find(x=>x.id===id);if(e&&e.gps){runView(id);return;}return runOrigOpen(id);};
+const runOrigAuto=dxAuto;dxAuto=function(t){if(t==='run5k'){const b=runBest5k();if(b!==null)return Math.round(b/6)/10;}return runOrigAuto(t);};
+const runOrigAct=renderActivity;renderActivity=function(){runOrigAct();const v=$('#v-activity');if(!v)return;v.insertAdjacentHTML('afterbegin',runCardHTML());
+  v.querySelectorAll('[data-dx="actedit"]').forEach(b=>{const e=dxActs().find(x=>x.id===b.dataset.id);if(e&&e.gps){const sm=b.querySelector('small');if(sm)sm.textContent='📍 GPS · '+runFmt(e.gps.secs)+' · '+runPace(e.gps.secs,e.gps.m)+' /km';}});};
+/* Recover a run if the app was closed mid-run */
+(function(){try{const L=JSON.parse(localStorage.getItem(RUN_KEY)||'null');if(!L||!L.phase||L.phase==='ready')return;
+  if(runNow()-(L.savedAt||L.start)>12*3600*1000){runClearLive();return;}
+  R=L;if(R.phase==='run'){const last=R.segs[R.segs.length-1];if(last&&!last[1])last[1]=R.savedAt||runNow();R.phase='paused';R.recovered=true;R.anchor=null;}
+  setTimeout(runOpen,400);}catch(e){runClearLive();}})();
 
 /* ================= Barcode scanner ================= */
 /* Camera scanning uses the html5-qrcode library (works on iPhone Safari), loaded only when you tap Scan.
@@ -2245,32 +2536,10 @@ const stRT=renderToday;renderToday=function(){stRT();try{const td=today(),left=s
   const after=v.querySelector('.dx-strip');if(after)after.insertAdjacentHTML('afterend',strip);else v.insertAdjacentHTML('afterbegin',strip);}catch(e){}};
 
 const RN={today:renderToday,activity:renderActivity,food:renderFood,stack:renderStack,plan:renderPlan,progress:renderProgress,cali:renderCali,settings:renderSettings};
-const HM_ICONS={"today": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8\"/></svg>", "activity": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12h4l3-7 4 14 3-7h4\"/></svg>", "food": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 2v8M4 2v5a3 3 0 0 0 6 0V2M7 10v12M17 22V2c-2.5 1.5-4 4.5-4 8v4h4\"/></svg>", "stack": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10.5 3.5a5 5 0 0 1 7 7l-7 7a5 5 0 0 1-7-7z\"/><path d=\"M7 7l7 7\"/></svg>", "plan": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"17\" rx=\"2\"/><path d=\"M3 9h18M8 2v4M16 2v4\"/></svg>", "progress": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 20h18M5 16l5-5 4 3 6-7\"/></svg>", "cali": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"4.5\" r=\"2\"/><path d=\"M4 9h16M12 9v6M12 15l-4 6M12 15l4 6\"/></svg>", "settings": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1\"/></svg>"};
-const HM_TITLES={today:'Session',activity:'Activity',food:'Food',stack:'Stack',plan:'Plan',progress:'Progress',cali:'Calisthenics',settings:'Settings'};
-function hmTile(v,name,val,sub,pct,col){return `<button class="tile" data-go="${v}" style="--tc:var(${col})"><span class="ti">${HM_ICONS[v]}</span><span class="tn">${name}</span><span class="tv">${val}</span>${sub?`<span class="ts">${sub}</span>`:''}${pct===null||pct===undefined?'':`<span class="tb"><span style="width:${Math.max(0,Math.min(100,Math.round(pct)))}%"></span></span>`}</button>`;}
-function hmSafe(fn,fb){try{return fn();}catch(e){return fb;}}
-function renderHome(){const td=today(),h=new Date().getHours(),hi=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-  const act=hmSafe(()=>activeSession(),null),nx=act?act[0]:nextId(),p=hmSafe(()=>info(nx),null);
-  const done=ORDER.filter(id=>S.sessions[id]&&S.sessions[id].done).length;
-  let out=`<p class="hm-hello">${hi} · ${hmSafe(()=>dxDay(td),td)}</p><div class="hm-grid">`;
-  out+=`<button class="tile${act?' live':''}" data-go="today" data-id="${nx}" style="--tc:var(--b1)"><span class="ti">${HM_ICONS.today}</span><span class="tn">${act?'In progress':'Next session'}</span><span class="tv tv-s">${p?esc(p.name):'Session'}</span><span class="ts">${p?`Week ${p.w} · ${p.day} · ${p.type==='push'?'Push':'Pull'}`:''}</span></button>`;
-  out+=hmSafe(()=>{const E=dxEntries(),m=dxDayMins(E,td),T=dxDaily();return hmTile('activity','Activity',`${m}<small>/ ${T} min</small>`,m>=T?'<span class="tok">Target hit ✓</span>':`${T-m} min to go`,m/T*100,'--green');},hmTile('activity','Activity','—','',null,'--green'));
-  out+=hmSafe(()=>{const t=fdSum((fdS().log[td])||[]),T=fdTarget();return hmTile('food','Food',`${fdR(t.kcal)}<small>${T?'/ '+fdR(T.kcal):'cal'}</small>`,T?`${fdR(t.p)} / ${fdR(T.p)} g protein`:`${fdR(t.p)} g protein`,T?t.kcal/T.kcal*100:null,'--sun');},hmTile('food','Food','—','',null,'--sun'));
-  out+=hmSafe(()=>{const it=stTodayItems(),left=it.filter(x=>!stTaken(x,td)).length,n=stS().items.length;return hmTile('stack','Stack',n?(left?`${left}<small>to take</small>`:'All done'):'Set up',n?(it.length?(left?it.filter(x=>!stTaken(x,td)).slice(0,2).map(x=>esc(x.name)).join(', '):'<span class="tok">Today complete ✓</span>'):'Nothing due today'):'Add supplements',it.length?(it.length-left)/it.length*100:null,'--b3');},hmTile('stack','Stack','—','',null,'--b3'));
-  out+=hmSafe(()=>{const n=pushTotal(td),g=dxPushGoal();return `<button class="tile" data-go="push" style="--tc:var(--b2)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="tn">Push-ups</span><span class="tv"><span id="dxpushn">${n}</span><small>/ ${g}</small></span><span class="ts">Tap to log</span><span class="tb"><span id="dxpushb" style="width:${Math.min(100,Math.round(n/g*100))}%"></span></span></button>`;},'');
-  out+=hmTile('plan','Plan',`${done}<small>/ ${ORDER.length}</small>`,`Sessions done · week ${p?p.w:1} of 12`,done/ORDER.length*100,'--b1');
-  out+=hmSafe(()=>{const st=stats(),best=Math.max(0,...st.map(x=>x.best||0)),g=+S.settings.goal||120;return hmTile('progress','Progress',best?`${fmt(Math.round(best*2)/2)}<small>kg</small>`:`${+S.settings.base||0}<small>kg</small>`,best?`Best est. bench · goal ${g} kg`:`Starting bench · goal ${g} kg`,(best||+S.settings.base||0)/g*100,'--b2');},hmTile('progress','Progress','—','',null,'--b2'));
-  out+=hmTile('cali','Calisthenics',`${CALI.length}<small>moves</small>`,'Finishers for your goals',null,'--b1');
-  out+=hmTile('settings','Settings','Setup','Program, targets, backup',null,'--muted');
-  $('#v-home').innerHTML=out+'</div>';}
-$('#v-home').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;const g=b.dataset.go;
-  if(g==='push'){openSheet();return;}if(g==='today'&&b.dataset.id)cur=b.dataset.id;show(g);});
-RN.home=renderHome;
-let view='home';
-function show(v){if(!RN[v])v='home';view=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
-  const pb=$('#pbar');pb.hidden=v==='home';$('#ptitle').textContent=HM_TITLES[v]||'';RN[v]();window.scrollTo({top:0});}
-$('#pback').addEventListener('click',()=>show('home'));
-document.querySelector('header.top h1.brand').addEventListener('click',()=>show('home'));
+let view='today';
+function show(v){view=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));RN[v]();window.scrollTo({top:0});}
+document.querySelector('nav.tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.v);});
 
 setSync(S.updatedAt?'Saved on this device':'Ready');
 const TH=['auto','dark','light'],THL={auto:'◐ Auto',dark:'☾ Dark',light:'☀ Light'};
@@ -2285,7 +2554,7 @@ applySkin(skin);
 $('#skinbtn').addEventListener('click',()=>{skin=skin==='graphite'?'camo':skin==='camo'?'melon':'graphite';try{localStorage.setItem('bench120.skin',skin);}catch(e){}applySkin(skin);toast(SKL[skin].replace(/^\S+ /,'')+' mode');if(view==='settings')renderSettings();});
 if(needSave){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
 syncSeg();
-renderHome();
+renderToday();
 tickSession();
 updFab();
 (async()=>{try{if(window.claude&&claude.use){sampleFn=await claude.use('sample');if(sampleFn&&view==='progress')renderProgress();}}catch(e){sampleFn=null;}})();

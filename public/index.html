@@ -757,6 +757,10 @@ details.exdd .tick{width:50px;height:50px;min-width:0;max-width:50px;padding:0;j
 .run-map .st{fill:var(--green);stroke:var(--surface);stroke-width:2}.run-map .en{fill:var(--red);stroke:var(--surface);stroke-width:2}
 .run-map .me{fill:var(--steel);stroke:var(--surface);stroke-width:3}
 .run-map text{fill:var(--muted);font-size:13px}
+.run-map .rh{fill:none;stroke:var(--surface);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.run-map .ab{fill:var(--surface);opacity:.8}
+.run-map text.at{font-size:9px;fill:var(--muted)}
+.run-map image{image-rendering:auto}
 .run-ctl{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:auto;padding-top:14px}
 .run-big{width:96px;height:96px;border-radius:50%;border:0;font-weight:800;font-size:17px;background:var(--steel);color:#fff;display:grid;place-items:center;position:relative;overflow:hidden}
 .run-big.go{background:var(--green)}
@@ -2251,7 +2255,7 @@ function runWatchOn(){if(runWatch!==null||!('geolocation' in navigator))return;r
 function runWatchOff(){if(runWatch!==null){try{navigator.geolocation.clearWatch(runWatch);}catch(e){}}runWatch=null;}
 function runOnErr(e){if(e.code===1){runErr='Location is blocked for this app. On iPhone: Settings › Privacy & Security › Location Services › Safari Websites › While Using the App, then reopen the app.';runWatchOff();}
   else if(e.code===3)runErr='';else runErr='Can’t get a GPS fix. Head outside, away from tall buildings.';runGpsUI();if(R&&R.phase==='ready'||!R)runRender();}
-function runOnPos(p){const c=p.coords,acc=c.accuracy||999,t=p.timestamp||runNow();runFix={acc,at:runNow()};if(runErr){runErr='';if(!R||R.phase==='ready')runRender();}runGpsUI();
+function runOnPos(p){const c=p.coords,acc=c.accuracy||999,t=p.timestamp||runNow();runFix={acc,at:runNow(),ll:[c.latitude,c.longitude]};if(runErr){runErr='';if(!R||R.phase==='ready')runRender();}runGpsUI();
   if(!R||R.phase!=='run'||acc>RUN_ACC)return;
   const pt=[+c.latitude.toFixed(6),+c.longitude.toFixed(6)],a=R.anchor;
   if(!a){R.anchor=[pt[0],pt[1],t];R.pts.push(null,[+pt[0].toFixed(5),+pt[1].toFixed(5)]);runRecent.push({t,d:R.dist});return;}
@@ -2273,7 +2277,7 @@ function runGpsUI(){const el=$('#rungps');if(!el)return;let c='',t='Searching…
   el.className='run-gps '+c;el.lastElementChild.textContent=t;
   const r=$('#runrdy');if(r){const ok=runFix&&runNow()-runFix.at<12000&&runFix.acc<=RUN_ACC,v=ok?'GPS is ready. Go when you are.':'Waiting for a good GPS signal. You can start anyway; distance begins once the signal is good.';if(r.textContent!==v)r.textContent=v;}}
 /* Route drawing: plain SVG trace, no map tiles needed (works offline) */
-function runRouteSVG(pts,live){const P=(pts||[]).filter(Boolean);const W=340,H=210,pad=14;
+function runRoutePlain(pts,live){const P=(pts||[]).filter(Boolean);const W=340,H=210,pad=14;
   if(P.length<2)return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route"><text x="${W/2}" y="${H/2}" text-anchor="middle">${live?'Your route will draw here as you move':'No route recorded'}</text></svg>`;
   const la0=P.reduce((a,p)=>a+p[0],0)/P.length,k=Math.cos(la0*Math.PI/180);let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
   const pr=p=>[p[1]*k*111320,-p[0]*110540];P.forEach(p=>{const [x,y]=pr(p);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);});
@@ -2281,6 +2285,36 @@ function runRouteSVG(pts,live){const P=(pts||[]).filter(Boolean);const W=340,H=2
   let d='',nw=true;(pts||[]).forEach(p=>{if(!p){nw=true;return;}const [x,y]=xy(p);d+=(nw?'M':'L')+x+' '+y;nw=false;});
   const s=xy(P[0]),e=xy(P[P.length-1]);
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map"><path class="rt" d="${d}"/><circle class="st" cx="${s[0]}" cy="${s[1]}" r="6"/><circle class="${live?'me':'en'}" cx="${e[0]}" cy="${e[1]}" r="${live?8:6}"/></svg>`;}
+/* ----- Route map: street map tiles under the route (OpenStreetMap data via CARTO) -----
+   Tiles load from the internet; with no signal the route still draws on a plain background. */
+function runMapOn(){return S.settings.runMap!==false;}
+function runDark(){const t=document.documentElement.getAttribute('data-theme');return t==='dark'||(t!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);}
+const runMX=lon=>(lon+180)/360*256,runMY=lat=>{const v=Math.sin(Math.max(-85,Math.min(85,lat))*Math.PI/180);return (0.5-Math.log((1+v)/(1-v))/(4*Math.PI))*256;};
+function runRouteSVG(pts,live,here){const P=(pts||[]).filter(Boolean);
+  if(!runMapOn())return runRoutePlain(pts,live);
+  const W=340,H=210,pad=22,only=P.length<2;
+  if(only&&!(live&&here))return runRoutePlain(pts,live);
+  const Q=only?[here]:P;let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  Q.forEach(p=>{const x=runMX(p[1]),y=runMY(p[0]);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);});
+  let zf=only?16:Math.log2(Math.min((W-2*pad)/Math.max(1e-9,x1-x0),(H-2*pad)/Math.max(1e-9,y1-y0)));zf=Math.max(2,Math.min(17,zf));
+  const z=Math.floor(zf),sc=2**(zf-z),n=2**z,cx=(x0+x1)/2*n,cy=(y0+y1)/2*n,vw=W/sc,vh=H/sc,ox=cx-vw/2,oy=cy-vh/2;
+  const xy=p=>[((runMX(p[1])*n-ox)*sc).toFixed(1),((runMY(p[0])*n-oy)*sc).toFixed(1)];
+  const dk=runDark(),style=dk?'dark_all':'rastertiles/voyager',ts=256*sc;let tl='';
+  for(let ty=Math.floor(oy/256);ty<=Math.floor((oy+vh)/256);ty++){if(ty<0||ty>=n)continue;
+    for(let tx=Math.floor(ox/256);tx<=Math.floor((ox+vw)/256);tx++){const wx=((tx%n)+n)%n,u=`https://${'abcd'[(wx+ty)%4]}.basemaps.cartocdn.com/${style}/${z}/${wx}/${ty}@2x.png`;
+      tl+=`<image data-u="${u}" href="${u}" x="${((tx*256-ox)*sc).toFixed(1)}" y="${((ty*256-oy)*sc).toFixed(1)}" width="${(ts+.6).toFixed(1)}" height="${(ts+.6).toFixed(1)}" preserveAspectRatio="none"/>`;}}
+  let d='',nw=true;(pts||[]).forEach(p=>{if(!p){nw=true;return;}const [x,y]=xy(p);d+=(nw?'M':'L')+x+' '+y;nw=false;});
+  let ov='';
+  if(only){const [hx,hy]=xy(here);ov=`<circle cx="${hx}" cy="${hy}" r="14" fill="var(--steel)" opacity=".18"/><circle class="me" cx="${hx}" cy="${hy}" r="8"/>`;}
+  else{const s0=xy(P[0]),e=xy(P[P.length-1]);ov=`<path class="rh" d="${d}"/><path class="rt" d="${d}"/><circle class="st" cx="${s0[0]}" cy="${s0[1]}" r="6"/><circle class="${live?'me':'en'}" cx="${e[0]}" cy="${e[1]}" r="${live?8:6}"/>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route on a street map"><rect width="${W}" height="${H}" fill="var(--sunk)"/><g class="tl">${tl}</g><g class="ov">${ov}</g><rect class="ab" x="${W-132}" y="${H-14}" width="132" height="14"/><text class="at" x="${W-4}" y="${H-4}" text-anchor="end">© OpenStreetMap · © CARTO</text></svg>`;}
+/* Live update without the map flashing: keep tiles that are still needed, move them, add new ones, redraw the route */
+function runMapUpdate(el,html){const old=el.querySelector('svg .tl');if(!old){el.innerHTML=html;return;}
+  const t=document.createElement('template');t.innerHTML=html;const nt=t.content.querySelector('.tl'),no=t.content.querySelector('.ov');if(!nt||!no){el.innerHTML=html;return;}
+  const have={};old.querySelectorAll('image').forEach(im=>{have[im.dataset.u]=im;});const keep=new Set();
+  nt.querySelectorAll('image').forEach(im=>{const u=im.dataset.u,ex=have[u];if(ex){['x','y','width','height'].forEach(a=>ex.setAttribute(a,im.getAttribute(a)));keep.add(u);}else{old.appendChild(document.importNode(im,true));keep.add(u);}});
+  setTimeout(()=>{old.querySelectorAll('image').forEach(im=>{if(!keep.has(im.dataset.u))im.remove();});},1500); /* drop old tiles once new ones have loaded */
+  el.querySelector('svg .ov').innerHTML=no.innerHTML;}
 /* Shrink a track for storage (Ramer–Douglas–Peucker), keeping line breaks */
 function runSimplify(pts,max){const segs=[];let cur=[];(pts||[]).forEach(p=>{if(!p){if(cur.length)segs.push(cur);cur=[];}else cur.push(p);});if(cur.length)segs.push(cur);
   const dperp=(p,a,b)=>{const k=Math.cos(a[0]*Math.PI/180),ax=a[1]*k*111320,ay=a[0]*110540,bx=b[1]*k*111320-ax,by=b[0]*110540-ay,px=p[1]*k*111320-ax,py=p[0]*110540-ay,L=bx*bx+by*by;
@@ -2300,10 +2334,10 @@ function runCloseAll(){runWatchOff();runWakeOff();clearInterval(runTickH);runTic
 function runMiniUI(){const m=$('#runmini');if(!R||R.phase==='ready'||!$('#runov').hidden){m.hidden=true;return;}m.hidden=false;m.classList.toggle('p',R.phase!=='run');
   $('#runminit').textContent=R.phase==='done'?'Run finished · tap to save':(R.phase==='paused'?'Paused · ':'Run · ')+(R.dist/1000).toFixed(2)+' km · '+runFmt(runMoving());}
 function runTickStart(){if(runTickH)return;runTickH=setInterval(runTick,1000);}
-function runTick(){if(!R)return;runGpsUI();if(R.phase==='run'||R.phase==='paused'){const mv=runMoving(),km=(R.dist/1000).toFixed(2),avg=runPace(mv,R.dist);
+function runTick(){if(!R)return;runGpsUI();if(R.phase==='ready'){const m0=$('#rmap0');if(m0&&runFix&&runFix.ll&&runMapOn())runMapUpdate(m0,runRouteSVG([],true,runFix.ll));}if(R.phase==='run'||R.phase==='paused'){const mv=runMoving(),km=(R.dist/1000).toFixed(2),avg=runPace(mv,R.dist);
     const set=(id,v)=>{const e=$(id);if(e&&e.textContent!==v)e.textContent=v;};set('#rt',runFmt(mv));set('#rd',km);set('#rp',R.phase==='run'?runNowPace():'–');set('#ra',avg);
     const done=R.splits.reduce((a,b)=>a+b,0);set('#rs',runFmt(mv-done));set('#rlt',runFmt(mv));set('#rld',km);set('#rlp',R.phase==='run'?'Avg '+avg+' /km':'Paused');
-    if(R.phase==='run'&&(!runTick.n||++runTick.n%3===0)){runTick.n=runTick.n||1;const m=$('#rmap');if(m&&!$('#runov').hidden)m.innerHTML=runRouteSVG(R.pts,true);const sp=$('#rsplits');if(sp&&sp.dataset.n!=R.splits.length){sp.dataset.n=R.splits.length;sp.innerHTML=runSplitsHTML(R.splits,R.splits.length*1000,done);}}
+    if(R.phase==='run'&&(!runTick.n||++runTick.n%3===0)){runTick.n=runTick.n||1;const m=$('#rmap');if(m&&!$('#runov').hidden)runMapUpdate(m,runRouteSVG(R.pts,true,runFix&&runFix.ll));const sp=$('#rsplits');if(sp&&sp.dataset.n!=R.splits.length){sp.dataset.n=R.splits.length;sp.innerHTML=runSplitsHTML(R.splits,R.splits.length*1000,done);}}
     runPersist();}
   runMiniUI();}
 function runRender(){const B=$('#runbody');if(!B||!R)return;const ph=R.phase;$('#run-h').textContent=ph==='done'?'Run summary':ph==='paused'?'Paused':ph==='run'?'Running':'Run';
@@ -2314,6 +2348,8 @@ function runRender(){const B=$('#runbody');if(!B||!R)return;const ph=R.phase;$('
       <button class="run-big go" data-run="start" ${noGeo?'disabled':''}>Start</button>
       <p class="run-hint" id="runrdy">${runFix&&runFix.acc<=RUN_ACC?'GPS is ready. Go when you are.':'Waiting for a good GPS signal. You can start anyway; distance begins once the signal is good.'}</p>
       <label class="run-tog"><input type="checkbox" data-run="voice" ${runVoiceOn()?'checked':''}> Voice update every km</label>
+      <label class="run-tog"><input type="checkbox" data-run="map" ${runMapOn()?'checked':''}> Show street map under route</label>
+      ${runMapOn()?`<div class="run-map" id="rmap0">${runRouteSVG([],true,runFix&&runFix.ll)}</div>`:''}
       <div class="run-note"><b>Keep the app open while you run.</b> iPhone stops tracking web apps when the screen locks, so the screen stays on during your run. Tap 🔒 <b>Lock</b> once you’re moving to stop pocket taps.${noWake?' Your phone can’t keep the screen on automatically: set <b>Settings › Display & Brightness › Auto-Lock</b> to Never while you run.':''}</div>
     </div>`;return;}
   if(ph==='run'||ph==='paused'){const mv=runMoving(),done=R.splits.reduce((a,b)=>a+b,0);
@@ -2321,7 +2357,7 @@ function runRender(){const B=$('#runbody');if(!B||!R)return;const ph=R.phase;$('
       <div class="run-dist"><span class="num" id="rd">${(R.dist/1000).toFixed(2)}</span><small>km</small></div>
       <div class="run-grid"><div><b class="num" id="rp">–</b><span>Pace now /km</span></div><div><b class="num" id="ra">${runPace(mv,R.dist)}</b><span>Avg pace /km</span></div><div><b class="num" id="rs">${runFmt(mv-done)}</b><span>This km</span></div></div>
       ${R.recovered?`<div class="run-note" style="margin-top:10px" role="status">This run was interrupted when the app closed. Resume to carry on, or finish to save it.</div>`:''}
-      <div class="run-map" id="rmap">${runRouteSVG(R.pts,true)}</div>
+      <div class="run-map" id="rmap">${runRouteSVG(R.pts,true,runFix&&runFix.ll)}</div>
       <div id="rsplits" data-n="${R.splits.length}">${runSplitsHTML(R.splits,R.splits.length*1000,done)}</div>
       ${ph==='run'?`<div class="run-ctl"><button class="run-sm" data-run="lock" aria-label="Pocket lock">🔒<br>Lock</button><button class="run-big" data-run="pause">Pause</button><span style="width:64px"></span></div>`
         :`<div class="run-ctl"><button class="run-sm" data-run="discard" aria-label="Discard run">Discard</button><button class="run-big go" data-run="resume">Resume</button><button class="run-sm hold" data-run="finish" style="--hold:.8s;background:var(--red);color:#fff;border:0" aria-label="Finish run, press and hold">Finish</button></div><p class="run-hint">Hold Finish to end your run.</p>`}`;return;}
@@ -2375,7 +2411,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-run]');
   if(a==='edit'){dxHide('run');runOrigOpen(b.dataset.id);return;}
   if(a==='del'){const i=dxActs().findIndex(x=>x.id===b.dataset.id);if(i<0)return;const gone=dxActs()[i];dxActs().splice(i,1);save();dxHide('run');dxRerender();
     dxToast(gone.type+' deleted',()=>{dxActs().splice(i,0,gone);save();dxRerender();});return;}});
-document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.run==='voice'){S.settings.runVoice=e.target.checked;save();if(e.target.checked)runSpeak('Voice updates on');}});
+document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.run==='voice'){S.settings.runVoice=e.target.checked;save();if(e.target.checked)runSpeak('Voice updates on');}
+  if(e.target.dataset&&e.target.dataset.run==='map'){S.settings.runMap=e.target.checked;save();runRender();}});
 document.addEventListener('visibilitychange',()=>{if(!R||R.phase!=='run')return;
   if(document.hidden){runHidAt=runNow();runPersist(true);return;}
   runWakeOn();const gone=runHidAt?(runNow()-runHidAt)/1000:0;runHidAt=0;

@@ -2285,7 +2285,7 @@ function runRoutePlain(pts,live){const P=(pts||[]).filter(Boolean);const W=340,H
   let d='',nw=true;(pts||[]).forEach(p=>{if(!p){nw=true;return;}const [x,y]=xy(p);d+=(nw?'M':'L')+x+' '+y;nw=false;});
   const s=xy(P[0]),e=xy(P[P.length-1]);
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map"><path class="rt" d="${d}"/><circle class="st" cx="${s[0]}" cy="${s[1]}" r="6"/><circle class="${live?'me':'en'}" cx="${e[0]}" cy="${e[1]}" r="${live?8:6}"/></svg>`;}
-/* ----- Route map: street map tiles under the route (OpenStreetMap data via CARTO) -----
+/* ----- Route map: OpenStreetMap tiles under the route (no API key needed) -----
    Tiles load from the internet; with no signal the route still draws on a plain background. */
 function runMapOn(){return S.settings.runMap!==false;}
 function runDark(){const t=document.documentElement.getAttribute('data-theme');return t==='dark'||(t!=='light'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);}
@@ -2299,15 +2299,15 @@ function runRouteSVG(pts,live,here){const P=(pts||[]).filter(Boolean);
   let zf=only?16:Math.log2(Math.min((W-2*pad)/Math.max(1e-9,x1-x0),(H-2*pad)/Math.max(1e-9,y1-y0)));zf=Math.max(2,Math.min(17,zf));
   const z=Math.floor(zf),sc=2**(zf-z),n=2**z,cx=(x0+x1)/2*n,cy=(y0+y1)/2*n,vw=W/sc,vh=H/sc,ox=cx-vw/2,oy=cy-vh/2;
   const xy=p=>[((runMX(p[1])*n-ox)*sc).toFixed(1),((runMY(p[0])*n-oy)*sc).toFixed(1)];
-  const dk=runDark(),style=dk?'dark_all':'rastertiles/voyager',ts=256*sc;let tl='';
+  const dk=runDark(),ts=256*sc;let tl='';
   for(let ty=Math.floor(oy/256);ty<=Math.floor((oy+vh)/256);ty++){if(ty<0||ty>=n)continue;
-    for(let tx=Math.floor(ox/256);tx<=Math.floor((ox+vw)/256);tx++){const wx=((tx%n)+n)%n,u=`https://${'abcd'[(wx+ty)%4]}.basemaps.cartocdn.com/${style}/${z}/${wx}/${ty}@2x.png`;
+    for(let tx=Math.floor(ox/256);tx<=Math.floor((ox+vw)/256);tx++){const wx=((tx%n)+n)%n,u=`https://tile.openstreetmap.org/${z}/${wx}/${ty}.png`;
       tl+=`<image data-u="${u}" href="${u}" x="${((tx*256-ox)*sc).toFixed(1)}" y="${((ty*256-oy)*sc).toFixed(1)}" width="${(ts+.6).toFixed(1)}" height="${(ts+.6).toFixed(1)}" preserveAspectRatio="none"/>`;}}
   let d='',nw=true;(pts||[]).forEach(p=>{if(!p){nw=true;return;}const [x,y]=xy(p);d+=(nw?'M':'L')+x+' '+y;nw=false;});
   let ov='';
   if(only){const [hx,hy]=xy(here);ov=`<circle cx="${hx}" cy="${hy}" r="14" fill="var(--steel)" opacity=".18"/><circle class="me" cx="${hx}" cy="${hy}" r="8"/>`;}
   else{const s0=xy(P[0]),e=xy(P[P.length-1]);ov=`<path class="rh" d="${d}"/><path class="rt" d="${d}"/><circle class="st" cx="${s0[0]}" cy="${s0[1]}" r="6"/><circle class="${live?'me':'en'}" cx="${e[0]}" cy="${e[1]}" r="${live?8:6}"/>`;}
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route on a street map"><rect width="${W}" height="${H}" fill="var(--sunk)"/><g class="tl">${tl}</g><g class="ov">${ov}</g><rect class="ab" x="${W-132}" y="${H-14}" width="132" height="14"/><text class="at" x="${W-4}" y="${H-4}" text-anchor="end">© OpenStreetMap · © CARTO</text></svg>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route on a street map"><defs><filter id="rundk" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0"/><feColorMatrix type="hueRotate" values="180"/><feComponentTransfer><feFuncR type="linear" slope=".75" intercept=".02"/><feFuncG type="linear" slope=".75" intercept=".02"/><feFuncB type="linear" slope=".8" intercept=".04"/></feComponentTransfer></filter></defs><rect width="${W}" height="${H}" fill="var(--sunk)"/><g class="tl"${dk?' filter="url(#rundk)"':''}>${tl}</g><g class="ov">${ov}</g><rect class="ab" x="${W-150}" y="${H-14}" width="150" height="14"/><text class="at" x="${W-4}" y="${H-4}" text-anchor="end">© OpenStreetMap contributors</text></svg>`;}
 /* Live update without the map flashing: keep tiles that are still needed, move them, add new ones, redraw the route */
 function runMapUpdate(el,html){const old=el.querySelector('svg .tl');if(!old){el.innerHTML=html;return;}
   const t=document.createElement('template');t.innerHTML=html;const nt=t.content.querySelector('.tl'),no=t.content.querySelector('.ov');if(!nt||!no){el.innerHTML=html;return;}

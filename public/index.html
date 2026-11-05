@@ -900,7 +900,30 @@ const SLOTS=[
   {k:'pC',type:'pull',L:'C',day:'Day 6'}];
 const DAYNAME={};
 const PUSH_ACC={A:[],B:[],C:['Incline dumbbell press 3×10']};
-const PULL_ACC={A:['Barbell rows 4×8'],B:['Chest-supported rows 3×10'],C:['Dumbbell rows 3×10','Dead hang 2×max (grip)']};
+const PULL_ACC={A:['Chest-supported rows 4×8'],B:['Chest-supported rows 3×10'],C:[]};
+/* Day 6 legs, glutes & lower back. Back-friendly: neutral spine, no heavy spinal loading. */
+function legsPlan(w){
+  const L=(ex,n,reps,o)=>Object.assign({ex,sets:N(n,reps)},o||{});
+  if(w<=4){const lt=w===4;return [
+    L('Glute bridge',lt?2:3,12,{part:'Glutes',note:w===1?'Squeeze for 2 seconds at the top. Ribs down so the work comes from your glutes, not your lower back.':''}),
+    L('Goblet squat to box',lt?2:3,10,{part:'Legs',note:w===1?'Sit back to a box at about knee height. Light weight; this block is about grooving the pattern.':''}),
+    L('Cable pull-through',lt?2:3,12,{part:'Glutes & back',note:w===1?'This teaches the hip hinge. If it stays pain-free through week 4, dumbbell Romanian deadlifts start in week 5.':''}),
+    L('Reverse lunges (each leg)',2,8,{part:'Legs'}),
+    L('Suitcase carry (each side)',lt?2:3,30,{part:'Core & back',unit:'m',note:w===1?'One weight in one hand. Walk tall without leaning towards it.':''})];}
+  if(w<=8){return [
+    L('Barbell hip thrust',4,8,{part:'Glutes',note:w===5?'Back against a bench, pad on the bar. Finish with your ribs down and chin tucked; don’t arch to get higher.':''}),
+    L('Goblet squat',4,8,{part:'Legs',note:w===5?'Heavier than block 1. Stop each set with 2 reps in reserve.':''}),
+    L('Dumbbell Romanian deadlift',3,8,{part:'Glutes & back',note:w===5?'Only if pull-throughs were pain-free. Otherwise swap back to Cable pull-through for this block.':''}),
+    L('Bulgarian split squat (each leg)',3,8,{part:'Legs'}),
+    L('Suitcase carry (each side)',3,40,{part:'Core & back',unit:'m'})];}
+  return [
+    L('Barbell hip thrust',4,6,{part:'Glutes',note:w===9?'Heaviest block. Keep the same clean lockout.':w===11?'Keep 2–3 reps in reserve. Your tests are next week.':''}),
+    L('Bulgarian split squat (each leg)',3,6,{part:'Legs'}),
+    L('Dumbbell Romanian deadlift',3,8,{part:'Glutes & back'}),
+    L('45° back extension',3,10,{part:'Lower back',note:w===9?'Hinge at the hips with a neutral spine. Stop level with your legs; don’t hyperextend at the top.':''}),
+    L('Suitcase carry (each side)',3,40,{part:'Core & back',unit:'m'})];
+}
+const REHAB=['Cat-camel × 6 slow reps','McGill curl-up: 6, 4, 2 reps with 10 s holds','Side plank: 6, 4, 2 × 10 s holds each side','Bird dog: 6, 4, 2 × 10 s holds each side'];
 const rep=(n,pct,reps)=>Array.from({length:n},()=>({pct,reps}));
 const N=(n,reps,add=0)=>Array.from({length:n},()=>({reps,add}));
 
@@ -967,20 +990,35 @@ function pullPlan(w,d){
   }
   if(d==='C'){
     if(w===12)return null;
-    if(w===4){o.name='Light pull-ups';o.sets=N(3,r(.5));}
-    else{o.name='Max + back-off';o.sets=[MAX,...N(w<=4?3:4,r(w<=4?.5:.6))];if(w===1)o.note='First set to failure with strict form, rest 3 minutes, then the back-off sets. Your best max set raises all future targets.';}
+    o.legday=true;o.legs=legsPlan(w);
+    if(w===4){o.name='Legs & light pull-ups';o.sets=N(3,r(.5));}
+    else{o.name='Legs & pull-ups';o.sets=[MAX,...N(w<=4?3:4,r(w<=4?.5:.6))];if(w===1)o.note='First set to failure with strict form, rest 3 minutes, then the back-off sets. Your best max set raises all future targets.';}
   }
   return o;
 }
-const ABS={A:['Cable crunches',12],pA:['Hanging knee raises',12],B:['Ab wheel rollouts',10],pB:['Decline sit-ups',12],C:['Russian twists (each side)',12],pC:['Hanging leg raises',10]};
+const ABS={A:['Dead bugs (each side)',10],pA:['Hanging knee raises',12],B:['Pallof press (each side)',12],pB:['Side plank (each side)',30,'s'],C:['Plank',45,'s'],pC:['Hanging leg raises',10]};
+const OLD_ABS={A:'Cable crunches',B:'Ab wheel rollouts',pB:'Decline sit-ups',C:'Russian twists (each side)'};
 const SH={A:['Lateral raises',15],pA:['Straight-arm pulldowns',12],B:['Overhead press',8],pB:['Dumbbell shrugs',12],C:['Rear-delt flyes',15],pC:['Farmer\u2019s carries',40,'m']};
 const OLD_SH={A:'Lateral raises',pA:'Face pulls',B:'Overhead press',pB:'Rear-delt flyes',C:'Lateral raises',pC:'Face pulls'};
 const AR={A:['Skull crushers',10],pA:['Incline dumbbell curls',10],B:['Triceps pushdowns',12],pB:['Barbell curls',10],C:['JM press',8],pC:['Hammer curls',10]};
 function shPlan(k){const a=SH[k];return {ex:a[0],sets:N(3,a[1]),unit:a[2]||''};}
 function arPlan(k){const a=AR[k];return {ex:a[0],sets:N(3,a[1])};}
-function absPlan(k){const a=ABS[k];return {name:'ABs',ex:a[0],sets:N(3,a[1])};}
+function absPlan(k){const a=ABS[k];return {name:'ABs',ex:a[0],sets:N(3,a[1]),unit:a[2]||''};}
 const CUES={
- bench:['Squeeze shoulder blades back and down, keep a slight arch, and drive your feet into the floor.','Touch your lower chest with elbows at about 45–70°, then press up and slightly back over your shoulders.','Breathe in and brace before each rep; keep your glutes on the bench.'],
+ bench:['Squeeze shoulder blades back and down, keep a slight arch, and drive your feet into the floor.','Touch your lower chest with elbows at about 45–70°, then press up and slightly back over your shoulders.','Breathe in and brace before each rep; keep your glutes on the bench.','If arching bothers your lower back, flatten it a little and keep your feet planted. You lose almost nothing.'],
+ deadbug:['Lie on your back, arms up, hips and knees at 90°. Press your lower back gently into the floor.','Slowly lower the opposite arm and leg, breathing out, without your back lifting.','Return and switch sides. Slow and controlled beats fast.'],
+ pallof:['Stand side-on to a cable or band at chest height, feet shoulder width.','Press the handle straight out and hold 2 seconds without letting it twist you.','Bring it back to your chest under control. Do both sides.'],
+ sideplank:['Elbow under shoulder, body in one straight line from head to feet.','Lift your hips and hold; don’t let them sag or roll back.','Knees bent is the easier version. Breathe normally.'],
+ plank:['Elbows under shoulders, squeeze your glutes and brace your abs.','Keep a straight line; don’t let your hips sag or pike up.','Stop the set when your form slips, not when the clock says.'],
+ glutebridge:['Feet flat, about hip width, heels close to your bum.','Drive through your heels and squeeze your glutes to lift; ribs stay down.','Hold 2 seconds at the top. Your lower back shouldn’t do the lifting.'],
+ hipthrust:['Upper back on a bench edge, bar padded across your hips.','Drive up until your hips are level with your knees, chin tucked and ribs down.','Squeeze hard at the top; don’t arch your lower back to get higher.'],
+ goblet:['Hold the weight at your chest, elbows inside your knees.','Sit down between your heels with your chest up and back neutral.','Push the floor away to stand. Only go as deep as you can keep a neutral spine.'],
+ pullthrough:['Face away from a low cable, rope between your legs.','Push your hips back with soft knees and a flat back until you feel your hamstrings.','Drive your hips forward and squeeze your glutes to stand tall.'],
+ lunge:['Step back and lower until both knees are at about 90°.','Keep your torso upright and your front knee over your foot.','Push through the front heel to return.'],
+ rdl:['Soft knees, dumbbells close to your legs, back flat.','Push your hips back until you feel a strong hamstring stretch, usually just below the knee.','Stand by driving your hips forward. Stop if you feel it in your lower back rather than your hamstrings.'],
+ bss:['Back foot on a bench, front foot far enough forward to keep your knee over your foot.','Lower straight down, torso slightly forward.','Drive through your front heel. Hold a bench or rack for balance if needed.'],
+ backext:['Set the pad just below your hip bones so you hinge at the hips.','Lower with a neutral spine, then rise until your body is in line with your legs.','No swinging and no arching past straight at the top.'],
+ suitcase:['Hold one heavy dumbbell at your side.','Walk tall and level; don’t lean towards or away from the weight.','Switch hands and repeat. Slow, controlled steps.'],
  closegrip:['Hands about shoulder width apart.','Keep elbows tucked close to your sides and touch slightly lower on the chest.','Drive through your triceps to a full lockout.'],
  paused:['Lower under control and hold completely still on your chest for 2 seconds.','Stay tight through the pause; don’t relax or let the bar sink.','Press explosively once the pause ends.'],
  pullups:['Start from a dead hang with shoulders slightly pulled down, not shrugged.','Drive your elbows down toward your hips until your chin clears the bar.','Lower all the way under control. No kipping or swinging.'],
@@ -1008,6 +1046,9 @@ const CUES={
  farmer:['Pick up heavy dumbbells or handles with a neutral spine.','Walk tall with short, quick steps, shoulders back and down.','Don’t let your grip open; set them down under control.']
 };
 function cueKey(n){n=n.toLowerCase();
+  if(n.includes('dead bug'))return 'deadbug';if(n.includes('pallof'))return 'pallof';if(n.includes('side plank'))return 'sideplank';if(n.includes('plank'))return 'plank';
+  if(n.includes('glute bridge'))return 'glutebridge';if(n.includes('hip thrust'))return 'hipthrust';if(n.includes('goblet'))return 'goblet';if(n.includes('pull-through'))return 'pullthrough';
+  if(n.includes('lunge'))return 'lunge';if(n.includes('romanian'))return 'rdl';if(n.includes('split squat'))return 'bss';if(n.includes('back extension'))return 'backext';if(n.includes('suitcase'))return 'suitcase';
   if(n.includes('close-grip'))return 'closegrip';if(n.includes('paused'))return 'paused';if(n.includes('bench press'))return 'bench';
   if(n.includes('lat pulldown'))return 'latpd';if(n.includes('pull-up')||n.includes('chin-up'))return 'pullups';if(n.includes('dip'))return 'dips';if(n.includes('lateral'))return 'lateral';if(n.includes('face pull'))return 'facepull';
   if(n.includes('overhead'))return 'ohp';if(n.includes('rear-delt'))return 'reardelt';if(n.includes('skull'))return 'skull';if(n.includes('incline dumbbell curl'))return 'inclinecurl';
@@ -1044,6 +1085,7 @@ function fixS(){
   Object.keys(S.sessions).forEach(id=>{const r=S.sessions[id],k=id.replace(/^\d+/,'');
     if(r.shoulders&&!r.shoulders.ex)r.shoulders.ex=OLD_SH[k]||'Shoulders';
     if(r.arms&&!r.arms.ex&&AR[k])r.arms.ex=AR[k][0];
+    if(r.abs&&!r.abs.ex&&OLD_ABS[k]){if((r.abs.sets||[]).some(x=>x.done))r.abs.ex=OLD_ABS[k];else delete r.abs;}
     if(k==='pB'&&r.pull&&!r.pull.ex){if(r.pull.sets.some(x=>x.done))r.pull.ex='Weighted pull-ups';else delete r.pull;}});
   if(S.v!==2){ // move pull-ups from combined sessions into their own pull days
     Object.keys(S.sessions).forEach(id=>{const m=/^(\d+)([ABC])$/.exec(id),r=S.sessions[id];
@@ -1070,14 +1112,18 @@ function setSync(m){$('#sync').textContent=m;}
 /* Last weight used for an exercise (by name) in any earlier session */
 function lastW(name,before){name=String(name||'').toLowerCase().replace(/^abs: /,'');let v='';
   for(const id of ORDER){if(id===before)break;const r=S.sessions[id];if(!r)continue;
-    const L=[['d',r.dips],['p',r.pull],['a',r.abs],['sh',r.shoulders],['ar',r.arms]];
+    const L=[['d',r.dips],['p',r.pull],['a',r.abs],['sh',r.shoulders],['ar',r.arms],...(r.legs||[]).map((o,i)=>['L'+i,o])];
     L.forEach(([sec,o])=>{if(!o||!o.sets)return;let n='';try{n=exName(id,sec).toLowerCase().replace(/^abs: /,'');}catch(e){}if(n!==name)return;o.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});
     (r.extra||[]).forEach(e=>{if(e.name.toLowerCase()===name)e.sets.forEach(x=>{if(x.done&&+x.add>0)v=x.add;});});}
   return v;}
 function fillLast(id,sec,sets,fresh){if(!sets||!sets.length||sec==='b'||sec==='d')return sets;if(sec==='p'&&pullIsPU(id))return sets;
   let w;try{w=lastW(exName(id,sec),id);}catch(e){w='';}if(w==='')return sets;
   sets.forEach(x=>{if(!x.done&&(x.add===''||x.add===undefined||x.add===null||(fresh&&+x.add===0)))x.add=w;});return sets;}
+const isL=sec=>/^L\d+$/.test(sec);
+function legObj(r,sec){if(!r)return null;return (r.legs||[])[+sec.slice(1)]||null;}
+function secObj(r,sec){return isL(sec)?legObj(r,sec):r[SECKEY[sec]];}
 function defaults(p,sec){
+  if(isL(sec)){const l=(p.legs||[])[+sec.slice(1)];return l?l.sets.map(x=>({add:'',reps:x.reps,done:false})):[];}
   if(sec==='b')return p.type==='push'?p.sets.map(x=>({kg:kg(x.pct),reps:x.reps,done:false})):[];
   if(sec==='sh'||sec==='ar')return p[sec].sets.map(x=>({add:'',reps:x.reps,done:false}));
   if(sec==='a')return p.abs.sets.map(x=>({add:x.add,reps:x.reps,done:false}));
@@ -1093,6 +1139,9 @@ function secSets(id,sec,create){
   if(sec[0]==='x'){const r=create?rec(id):S.sessions[id];return r?.extra?.[+sec.slice(1)]?.sets||[];}
   const p=info(id),r=create?rec(id):S.sessions[id];
   if(sec==='b'){if(!r)return defaults(p,'b');return r.sets;}
+  if(isL(sec)){const i=+sec.slice(1),o=legObj(r,sec);
+    if(!o){const d=fillLast(id,sec,defaults(p,sec),true);if(create){r.legs=r.legs||[];r.legs[i]={ex:p.legs[i].ex,sets:d};return r.legs[i].sets;}return d;}
+    return fillLast(id,sec,o.sets);}
   const key={d:'dips',a:'abs',sh:'shoulders',ar:'arms'}[sec]||'pull';
   if(!r||!r[key]){const d=fillLast(id,sec,defaults(p,sec),true);if(create){r[key]={sets:d};if(sec==='sh'||sec==='ar')r[key].ex=p[sec].ex;return r[key].sets;}return d;}
   return fillLast(id,sec,r[key].sets);
@@ -1111,8 +1160,8 @@ function addExercise(name){
   save();return true;
 }
 const SECKEY={d:'dips',a:'abs',sh:'shoulders',ar:'arms',p:'pull'};
-function defEx(p,sec){return sec==='d'?'Dips':sec==='a'?p.abs.ex:sec==='p'?(p.load?'Lat pulldowns':'Pull-ups'):p[sec].ex;}
-function curEx(id,sec){const p=info(id);return S.sessions[id]?.[SECKEY[sec]]?.ex||defEx(p,sec);}
+function defEx(p,sec){if(isL(sec))return ((p.legs||[])[+sec.slice(1)]||{}).ex||'';return sec==='d'?'Dips':sec==='a'?p.abs.ex:sec==='p'?(p.load?'Lat pulldowns':'Pull-ups'):p[sec].ex;}
+function curEx(id,sec){const p=info(id);if(isL(sec))return legObj(S.sessions[id],sec)?.ex||defEx(p,sec);return S.sessions[id]?.[SECKEY[sec]]?.ex||defEx(p,sec);}
 function pullIsPU(id){return /pull-up|chin-up/i.test(curEx(id,'p'));}
 function lastLoad(name){let v='';name=name.toLowerCase();allDone().forEach(o=>{if(o.name===name&&o.w>0)v=o.w;});return v;}
 function swapUI(sec,title){const p=info(cur),cx=curEx(cur,sec),d=defEx(p,sec);
@@ -1120,11 +1169,11 @@ function swapUI(sec,title){const p=info(cur),cx=curEx(cur,sec),d=defEx(p,sec);
 function exName(id,sec){const p=info(id);if(!p)return '';
   if(sec==='b')return /close|paused/i.test(p.lift)?p.lift:'Bench press';if(sec==='p')return curEx(id,'p');if(sec==='d')return curEx(id,'d');
   if(sec==='a')return 'ABs: '+curEx(id,'a');if(sec==='sh')return S.sessions[id]?.shoulders?.ex||p.sh.ex;if(sec==='ar')return S.sessions[id]?.arms?.ex||p.ar.ex;
-  if(sec[0]==='x')return S.sessions[id]?.extra?.[+sec.slice(1)]?.name||'';return '';}
+  if(sec[0]==='x')return S.sessions[id]?.extra?.[+sec.slice(1)]?.name||'';if(isL(sec))return curEx(id,sec);return '';}
 function allDone(skip){
   const out=[];
   for(const id of ORDER){const r=S.sessions[id];if(!r)continue;
-    const secs=[['b',r.sets],['d',r.dips?.sets],['p',r.pull?.sets],['a',r.abs?.sets],['sh',r.shoulders?.sets],['ar',r.arms?.sets],...(r.extra||[]).map((e,i)=>['x'+i,e.sets])];
+    const secs=[['b',r.sets],['d',r.dips?.sets],['p',r.pull?.sets],['a',r.abs?.sets],['sh',r.shoulders?.sets],['ar',r.arms?.sets],...(r.extra||[]).map((e,i)=>['x'+i,e.sets]),...(r.legs||[]).map((e,i)=>['L'+i,e&&e.sets])];
     secs.forEach(([sec,arr])=>(arr||[]).forEach((x,k)=>{if(!x.done||x===skip)return;out.push({id,sec,x,name:exName(id,sec).toLowerCase(),w:sec==='b'?+x.kg||0:+x.add||0,r:+x.reps||0});}));}
   return out;
 }
@@ -1214,11 +1263,11 @@ function rows(sec,sets,targets,mode,ss,unit){
     }else{
       load=mode==='bw'?`<div class="field"><label>Load</label><div class="num" style="font-size:20px;font-weight:600;padding:8px 2px">Bodyweight</div></div>`
         :`<div class="field"><label for="${sec}w${k}">${mode==='load'||mode==='free'?'kg':'Added kg'}</label><input id="${sec}w${k}" inputmode="decimal" data-f="add" value="${esc(s.add)}"></div>`;
-      tgt=mode==='free'?'':mode==='load'?(t?'Target '+t.reps+(unit==='m'?' m':' reps'):'Extra set'):t?(t.max?'All-out strict set':'Target '+(t.add?'+'+fmt(t.add)+' kg × ':'bodyweight × ')+t.reps+' reps'):'Extra set';
+      tgt=mode==='free'?'':mode==='load'?(t?'Target '+t.reps+(unit==='m'?' m':unit==='s'?' s':' reps'):'Extra set'):t?(t.max?'All-out strict set':'Target '+(t.add?'+'+fmt(t.add)+' kg × ':'bodyweight × ')+t.reps+(unit==='s'?' s':' reps')):'Extra set';
     }
     return `<div class="set ${s.done?'done':''} ${s.pr&&s.done?'pr':''}" data-k="${k}" data-sec="${sec}">
       <div class="n">${s.max?'Max':k+1}</div>${load}
-      <div class="field"><label for="${sec}r${k}">${unit==='m'?'Metres':'Reps'}</label><input id="${sec}r${k}" inputmode="numeric" data-f="reps" value="${esc(s.reps)}" placeholder="${s.max?'max':''}"></div>
+      <div class="field"><label for="${sec}r${k}">${unit==='m'?'Metres':unit==='s'?'Seconds':'Reps'}</label><input id="${sec}r${k}" inputmode="numeric" data-f="reps" value="${esc(s.reps)}" placeholder="${s.max?'max':''}"></div>
       <button class="tick" data-act="tick" aria-label="Mark set ${k+1} ${s.done?'not done':'done'}" aria-pressed="${s.done}">✓</button>
       <div class="target">${tgt}</div>${ss?`<div class="ssrow"><span class="ssl">+ Push-ups</span><input id="${sec}pp${k}" inputmode="numeric" data-f="push" value="${esc(s.push!==undefined?s.push:lastPush())}" aria-label="Push-ups for set ${k+1}"><span class="ssu">reps</span></div>`:''}</div>`;}).join('');
 }
@@ -1253,14 +1302,26 @@ function renderToday(){
     ${p.dips.note?`<p class="note">${esc(p.dips.note)}</p>`:''}<div class="sets">${rows('d',ds,p.dips.sets,'add')}</div>
     <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="d">Add set</button></div>`);}
   const as=secSets(cur,'a',false);
-  const abs=exDD('a','Core','--green',curEx(cur,'a'),exProg('a'),`<p class="sub" style="margin-bottom:6px">${p.abs.sets.length}×${p.abs.sets[0].reps}. Add weight once ${p.abs.sets[0].reps} reps feel easy.</p>${swapUI('a')}${cues(curEx(cur,'a'))}
-    <div class="sets">${rows('a',as,p.abs.sets,'add')}</div>
+  const absU=curEx(cur,'a')===p.abs.ex?p.abs.unit:'';
+  const abs=exDD('a','Core','--green',curEx(cur,'a'),exProg('a'),`<p class="sub" style="margin-bottom:6px">${absU==='s'?`${p.abs.sets.length} holds of ${p.abs.sets[0].reps} seconds. Add 5–10 seconds when they feel easy.`:`${p.abs.sets.length}×${p.abs.sets[0].reps}. Add weight once ${p.abs.sets[0].reps} reps feel easy.`}</p>${swapUI('a')}${cues(curEx(cur,'a'))}
+    <div class="sets">${rows('a',as,p.abs.sets,'add',false,absU)}</div>
     <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="a">Add set</button></div>`);
   const xcard=(sec,title)=>{const pl=p[sec],ss=secSets(cur,sec,false),key=sec==='sh'?'shoulders':'arms',exn=S.sessions[cur]?.[key]?.ex||pl.ex;const part=sec==='sh'?(p.type==='pull'?'Back &amp; grip':'Shoulders'):(p.type==='pull'?'Biceps':'Triceps'),col=sec==='sh'?(p.type==='pull'?'--b2':'--b1'):'--sun';
     return exDD(sec,part,col,exn,exProg(sec),`<p class="sub" style="margin-bottom:10px">${pl.sets.length}×${pl.sets[0].reps}${pl.unit==='m'?' m':''}.${p.w===12?' Optional in test week.':' Enter the weight you use, and go up when all reps feel easy.'}</p>${swapUI(sec)}${cues(exn)}
     <div class="sets">${rows(sec,ss,pl.sets,'load',false,pl.unit)}</div>
     <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div>`);};
-  const shar=xcard('sh',p.type==='pull'?'Back & grip':'Shoulders')+xcard('ar','Arms');
+  const has=o=>!!(o&&(o.sets||[]).some(x=>x.done));
+  const shar=p.legday?((has(r.shoulders)?xcard('sh'):'')+(has(r.arms)?xcard('ar'):'')):xcard('sh',p.type==='pull'?'Back & grip':'Shoulders')+xcard('ar','Arms');
+  const legs=(p.legs||[]).map((l,i)=>{const sec='L'+i,ss=secSets(cur,sec,false),exn=curEx(cur,sec),u=exn===l.ex?(l.unit||''):'';
+    return exDD(sec,l.part,'--b1',exn,exProg(sec),`<p class="sub" style="margin-bottom:10px">${l.sets.length}×${l.sets[0].reps}${u==='m'?' m':''}. Enter the weight you use; go up when every rep is clean and pain-free.</p>${swapUI(sec)}${cues(exn)}
+    ${l.note?`<p class="note">${esc(l.note)}</p>`:''}<div class="sets">${rows(sec,ss,l.sets,'load',false,u)}</div>
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="add" data-sec="${sec}">Add set</button></div>`);}).join('');
+  const rh=r.rehab||[],rhn=REHAB.filter((x,k)=>rh[k]).length;
+  const rehab=exDD('rh','Back rehab','--green',p.legday?'Rehab primer':'Rehab primer (optional)',[rhn,REHAB.length],`<p class="sub" style="margin-bottom:8px">${p.legday?'Do this first. It warms up your trunk and hips before the pull-ups and legs.':'Quick daily version of the Day 6 primer. Good on rest days too.'}</p>
+    <div class="acc">${REHAB.map((a,k)=>`<label><input type="checkbox" data-rehab="${k}" ${rh[k]?'checked':''}>${esc(a)}</label>`).join('')}</div>
+    <div class="field" style="margin-top:10px"><label for="backpain" style="font-size:13px">Lower back today (0 = none, 10 = worst)</label>
+      <select id="backpain"><option value="">Not set</option>${[0,1,2,3,4,5,6,7,8,9,10].map(v=>`<option ${String(r.back)===String(v)?'selected':''}>${v}</option>`).join('')}</select></div>
+    <p class="note">Up to 3/10 that doesn’t build during a set and settles by the next morning is fine. Stop if you get sharp pain, or pain, tingling or numbness down a leg, and get it checked.</p>`,!!p.legday);
   const exs=(r.extra||[]);
   const used=exs.map(e=>e.name.toLowerCase());
   const picks=S.library.filter(n=>!used.includes(n.toLowerCase()));
@@ -1282,17 +1343,20 @@ function renderToday(){
     <div class="sess-nav">
       <button class="iconbtn" data-act="prev" aria-label="Previous session" ${i===0?'disabled':''}>‹</button>
       <div class="sess-title"><div class="wk">Week ${p.w} of 12, ${p.day}</div><div class="nm">${esc(p.name)}</div>
-        <div class="sub"><span class="tag ${p.type}">${p.type==='push'?'Push':'Pull'}</span> ${esc(p.lift)}</div>${r.done?`<span class="badge">Completed ${esc(r.date||'')}</span>`:''}</div>
+        <div class="sub"><span class="tag ${p.type}">${p.type==='push'?'Push':p.legday?'Pull + Legs':'Pull'}</span> ${esc(p.legday?'Pull-ups, legs, glutes & lower back':p.lift)}</div>${r.done?`<span class="badge">Completed ${esc(r.date||'')}</span>`:''}</div>
       <button class="iconbtn" data-act="next" aria-label="Next session" ${i===ORDER.length-1?'disabled':''}>›</button>
     </div>
     ${p.note?`<p class="note" style="margin-bottom:0">${esc(p.note)}</p>`:''}
   </div>
+  ${p.legday?rehab:''}
   ${mainDD}
   ${dips}
+  ${legs}
   ${shar}
-  ${abs}
+  ${p.legday&&!has(r.abs)?'':abs}
   ${extra}
   ${acc}
+  ${p.legday?'':rehab}
   <div class="card">
     <div class="two">
       <div class="field"><label for="rpe" style="font-size:13px">How hard (RPE)</label>
@@ -1326,6 +1390,8 @@ $('#v-today').addEventListener('change',e=>{
   const t=e.target;
   if(t.id==='sstog'){S.settings.superset=t.checked;save();renderToday();return;}
   if(t.dataset.acc!==undefined){rec(cur).acc[+t.dataset.acc]=t.checked;save();}
+  if(t.dataset.rehab!==undefined){const r=rec(cur);r.rehab=r.rehab||[];r.rehab[+t.dataset.rehab]=t.checked;save();renderToday();return;}
+  if(t.id==='backpain'){rec(cur).back=t.value;save();}
   if(t.id==='rpe'){rec(cur).rpe=t.value;save();}
   if(t.id==='sdate'){rec(cur).date=t.value;save();}
 });
@@ -1345,7 +1411,7 @@ $('#v-today').addEventListener('click',e=>{
   if(a==='rm'){const sec=b.dataset.sec,p=info(cur),sets=secSets(cur,sec,true);if(sets.length>p.sets.length){sets.pop();save();renderToday();}}
   if(a==='wu'){const r=rec(cur);r.wu=r.wu||[];const k=+b.dataset.k;r.wu[k]=!r.wu[k];if(r.wu[k]&&!r.start&&!r.done)r.start=Date.now();save();renderToday();tickSession();return;}
   if(a==='swap'){openSwap(b.dataset.sec);return;}
-  if(a==='unswap'){const sec=b.dataset.sec,r=rec(cur);secSets(cur,sec,true);r[SECKEY[sec]].ex=defEx(info(cur),sec);save();renderToday();toast('Back to '+defEx(info(cur),sec));return;}
+  if(a==='unswap'){const sec=b.dataset.sec,r=rec(cur);secSets(cur,sec,true);secObj(r,sec).ex=defEx(info(cur),sec);save();renderToday();toast('Back to '+defEx(info(cur),sec));return;}
   if(a==='addex'){const v=$('#exname').value;if(addExercise(v)){toast('Exercise added');renderToday();}else toast('Type an exercise name');return;}
   if(a==='pickex'){addExercise(b.dataset.name);renderToday();return;}
   if(a==='rmex'){const r=rec(cur),i=+b.dataset.i,e=r.extra[i];if(e&&(!e.sets.some(s=>s.done)||confirm('Remove '+e.name+' and its logged sets from this session?'))){r.extra.splice(i,1);save();renderToday();}return;}
@@ -1369,7 +1435,7 @@ function chip(id,nx){
 }
 function renderPlan(){
   const nx=nextId(),done=ORDER.filter(id=>S.sessions[id]?.done).length;
-  $('#v-plan').innerHTML=`<div class="card"><p class="h2">12-week plan</p><p class="sub">${done} of ${ORDER.length} sessions complete. Days 1, 3 and 5 are push; days 2, 4 and 6 are pull. Fit them into your week however suits you, with at least one rest day.</p></div>`+
+  $('#v-plan').innerHTML=`<div class="card"><p class="h2">12-week plan</p><p class="sub">${done} of ${ORDER.length} sessions complete. Days 1, 3 and 5 are push; days 2 and 4 are pull; day 6 is pull-ups plus legs, glutes and lower back. Fit them into your week however suits you, with at least one rest day.</p></div>`+
   BLOCKS.map((b,bi)=>`<div class="card block blk${bi+1}"><p class="block-h">${b.t}</p><p class="block-s">${b.s}</p>${b.w.map(w=>`
     <div class="week ${parseInt(nx,10)===w?'cur':''}"><div class="wl">Week ${w}</div>
       <div class="wrow"><span class="rl push">Push</span>${['A','B','C'].map(k=>chip(w+k,nx)).join('')}</div>
@@ -1385,7 +1451,7 @@ function stats(){
     const ds=(r.sets||[]).filter(s=>s.done&&+s.kg>0&&+s.reps>0);
     const pAll=(r.pull?.sets||[]).filter(s=>s.done&&+s.reps>0),ps=pullIsPU(id)?pAll:[];
     const dp=(r.dips?.sets||[]).filter(s=>s.done&&+s.reps>0);
-    const ab=(r.abs?.sets||[]).filter(s=>s.done&&+s.reps>0),xs=[...(r.shoulders?.sets||[]),...(r.arms?.sets||[]),...(r.extra||[]).flatMap(e=>e.sets)].filter(s=>s.done&&+s.reps>0);
+    const ab=(r.abs?.sets||[]).filter(s=>s.done&&+s.reps>0),xs=[...(r.shoulders?.sets||[]),...(r.arms?.sets||[]),...(r.extra||[]).flatMap(e=>e.sets),...(r.legs||[]).flatMap(e=>e?e.sets:[])].filter(s=>s.done&&+s.reps>0);
     if(!ds.length&&!pAll.length&&!dp.length&&!ab.length&&!xs.length)return;
     let best=0,top=null,vol=0;
     ds.forEach(s=>{vol+=s.kg*s.reps;const v=+s.reps<=10?e1(+s.kg,+s.reps):0;if(v>best){best=v;top=s;}});
@@ -1423,7 +1489,7 @@ function coachData(){
   const lines=[];
   ORDER.forEach(id=>{const r=S.sessions[id];if(!r||!(r.done||allDone().some(o=>o.id===id)))return;const p=info(id);
     const f=(arr,lab,useKg)=>{const d=(arr||[]).filter(x=>x.done);return d.length?lab+': '+d.map(x=>(useKg===true?fmt(+x.kg)+'kg×':(+x.add?(useKg==='load'?'':'+')+fmt(+x.add)+'kg×':''))+x.reps+(x.max?'(max)':'')).join(', '):'';};
-    const parts=[f(r.sets,p.lift,true),f(r.dips?.sets,curEx(id,'d')),f(r.pull?.sets,curEx(id,'p'),p.load?'load':false),(r.pull?.sets||[]).some(x=>x.done&&+x.push>0)?'Superset push-ups: '+r.pull.sets.filter(x=>x.done&&+x.push>0).map(x=>x.push).join(', '):'',f(r.shoulders?.sets,r.shoulders?.ex||p.sh.ex),f(r.arms?.sets,r.arms?.ex||p.ar.ex),f(r.abs?.sets,'ABs '+curEx(id,'a')),...(r.extra||[]).map(e=>f(e.sets,e.name))].filter(Boolean);
+    const parts=[f(r.sets,p.lift,true),f(r.dips?.sets,curEx(id,'d')),f(r.pull?.sets,curEx(id,'p'),p.load?'load':false),(r.pull?.sets||[]).some(x=>x.done&&+x.push>0)?'Superset push-ups: '+r.pull.sets.filter(x=>x.done&&+x.push>0).map(x=>x.push).join(', '):'',f(r.shoulders?.sets,r.shoulders?.ex||p.sh.ex),f(r.arms?.sets,r.arms?.ex||p.ar.ex),f(r.abs?.sets,'ABs '+curEx(id,'a')),...(r.extra||[]).map(e=>f(e.sets,e.name)),...(r.legs||[]).map(e=>e?f(e.sets,e.ex):''),r.rehab&&r.rehab.some(Boolean)?'Back rehab primer done':'',r.back!==undefined&&r.back!==''?'Lower back pain '+r.back+'/10':''].filter(Boolean);
     lines.push(`W${p.w} ${p.day} ${p.name} (${r.date||'no date'}${r.done?'':', unfinished'}${r.rpe?', RPE '+r.rpe:''}${r.dur?', '+r.dur+' min':''}): ${parts.join('; ')}${r.notes?' | Notes: '+r.notes.slice(0,200):''}`);});
   return lines.slice(-24).join('\n');
 }
@@ -1434,7 +1500,7 @@ async function askCoach(){
   const nx=info(nextId());
   const prompt=`You are an experienced, encouraging strength coach. Review this lifter's training log and give practical advice.
 
-Goals: bench press 1RM from ${S.settings.base} kg to ${S.settings.goal} kg, and strict pull-ups from ${S.settings.puMax} to ${S.settings.puGoal} reps, over a 12-week program (push/pull split, 6 sessions a week, about 1 hour each on weekdays).
+Goals: bench press 1RM from ${S.settings.base} kg to ${S.settings.goal} kg, and strict pull-ups from ${S.settings.puMax} to ${S.settings.puGoal} reps, over a 12-week program (push/pull split, 6 sessions a week, about 1 hour each on weekdays; day 6 is pull-ups plus a legs, glutes and lower-back session). The lifter is managing a lower back issue: core work is anti-movement (dead bugs, Pallof press, planks), day 6 starts with a McGill-style rehab primer, and they log lower back pain 0–10. Keep any advice back-friendly, and suggest seeing a physio if pain is rising.
 Current estimated pull-up max: ${curMax()} reps. Next session: week ${nx.w} ${nx.day}, ${nx.name}.
 Push-ups per day over the last 14 days (random sets plus supersets): ${(()=>{const o=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const v=pushTotal(ymd(d));if(v)o.push(ymd(d)+' '+v);}return o.join(', ')||'none';})()}.
 Bodyweight entries: ${bw.length?bw.map(b=>b.date+' '+b.kg+'kg').join(', '):'none'}.
@@ -1561,6 +1627,7 @@ $('#v-settings').addEventListener('click',async e=>{
       (r.shoulders?.sets||[]).forEach((s,k)=>L.push([r.date,p.w,p.day,q(p.name),q((p.type==='pull'?'Back & grip: ':'Shoulders: ')+(r.shoulders?.ex||p.sh.ex)),k+1,s.add||0,s.reps,s.done,r.done,r.rpe,''].join(',')));
       (r.arms?.sets||[]).forEach((s,k)=>L.push([r.date,p.w,p.day,q(p.name),q('Arms: '+(r.arms?.ex||p.ar.ex)),k+1,s.add||0,s.reps,s.done,r.done,r.rpe,''].join(',')));
       (r.extra||[]).forEach(ex=>ex.sets.forEach((s,k)=>L.push([r.date,p.w,p.day,q(p.name),q(ex.name),k+1,s.add,s.reps,s.done,r.done,r.rpe,''].join(','))));
+      (r.legs||[]).forEach(o=>o&&o.sets.forEach((s,k)=>L.push([r.date,p.w,p.day,q(p.name),q('Legs: '+o.ex),k+1,s.add||0,s.reps,s.done,r.done,r.rpe,''].join(','))));
       (r.abs?.sets||[]).forEach((s,k)=>L.push([r.date,p.w,p.day,q(p.name),q('ABs: '+curEx(sid,'a')),k+1,s.add||0,s.reps,s.done,r.done,r.rpe,''].join(',')));
       (r.pull?.sets||[]).forEach((s,k)=>{L.push([r.date,p.w,p.day,q(p.name),q(s.max?'Pull-ups (max set)':curEx(sid,'p')),k+1,s.add||0,s.reps,s.done,r.done,r.rpe,p.type==='pull'?q(r.notes):''].join(','));if(+s.push>0)L.push([r.date,p.w,p.day,q(p.name),q('Push-ups (superset)'),k+1,0,s.push,s.done,r.done,'',''].join(','));});});
     S.pushups.forEach(x=>L.push([x.date,'','','Random','Push-ups','',0,x.reps,true,'','',''].join(',')));
@@ -1654,7 +1721,7 @@ function openSwap(sec){swapSec=sec;const cx=curEx(cur,sec);
   $('#swapin').value='';$('#swapsheet').hidden=false;$('#swapbg').hidden=false;}
 function closeSwap(){$('#swapsheet').hidden=true;$('#swapbg').hidden=true;swapSec=null;}
 function doSwap(name){name=String(name||'').trim().replace(/\s+/g,' ');if(!name||!swapSec){toast('Type an exercise name');return;}
-  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);r[SECKEY[sec]].ex=name;if(sec!=='p'||info(cur).load)r[SECKEY[sec]].sets.forEach(x=>{if(!x.done)x.add='';});
+  const sec=swapSec;secSets(cur,sec,true);const r=rec(cur);secObj(r,sec).ex=name;if(sec!=='p'||info(cur).load)secObj(r,sec).sets.forEach(x=>{if(!x.done)x.add='';});
   if(!S.library.some(x=>x.toLowerCase()===name.toLowerCase())){S.library.push(name);S.library.sort((a,b)=>a.localeCompare(b));}
   save();closeSwap();renderToday();toast('Swapped to '+name);}
 $('#swapx').addEventListener('click',closeSwap);$('#swapbg').addEventListener('click',closeSwap);
@@ -1677,7 +1744,7 @@ function dxActs(){if(!Array.isArray(S.acts))S.acts=[];return S.acts;}
 function dxWU(){if(!S.wu||typeof S.wu!=='object'||Array.isArray(S.wu))S.wu={};return S.wu;}
 function dxBody(){if(!S.body||typeof S.body!=='object')S.body={age:'',height:''};return S.body;}
 function dxGoals(){if(!Array.isArray(S.goals))S.goals=[];return S.goals;}
-function dxLabel(id){const {w,slot}=parse(id);return slot?`Week ${w}, ${slot.day} ${slot.type==='push'?'bench':'pull'}`:'Session';}
+function dxLabel(id){const {w,slot}=parse(id);return slot?`Week ${w}, ${slot.day} ${slot.type==='push'?'bench':slot.k==='pC'?'pull + legs':'pull'}`:'Session';}
 function dxEntries(){const out=dxActs().map(a=>Object.assign({src:'log'},a));
   Object.entries(dxWU()).forEach(([id,w])=>{if(+w.min>0&&w.date)out.push({date:w.date,type:w.type||'Warm-up cardio',min:+w.min,dist:w.dist||'',src:'session',label:'Warm-up, '+dxLabel(id)});});return out;}
 const dxDayMins=(E,d)=>E.filter(e=>e.date===d).reduce((a,e)=>a+(+e.min||0),0);
